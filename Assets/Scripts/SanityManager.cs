@@ -10,6 +10,9 @@ public class SanityManager : MonoBehaviour
     public float defaultSanityDrainMultiplier;
     public UnityEvent highSanity;
     public UnityEvent lowSanity;
+    public UnityEvent lowerSanity;
+    public UnityEvent lowestSanity;
+    public float timeBetweenBlinks;
     public Animation blinkAnim;
     public bool playerAlive;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,18 +52,29 @@ public class SanityManager : MonoBehaviour
     {
         while(playerAlive == true)
         {
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(timeBetweenBlinks);
             blinkAnim.Play();
             yield return new WaitForSeconds(0.21f);
-            if (currentSanity < maxSanity / 2)
+            if (currentSanity < maxSanity * 0.75 && currentSanity > maxSanity * 0.5)
             {
                 lowSanity.Invoke();
-                Debug.Log("low sanity");
+                Debug.Log("starting to go alittle crazy");
             }
-            if (currentSanity > maxSanity / 2)
+            else if (currentSanity < maxSanity * 0.5 && currentSanity > maxSanity * 0.25)
+            {
+                lowerSanity.Invoke();
+                Debug.Log("going crazy");
+            }
+            else if (currentSanity <= maxSanity * 0.25)
+            {
+                lowestSanity.Invoke();
+                Debug.Log("going very crazy");
+            }
+
+            if (currentSanity >= maxSanity * 0.75)
             {
                 highSanity.Invoke();
-                Debug.Log("high sanity");
+                Debug.Log("not going crazy");
             }
 
         }

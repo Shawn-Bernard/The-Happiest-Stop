@@ -597,6 +597,13 @@ MonoBehaviour:
   lowSanity:
     m_PersistentCalls:
       m_Calls: []
+  lowerSanity:
+    m_PersistentCalls:
+      m_Calls: []
+  lowestSanity:
+    m_PersistentCalls:
+      m_Calls: []
+  timeBetweenBlinks: 5
   blinkAnim: {fileID: 585475860}
   playerAlive: 0
 --- !u!136 &794579069
