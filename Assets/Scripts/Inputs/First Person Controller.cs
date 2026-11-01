@@ -16,7 +16,7 @@ public class FirstPersonController : MonoBehaviour
     [Header("Head Settings")]
     [SerializeField] Transform cameraRoot;
     [Range(0.1f, 5)]
-    [SerializeField] private float sensitivity;
+    [SerializeField] private float sensitivity = 1;
     [SerializeField] private float lookSmoothness = 30;
     [Range(40, 90)]
     [SerializeField] private int upLookLimit = 90;
@@ -27,8 +27,10 @@ public class FirstPersonController : MonoBehaviour
     private float yRotation;
     private Vector3 velocity;
 
-    [Header("Ground Settings")]
+    [Header("Physics Settings")]
+    [SerializeField] private float pushForce = 5f; // How much force is added to object when colliding
     [SerializeField] private float groundStickVelocity = -1f; // Small amount of force to keep the player grounded
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -109,6 +111,16 @@ public class FirstPersonController : MonoBehaviour
 
         //cameraRoot.localRotation = Quaternion.Euler(xRotation, 0, 0);// Rotates the camera root up and down
         //transform.rotation = Quaternion.Euler(0, yRotation, 0);// Rotates the player side to side
+    }
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody rb = hit.collider.attachedRigidbody;
+
+        if (rb == null || rb.isKinematic) return;
+
+        Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0f, hit.moveDirection.z);
+
+        rb.AddForce(pushDirection * pushForce, ForceMode.Force);
     }
 
     private void SetMoveInput(Vector2 input)
