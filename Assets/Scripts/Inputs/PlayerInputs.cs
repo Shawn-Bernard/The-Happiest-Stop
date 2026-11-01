@@ -64,6 +64,7 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     private bool canInteract;
     public UnityAction onInteractStarted;
     public UnityAction onInteractCanceled;
+    public UnityAction onInteractPerformed;
     public void OnInteract(InputAction.CallbackContext context)
     {
         if (!canInteract) return;
@@ -75,6 +76,10 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
         if (context.canceled)
         {
             onInteractCanceled?.Invoke();
+        }
+        if (context.performed)
+        {
+            onInteractPerformed?.Invoke();
         }
     }
     public void EnableInteract()
