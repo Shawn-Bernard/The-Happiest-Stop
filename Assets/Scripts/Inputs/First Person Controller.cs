@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CharacterController))]
 public class FirstPersonController : MonoBehaviour
 {
     [SerializeField] PlayerInputs playerInputs;
@@ -9,50 +9,43 @@ public class FirstPersonController : MonoBehaviour
     private float moveSpeed;
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float sprintSpeed = 8f;
-    [SerializeField] private float moveAcceleration;
     private Vector3 moveInput;
     private Vector2 moveDirection;
-    private Rigidbody rb;
+    private CharacterController characterController;
 
     [Header("Head Settings")]
     [SerializeField] Transform cameraRoot;
-    [SerializeField] private float headSpeed;
-    [Range(40,90)]
+    [Range(0.1f, 5)]
+    [SerializeField] private float sensitivity;
+    [SerializeField] private float lookSmoothness = 30;
+    [Range(40, 90)]
     [SerializeField] private int upLookLimit = 90;
     [Range(40, 90)]
     [SerializeField] private int downLookLimit = 90;
     private Vector2 lookDirection;
     private float xRotation;
     private float yRotation;
+    private Vector3 velocity;
 
     [Header("Ground Settings")]
-    [SerializeField] Transform groundCheck; // Where should the gound check start
-    [SerializeField] float groundDrag; // Controls how quickly the player slows down while grounded
-    [SerializeField] float groundCheckDistance;
-    private bool isGrounded;
+    [SerializeField] private float groundStickVelocity = -1f; // Small amount of force to keep the player grounded
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         SwitchToWalk();
         playerInputs.EnableAllInputs();
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
-        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleLook();
-
-        HandleGroundCheck();
-        
-        ControlSpeed();
+        HandleMovement();
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
-        HandleMovement();
+        HandleLook();
     }
 
     /// <summary>
@@ -61,28 +54,23 @@ public class FirstPersonController : MonoBehaviour
     private void HandleMovement()
     {
         Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y);
-
-        moveDirection = transform.TransformDirection(moveDirection); // Moves from local to world space
-        moveDirection.y = 0f;
         moveDirection.Normalize();
+        moveDirection = transform.TransformDirection(moveDirection);
 
-        rb.AddForce(moveDirection * moveSpeed * moveAcceleration, ForceMode.Force);
-    }
-
-    /// <summary>
-    /// Handles the player Velocity to match the current move speed
-    /// </summary>
-    private void ControlSpeed()
-    {
-        Vector3 floatVelocity = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
-
-        if (floatVelocity.magnitude > moveSpeed)
+        if (characterController.isGrounded)
         {
-            Vector3 limtedVelocity = floatVelocity.normalized * moveSpeed;
-            rb.linearVelocity = new Vector3(limtedVelocity.x, rb.linearVelocity.y,limtedVelocity.z);
+            velocity.y = groundStickVelocity;
         }
-    }
+        else
+        {
+            velocity.y += Physics.gravity.y * Time.deltaTime;
+        }
 
+        Vector3 finalMovement = moveDirection * moveSpeed;
+        finalMovement.y = velocity.y;
+
+        characterController.Move(finalMovement * Time.deltaTime);
+    }
     public void SwitchToWalk()
     {
         moveSpeed = walkSpeed;
@@ -93,32 +81,34 @@ public class FirstPersonController : MonoBehaviour
         moveSpeed = sprintSpeed;
     }
 
-    /// <summary>
-    /// Shoots a raycast to the ground and applies ground drag to stop sliding
-    /// </summary>
-    private void HandleGroundCheck()
-    {
-        isGrounded = Physics.Raycast(groundCheck.transform.position, Vector3.down, groundCheckDistance);
-
-        if (isGrounded) rb.linearDamping = groundDrag;
-        else rb.linearDamping = 0f;
-    }
 
     /// <summary>
     /// Handles the camera by moving y and then moves the player on x
     /// </summary>
     private void HandleLook()
     {
-        float lookX = lookDirection.x * headSpeed;// * Time.deltaTime;
-        float lookY = lookDirection.y * headSpeed;// * Time.deltaTime;
+        float lookX = lookDirection.x * sensitivity;// * Time.deltaTime;
+        float lookY = lookDirection.y * sensitivity;// * Time.deltaTime;
 
         yRotation += lookX;
 
         xRotation -= lookY;
-        xRotation = Mathf.Clamp(xRotation,-upLookLimit, downLookLimit); // Setting the upper and lower look limits
+        xRotation = Mathf.Clamp(xRotation, -upLookLimit, downLookLimit); // Setting the upper and lower look limits
 
-        cameraRoot.localRotation = Quaternion.Euler(xRotation, 0, 0);// Rotates the camera root up and down
-        transform.rotation = Quaternion.Euler(0, yRotation, 0);// Rotates the player side to side
+        cameraRoot.localRotation = Quaternion.Slerp(
+            cameraRoot.localRotation,
+            Quaternion.Euler(xRotation, 0f, 0f),
+            lookSmoothness * Time.deltaTime
+        );
+
+        transform.rotation = Quaternion.Slerp(
+            transform.rotation,
+            Quaternion.Euler(0f, yRotation, 0f),
+            lookSmoothness * Time.deltaTime
+        );
+
+        //cameraRoot.localRotation = Quaternion.Euler(xRotation, 0, 0);// Rotates the camera root up and down
+        //transform.rotation = Quaternion.Euler(0, yRotation, 0);// Rotates the player side to side
     }
 
     private void SetMoveInput(Vector2 input)
@@ -128,7 +118,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void SetLookInput(Vector2 lookInput)
     {
-        lookDirection = lookInput.normalized;
+        lookDirection = lookInput;
     }
 
     private void OnEnable()
