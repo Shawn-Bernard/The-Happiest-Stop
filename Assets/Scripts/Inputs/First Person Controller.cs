@@ -17,7 +17,9 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] Transform cameraRoot;
     [Range(0.1f, 5)]
     [SerializeField] private float sensitivity = 1;
-    [SerializeField] private float lookSmoothness = 30;
+    [SerializeField] private bool useRotationSmoothing;
+    [Range(10f, 30f)]
+    [SerializeField] private float rotationSmoothing = 30;
     [Range(40, 90)]
     [SerializeField] private int upLookLimit = 90;
     [Range(40, 90)]
@@ -97,21 +99,27 @@ public class FirstPersonController : MonoBehaviour
         xRotation -= lookY;
         xRotation = Mathf.Clamp(xRotation, -upLookLimit, downLookLimit); // Setting the upper and lower look limits
 
-        cameraRoot.localRotation = Quaternion.Slerp(
+        if (useRotationSmoothing) // Will make the camera less snapy when looking
+        {
+            cameraRoot.localRotation = Quaternion.Slerp(
             cameraRoot.localRotation,
             Quaternion.Euler(xRotation, 0f, 0f),
-            lookSmoothness * Time.deltaTime
-        );
+            rotationSmoothing * Time.deltaTime
+             );
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            Quaternion.Euler(0f, yRotation, 0f),
-            lookSmoothness * Time.deltaTime
-        );
-
-        //cameraRoot.localRotation = Quaternion.Euler(xRotation, 0, 0);// Rotates the camera root up and down
-        //transform.rotation = Quaternion.Euler(0, yRotation, 0);// Rotates the player side to side
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                Quaternion.Euler(0f, yRotation, 0f),
+                rotationSmoothing * Time.deltaTime
+            );
+        }
+        else // Will make the camera more responsive
+        {
+            cameraRoot.localRotation = Quaternion.Euler(xRotation, 0, 0);// Rotates the camera root up and down
+            transform.rotation = Quaternion.Euler(0, yRotation, 0);// Rotates the player side to side
+        }
     }
+
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody rb = hit.collider.attachedRigidbody;
