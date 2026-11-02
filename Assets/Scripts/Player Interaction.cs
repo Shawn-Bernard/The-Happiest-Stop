@@ -36,16 +36,19 @@ public class PlayerInteraction : MonoBehaviour
             interactionDistance,
             interactableLayer))
         {
-            currentInteractable = hit.collider.GetComponent<IInteractable>();
+            if (hit.collider.TryGetComponent<IInteractable>(out IInteractable interactable)
+            && interactable.GetInteractableStatus())
+            {
+                currentInteractable = interactable;
+                return;
+            }
         }
-        else
-        {
-            if (currentInteractable == null) return;
 
-            CancelInteractable();
+        if (currentInteractable == null) return;
 
-            currentInteractable = null;
-        }
+        CancelInteractable();
+
+        currentInteractable = null;
     }
 
     private void OnDrawGizmos()

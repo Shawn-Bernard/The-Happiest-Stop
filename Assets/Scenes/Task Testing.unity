@@ -194,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a68a00357feac54bbe3a08e7160fdb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  activeOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -444,6 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34976ac4be005e4298209859ff61803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashCan
+  activeOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -467,6 +469,12 @@ MonoBehaviour:
   groupedItem: 1
   groupedItems: {fileID: 1818469874}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
+  onRequirementsMet:
+    m_PersistentCalls:
+      m_Calls: []
+  onMissingItem:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &585891336
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -556,6 +564,52 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.69863, y: 1.028, z: -0.206}
   m_LocalScale: {x: 1, y: 2, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &828050214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 828050216}
+  - component: {fileID: 828050215}
+  m_Layer: 0
+  m_Name: Task Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &828050215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828050214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8eca1b2ec3fd7848992848e855ad0d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TaskManager
+  tasks:
+  - {fileID: 1114762120}
+--- !u!4 &828050216
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828050214}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -700,6 +754,7 @@ GameObject:
   - component: {fileID: 1114762116}
   - component: {fileID: 1114762115}
   - component: {fileID: 1114762119}
+  - component: {fileID: 1114762120}
   m_Layer: 6
   m_Name: Shelf
   m_TagString: Untagged
@@ -812,6 +867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34976ac4be005e4298209859ff61803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashCan
+  activeOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -835,6 +891,32 @@ MonoBehaviour:
   groupedItem: 0
   groupedItems: {fileID: 0}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
+  onRequirementsMet:
+    m_PersistentCalls:
+      m_Calls: []
+  onMissingItem:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1114762120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114762113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7fbd8a54be850d4bbdc62b630be552c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Task
+  taskName: 
+  steps: []
+  onTaskCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTaskReset:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1164965383
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,6 +1043,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a68a00357feac54bbe3a08e7160fdb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  activeOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -1081,6 +1164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f201df4c758674e8569aedd337c8de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickUps
+  activeOnStart: 0
   onInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -1352,3 +1436,4 @@ SceneRoots:
   - {fileID: 1818469874}
   - {fileID: 1114762118}
   - {fileID: 1999899626}
+  - {fileID: 828050216}

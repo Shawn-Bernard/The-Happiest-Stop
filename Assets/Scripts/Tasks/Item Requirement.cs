@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -14,7 +15,7 @@ public class ItemRequirement : HoldInteractable
 
     private Interactable[] requiredItems;
 
-    [SerializeField] private UnityEvent onComplete;
+    [SerializeField] private UnityEvent onRequirementsMet;
     [SerializeField] private UnityEvent onMissingItem;
 
     private void Awake()
@@ -32,26 +33,28 @@ public class ItemRequirement : HoldInteractable
 
         if (inventoryEvent.HasItem(requiredItem))
         {
-            Debug.Log("Required item found!");
+            onRequirementsMet?.Invoke();
         }
         else
         {
-            Debug.Log("Missing required item!");
+            onMissingItem?.Invoke();
         }
     }
 
     private void CheckGroupedItems()
     {
+        List<Interactable> missingItems = new List<Interactable>();
+
         foreach (Interactable item in requiredItems)
         {
             if (!inventoryEvent.HasItem(item))
             {
                 Debug.Log($"Missing item {item.name}");
+                onMissingItem?.Invoke();
                 return;
             }
         }
-
+        onRequirementsMet?.Invoke();
         Debug.Log("All required trash collected yippeee!");
     }
-
 }
