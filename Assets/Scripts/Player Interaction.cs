@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerInteraction : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private LayerMask interactableLayer;
 
     private IInteractable currentInteractable;
+    private PickUp currentPickUp;
+
+    [SerializeField] private UnityEvent<PickUp> onPickedItem; // To pass the pickup to inventory
+    [SerializeField] private UnityEvent<PickUp> onDropPickedItem; // To call drop pickup on invenotry 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,13 +40,11 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
         {
-            if (currentInteractable != null)
-            {
-                CancelInteractable();
+            if (currentInteractable == null) return;
 
-                currentInteractable = null;
-            }
-            
+            CancelInteractable();
+
+            currentInteractable = null;
         }
     }
 
@@ -58,8 +62,25 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Interact()
     {
-        if (currentInteractable == null) return;
-        currentInteractable.Interact();
+        // Looking at a pickup
+        if (currentInteractable is PickUp pickUp)
+        {
+            HandlePickUp(pickUp);
+            return;
+        }
+
+        // Looking at another interactable
+        if (currentInteractable != null)
+        {
+            currentInteractable.Interact();
+            return; // Returns so it doesnt drop item
+        }
+
+        // Interacting with nothing while holding something
+        if (currentPickUp != null)
+        {
+            HandleDrop();
+        }
     }
 
     private void CancelInteractable()
@@ -69,6 +90,45 @@ public class PlayerInteraction : MonoBehaviour
         {
             interactable.HoldInteractFailed();
         }
+    }
+
+    private void HandlePickUp()
+    {
+        if (currentInteractable == null) return;
+        if (currentInteractable is PickUp pickUp)
+        {
+            currentPickUp = pickUp;
+            onPickedItem?.Invoke(currentPickUp);
+        }
+    }
+
+    private void HandlePickUp(PickUp pickUp)
+    {
+        // Drop the current pickup
+        if (currentPickUp == pickUp)
+        {
+            HandleDrop();
+        }
+
+        // Drop previous pickup
+        if (currentPickUp != null)
+        {
+            HandleDrop();
+        }
+
+        // Pick up new pickup
+        currentPickUp = pickUp;
+
+        onPickedItem?.Invoke(currentPickUp);
+    }
+
+    private void HandleDrop()
+    {
+        Debug.Log("Dropping Pickup");
+        currentPickUp.OnDropPickUp();
+
+        onDropPickedItem?.Invoke(currentPickUp);
+        currentPickUp = null;
     }
 
     private void OnEnable()

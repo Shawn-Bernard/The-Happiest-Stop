@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    [SerializeField] private Transform pickUpTransform;
     [SerializeField] private InventoryEvent inventoryEvent;
     [SerializeField] private List<Interactable> inventory;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,6 +33,24 @@ public class Inventory : MonoBehaviour
     public bool HasItem(Interactable item)
     {
         return inventory.Contains(item);
+    }
+
+    public void HoldItem(PickUp pickUp)
+    {
+        if (pickUpTransform.childCount > 0) return;
+        AddItem(pickUp);
+        pickUp.transform.SetParent(pickUpTransform, false);
+        pickUp.transform.localPosition = Vector3.zero;
+        pickUp.transform.localRotation = Quaternion.identity;
+        pickUp.transform.localScale = Vector3.one;
+        pickUp.OnPickUp();
+    }
+
+    public void DropItem(PickUp pickUp)
+    {
+        if (pickUpTransform.childCount == 0) return;
+        RemoveItem(pickUp);
+        pickUpTransform.GetChild(0).SetParent(null, true);
     }
 
     private void OnEnable()
