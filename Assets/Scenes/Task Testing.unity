@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a68a00357feac54bbe3a08e7160fdb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  activeOnStart: 0
+  activeOnStart: 1
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -413,6 +413,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &501182886
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 501182888}
+  - component: {fileID: 501182887}
+  m_Layer: 0
+  m_Name: Restock Shelf Task
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &501182887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501182886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7fbd8a54be850d4bbdc62b630be552c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Task
+  taskName: Restock Shelfs
+  interactablesInvolved: []
+  steps:
+  - Pick up restock Box
+  - Complete yipee
+  onTaskCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTaskReset:
+    m_PersistentCalls:
+      m_Calls: []
+  currentStep: 
+--- !u!4 &501182888
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 501182886}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1114762118}
+  - {fileID: 1999899626}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &585891334
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,7 +503,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34976ac4be005e4298209859ff61803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashCan
-  activeOnStart: 0
+  activeOnStart: 1
   onInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -475,6 +533,11 @@ MonoBehaviour:
   onMissingItem:
     m_PersistentCalls:
       m_Calls: []
+  onItemObtained:
+    m_PersistentCalls:
+      m_Calls: []
+  taskStep: 'Clean up the Station '
+  taskStepIndex: 0
 --- !u!65 &585891336
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -598,7 +661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TaskManager
   tasks:
-  - {fileID: 1114762120}
+  - {fileID: 501182887}
 --- !u!4 &828050216
 Transform:
   m_ObjectHideFlags: 0
@@ -754,7 +817,6 @@ GameObject:
   - component: {fileID: 1114762116}
   - component: {fileID: 1114762115}
   - component: {fileID: 1114762119}
-  - component: {fileID: 1114762120}
   m_Layer: 6
   m_Name: Shelf
   m_TagString: Untagged
@@ -848,12 +910,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114762113}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.19863, y: 1.053, z: -9.98688}
   m_LocalScale: {x: 4, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 501182888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1114762119
 MonoBehaviour:
@@ -867,7 +929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34976ac4be005e4298209859ff61803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashCan
-  activeOnStart: 0
+  activeOnStart: 1
   onInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -893,30 +955,39 @@ MonoBehaviour:
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
   onRequirementsMet:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 501182887}
+        m_TargetAssemblyTypeName: Task, Assembly-CSharp
+        m_MethodName: NextStep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onMissingItem:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1114762120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1114762113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7fbd8a54be850d4bbdc62b630be552c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Task
-  taskName: 
-  steps: []
-  onTaskCompleted:
+  onItemObtained:
     m_PersistentCalls:
-      m_Calls: []
-  onTaskReset:
-    m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 501182887}
+        m_TargetAssemblyTypeName: Task, Assembly-CSharp
+        m_MethodName: UpdateStep
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  taskStep: Pick up restock box
+  taskStepIndex: 0
 --- !u!1 &1164965383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1043,7 +1114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a68a00357feac54bbe3a08e7160fdb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
-  activeOnStart: 0
+  activeOnStart: 1
   onInteract:
     m_PersistentCalls:
       m_Calls:
@@ -1164,7 +1235,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84f201df4c758674e8569aedd337c8de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickUps
-  activeOnStart: 0
+  activeOnStart: 1
   onInteract:
     m_PersistentCalls:
       m_Calls: []
@@ -1334,12 +1405,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1999899621}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -4.203, y: 0.5, z: -4.34334}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 501182888}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &1999899627
 Rigidbody:
@@ -1434,6 +1505,5 @@ SceneRoots:
   - {fileID: 6345216062172314053}
   - {fileID: 585891339}
   - {fileID: 1818469874}
-  - {fileID: 1114762118}
-  - {fileID: 1999899626}
   - {fileID: 828050216}
+  - {fileID: 501182888}

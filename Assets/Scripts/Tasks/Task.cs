@@ -12,9 +12,14 @@ public class Task : MonoBehaviour, ITask
     [SerializeField] private UnityEvent onTaskReset;
 
     private int currentStepIndex;
-    private string currentStep;
+    [SerializeField] private string currentStep;
     private bool isCompleted;
     private bool isActive;
+
+    public void Start()
+    {
+        currentStep = steps[currentStepIndex];
+    }
 
     public void NextStep()
     {
@@ -38,6 +43,15 @@ public class Task : MonoBehaviour, ITask
         currentStepIndex--;
         currentStep = steps[currentStepIndex];
         Debug.Log($"Current step {steps[currentStepIndex]}");
+    }
+
+    public void UpdateStep(string stepToAdd, int stepIndex)
+    {
+        if (stepIndex < 0 || stepIndex >= steps.Length) return;
+
+        steps[stepIndex] = stepToAdd;
+
+        Debug.Log($"Step changed {steps[stepIndex]}");
     }
 
     public void CancelTask()

@@ -22,12 +22,14 @@ public class Inventory : MonoBehaviour
     {
         Debug.Log("Item Added");
         if (!inventory.Contains(item)) inventory.Add(item);
+        inventoryEvent.InventoryChanged();
     }
 
     public void RemoveItem(Interactable item)
     {
         Debug.Log("Item Removed");
         inventory.Remove(item);
+        inventoryEvent.InventoryChanged();
     }
 
     public bool HasItem(Interactable item)

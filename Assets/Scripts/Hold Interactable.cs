@@ -39,12 +39,12 @@ public class HoldInteractable : Interactable, IHoldInteractable
         HoldInteractCompleted();
     }
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         onInteract.AddListener(StartHold);
     }
 
-    private void OnDisable()
+    public virtual void OnDisable()
     {
         onInteract.RemoveListener(StartHold);
     }

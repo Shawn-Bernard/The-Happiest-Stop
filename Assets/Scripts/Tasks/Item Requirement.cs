@@ -11,12 +11,20 @@ public class ItemRequirement : HoldInteractable
     [SerializeField] private bool groupedItem;// Mark this as true when using mutiple items
     [SerializeField] private Transform groupedItems;// Should be a empty gameobject with required items as child of this
 
+    [Header("Player Inventory Event")]
     [SerializeField] private InventoryEvent inventoryEvent; // Used to check inventory
 
     private Interactable[] requiredItems;
 
+    [Header("Events")]
     [SerializeField] private UnityEvent onRequirementsMet;
     [SerializeField] private UnityEvent onMissingItem;
+
+    [SerializeField] private UnityEvent<string,int> onItemObtained;
+
+    [Header("Task Settings")]
+    [SerializeField] string taskStep;
+    [SerializeField] int taskStepIndex;
 
     private void Awake()
     {
@@ -43,8 +51,6 @@ public class ItemRequirement : HoldInteractable
 
     private void CheckGroupedItems()
     {
-        List<Interactable> missingItems = new List<Interactable>();
-
         foreach (Interactable item in requiredItems)
         {
             if (!inventoryEvent.HasItem(item))
@@ -56,5 +62,48 @@ public class ItemRequirement : HoldInteractable
         }
         onRequirementsMet?.Invoke();
         Debug.Log("All required trash collected yippeee!");
+    }
+
+    public void UpdateCount()
+    {
+        Debug.Log("Updated");
+        int count = 0;
+        int total;
+
+        if (groupedItem)
+        {
+            total = requiredItems.Length;
+        }
+        else
+        {
+            total = 1;
+        }
+
+        if (groupedItem)
+        {
+            foreach (Interactable item in requiredItems)
+            {
+                if (inventoryEvent.HasItem(item))
+                    count++;
+            }
+        }
+        else if (inventoryEvent.HasItem(requiredItem))
+        {
+            count++;
+        }
+
+        onItemObtained?.Invoke($"{taskStep} {count}/{total}", taskStepIndex);
+    }
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        inventoryEvent.onInventoryChanged += UpdateCount;
+    }
+
+    public override void OnDisable()
+    {
+        base.OnDisable();
+        inventoryEvent.onInventoryChanged -= UpdateCount;
     }
 }

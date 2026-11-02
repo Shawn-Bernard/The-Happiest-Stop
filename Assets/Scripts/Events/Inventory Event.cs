@@ -8,10 +8,19 @@ public class InventoryEvent : ScriptableObject
     public UnityAction<Interactable> onAddItem;
     public UnityAction<Interactable> onRemoveItem;
     public Func<Interactable, bool> onHasItem;
+    public UnityAction onInventoryChanged;
 
-    public void AddItem(Interactable item) => onAddItem?.Invoke(item);
+    public void AddItem(Interactable item)
+    {
+        onAddItem?.Invoke(item);
+    }
 
-    public void RemoveItem(Interactable item) => onRemoveItem?.Invoke(item);
+    public void RemoveItem(Interactable item)
+    {
+        onRemoveItem?.Invoke(item);
+    }
 
     public bool HasItem(Interactable item) => onHasItem?.Invoke(item) ?? false;
+
+    public void InventoryChanged() => onInventoryChanged?.Invoke();
 }
