@@ -70,6 +70,7 @@ public class Task : MonoBehaviour, ITask
     {
         if (isCompleted) return;
 
+        Debug.Log($"{taskName} completed");
         isCompleted = true;
         onTaskCompleted?.Invoke();
     }

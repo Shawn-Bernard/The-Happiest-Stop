@@ -542,6 +542,9 @@ MonoBehaviour:
   groupedItem: 1
   groupedItems: {fileID: 1818469874}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
+  requiredItems: []
+  itemCount: 0
+  highestItemCount: 0
   onRequirementsMet:
     m_PersistentCalls:
       m_Calls:
@@ -765,9 +768,21 @@ MonoBehaviour:
   onTaskCompleted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 879099201}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
+      - m_Target: {fileID: 585891335}
+        m_TargetAssemblyTypeName: ItemRequirement, Assembly-CSharp
+        m_MethodName: RemoveItems
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 585891335}
+        m_TargetAssemblyTypeName: ItemRequirement, Assembly-CSharp
+        m_MethodName: SetInteractables
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -775,7 +790,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
   onTaskReset:
     m_PersistentCalls:
@@ -1077,6 +1092,9 @@ MonoBehaviour:
   groupedItem: 0
   groupedItems: {fileID: 0}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
+  requiredItems: []
+  itemCount: 0
+  highestItemCount: 0
   onRequirementsMet:
     m_PersistentCalls:
       m_Calls:

@@ -48,16 +48,22 @@ public class ItemRequirement : HoldInteractable
 
     public void CheckForItem()
     {
-        if (highestItemCount == totalItems)
+        // For mutiple items
+        if (highestItemCount == totalItems && groupedItem)
         {
-            Debug.Log("Player has items");
             onRequirementsMet?.Invoke();
+            return;
         }
-        else
+
+        // For single item
+        if (itemCount == totalItems && !groupedItem)
         {
-            Debug.Log("Player missing items");
-            onMissingItem?.Invoke();
+            onRequirementsMet?.Invoke();
+            return;
         }
+
+        Debug.Log("Player missing items");
+        onMissingItem?.Invoke();
     }
 
     public void UpdateCount()
@@ -93,6 +99,19 @@ public class ItemRequirement : HoldInteractable
             foreach (Interactable item in requiredItems)
             {
                 inventoryEvent.RemoveItem(item);
+            }
+        }
+    }
+
+    public void SetInteractables(bool state)
+    {
+        if (groupedItem)
+        {
+            Debug.Log($"Items were set {state}");
+            foreach (Interactable item in requiredItems)
+            {
+                item.gameObject.SetActive(state);
+                Debug.Log($"{item.isActiveAndEnabled}");
             }
         }
     }
