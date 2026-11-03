@@ -15,85 +15,89 @@ public class ItemRequirement : HoldInteractable
     [SerializeField] private InventoryEvent inventoryEvent; // Used to check inventory
 
     private Interactable[] requiredItems;
+    [SerializeField] private int itemCount;
+    [SerializeField] private int highestItemCount;
+    private int totalItems;
+
+    private bool isCompleted;
 
     [Header("Events")]
     [SerializeField] private UnityEvent onRequirementsMet;
     [SerializeField] private UnityEvent onMissingItem;
 
-    [SerializeField] private UnityEvent<string,int> onItemObtained;
+    
 
     [Header("Task Settings")]
     [SerializeField] string taskStep;
     [SerializeField] int taskStepIndex;
+    [SerializeField] private UnityEvent<string, int> onItemObtained;
 
     private void Awake()
     {
         if (groupedItem && groupedItems != null) requiredItems = groupedItems.GetComponentsInChildren<Interactable>();
+
+        if (groupedItem)
+        {
+            totalItems = requiredItems.Length;
+        }
+        else
+        {
+            totalItems = 1;
+        }
     }
 
     public void CheckForItem()
     {
-        if (groupedItem)
+        if (highestItemCount == totalItems)
         {
-            CheckGroupedItems();
-            return;
-        }
-
-        if (inventoryEvent.HasItem(requiredItem))
-        {
+            Debug.Log("Player has items");
             onRequirementsMet?.Invoke();
         }
         else
         {
+            Debug.Log("Player missing items");
             onMissingItem?.Invoke();
         }
     }
 
-    private void CheckGroupedItems()
-    {
-        foreach (Interactable item in requiredItems)
-        {
-            if (!inventoryEvent.HasItem(item))
-            {
-                Debug.Log($"Missing item {item.name}");
-                onMissingItem?.Invoke();
-                return;
-            }
-        }
-        onRequirementsMet?.Invoke();
-        Debug.Log("All required trash collected yippeee!");
-    }
-
     public void UpdateCount()
     {
-        Debug.Log("Updated");
-        int count = 0;
-        int total;
-
-        if (groupedItem)
-        {
-            total = requiredItems.Length;
-        }
-        else
-        {
-            total = 1;
-        }
+        itemCount = 0;
 
         if (groupedItem)
         {
             foreach (Interactable item in requiredItems)
             {
                 if (inventoryEvent.HasItem(item))
-                    count++;
+                    itemCount++;
             }
         }
         else if (inventoryEvent.HasItem(requiredItem))
         {
-            count++;
+            itemCount++;
         }
 
-        onItemObtained?.Invoke($"{taskStep} {count}/{total}", taskStepIndex);
+        if (itemCount >= highestItemCount)
+        {
+            highestItemCount = itemCount;
+        }
+
+        onItemObtained?.Invoke($"{taskStep} {itemCount}/{totalItems}", taskStepIndex);
+        CheckForItem();
     }
+
+    public void RemoveItems()
+    {
+        if (itemCount == totalItems)
+        {
+            foreach (Interactable item in requiredItems)
+            {
+                inventoryEvent.RemoveItem(item);
+            }
+        }
+    }
+
+
 
     public override void OnEnable()
     {

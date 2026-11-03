@@ -13,8 +13,9 @@ public class Task : MonoBehaviour, ITask
 
     private int currentStepIndex;
     [SerializeField] private string currentStep;
-    private bool isCompleted;
-    private bool isActive;
+    [SerializeField] private bool isCompleted;
+    [SerializeField] private bool isActive;
+    [SerializeField] private bool hasStarted;
 
     public void Start()
     {
@@ -24,6 +25,7 @@ public class Task : MonoBehaviour, ITask
     public void NextStep()
     {
         if (isCompleted || !isActive) return;
+        Debug.Log("Next step asked");
 
         currentStepIndex++;
 
@@ -40,6 +42,7 @@ public class Task : MonoBehaviour, ITask
     public void LastStep()
     {
         if (currentStepIndex == 0) return;
+        Debug.Log("last step asked");
         currentStepIndex--;
         currentStep = steps[currentStepIndex];
         Debug.Log($"Current step {steps[currentStepIndex]}");
