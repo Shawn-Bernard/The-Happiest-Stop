@@ -6,9 +6,9 @@ public class Interactable : MonoBehaviour, IInteractable
     [SerializeField] protected bool activeOnStart;
     [SerializeField] protected UnityEvent onInteract;
     
-    private bool canInteract;
+    [SerializeField] private bool canInteract;
 
-    private void Start()
+    public virtual void Start()
     {
         canInteract = activeOnStart;
     }
