@@ -13,6 +13,8 @@ public class CustomerAI : MonoBehaviour
     public GameObject player; 
     public SanityManager sanityManager;
     public MasterNode master;
+    private UnityAction turnToMonster;
+    private UnityAction returnToNormal;
     public bool fallowing;
     public state currentState { get; private set; }
     public state previousState {  get; private set; }
@@ -29,8 +31,14 @@ public class CustomerAI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        turnToMonster += TurnIntoMonster;
+        returnToNormal += ReturnToNormal;
         player = GameObject.FindGameObjectWithTag("Player");
         sanityManager = player.GetComponent<SanityManager>();
+        sanityManager.lowestSanity.AddListener(turnToMonster);
+        sanityManager.lowerSanity.AddListener(returnToNormal);
+        sanityManager.lowSanity.AddListener(returnToNormal);
+        sanityManager.highSanity.AddListener(returnToNormal); 
         sanityDrainAnnoyingAura.SetActive(false);
         fallowing = false;
         Setstate(state.init);
