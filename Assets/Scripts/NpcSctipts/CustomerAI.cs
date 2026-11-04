@@ -2,14 +2,18 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine.Events;
 
 public class CustomerAI : MonoBehaviour
 {
     public NavMeshAgent agent;
     public GameObject sanityDrainAura;
     public GameObject sanityDrainAnnoyingAura;
-
+    public GameObject player; 
+    public SanityManager sanityManager;
     public MasterNode master;
+    public bool fallowing;
     public state currentState { get; private set; }
     public state previousState {  get; private set; }
     public enum state
@@ -25,11 +29,12 @@ public class CustomerAI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        sanityManager = player.GetComponent<SanityManager>();
         sanityDrainAnnoyingAura.SetActive(false);
-
+        fallowing = false;
         Setstate(state.init);
     }
-
     public void Setstate(state newstate)
     {
         if(newstate == currentState)
@@ -65,6 +70,22 @@ public class CustomerAI : MonoBehaviour
                 {
                     StartCoroutine(WanderStore());break;
                 }
+            case state.fallowPlayer:
+                {
+                    fallowing = true; break;
+                }
+        }
+    }
+    public void TurnIntoMonster()
+    {
+        Setstate(state.fallowPlayer);
+    }
+    public void ReturnToNormal()
+    {
+        if(currentState == state.fallowPlayer)
+        {
+            Setstate(previousState);
+            fallowing = false;
         }
     }
 
@@ -94,6 +115,9 @@ public class CustomerAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (fallowing == true)
+        {
+            agent.SetDestination(player.transform.position);
+        }
     }
 }
