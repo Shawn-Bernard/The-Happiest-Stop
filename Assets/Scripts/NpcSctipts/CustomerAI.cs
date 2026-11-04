@@ -61,6 +61,10 @@ public class CustomerAI : MonoBehaviour
                 {
                     agent.SetDestination(master.spawnNode.transform.position); break;
                 }
+            case state.wanderStore:
+                {
+                    StartCoroutine(WanderStore());break;
+                }
         }
     }
 
@@ -68,17 +72,24 @@ public class CustomerAI : MonoBehaviour
     {
         agent.destination = agent.gameObject.transform.position;
         yield return new WaitForSeconds(Random.Range(0.1f,2));
-        //int choice = Random.Range(1, 3);
-        int choice = 1;
-        if (choice >= 1)
+        int choice = Random.Range(1, 3);
+        if (choice <= 1)
         {
             Setstate(state.waitAtCounter);
         }
-        if (choice < 1)
+        if (choice > 1)
         {
             Setstate(state.wanderStore);
         }
 
+    }
+    public IEnumerator WanderStore()
+    {
+        agent.destination = master.shelfANode.transform.position;
+        yield return new WaitForSeconds(5);
+        agent.destination = master.shelfBNode.transform.position;
+        yield return new WaitForSeconds(7);
+        Setstate(state.waitAtCounter);
     }
     // Update is called once per frame
     void Update()

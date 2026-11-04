@@ -39,7 +39,7 @@ public class SanityManager : MonoBehaviour
 
     public void ChangeSanityDrain(float sanityDrain)
     {
-        sanityDrainMultiplier = sanityDrain;
+        sanityDrainMultiplier += sanityDrain;
     }
 
     // Update is called once per frame
