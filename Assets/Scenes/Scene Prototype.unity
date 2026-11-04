@@ -564,6 +564,8 @@ MonoBehaviour:
   agent: {fileID: 378642534}
   sanityDrainAura: {fileID: 0}
   sanityDrainAnnoyingAura: {fileID: 1544515680}
+  player: {fileID: 0}
+  sanityManager: {fileID: 0}
   master: {fileID: 446458052}
   fallowing: 0
 --- !u!195 &378642534
@@ -965,64 +967,16 @@ MonoBehaviour:
   defaultSanityDrainMultiplier: 0.1
   highSanity:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 378642533}
-        m_TargetAssemblyTypeName: CustomerAI, Assembly-CSharp
-        m_MethodName: ReturnToNormal
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   lowSanity:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 378642533}
-        m_TargetAssemblyTypeName: CustomerAI, Assembly-CSharp
-        m_MethodName: ReturnToNormal
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   lowerSanity:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 378642533}
-        m_TargetAssemblyTypeName: CustomerAI, Assembly-CSharp
-        m_MethodName: ReturnToNormal
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   lowestSanity:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 378642533}
-        m_TargetAssemblyTypeName: CustomerAI, Assembly-CSharp
-        m_MethodName: TurnIntoMonster
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   timeBetweenBlinks: 5
   blinkAnim: {fileID: 12889318}
   playerAlive: 0
