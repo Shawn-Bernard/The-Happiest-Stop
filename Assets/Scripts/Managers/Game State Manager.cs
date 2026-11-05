@@ -66,33 +66,13 @@ public class GameStateManager : MonoBehaviour
         if (currentState == gameplayState)
         {
             SwitchToPause();
-            PauseGame();
         }
         else if (currentState == pauseState)
         {
             SwitchToGameplay();
-            ResumeGame();
         }
     }
 
     #endregion
-    public void PauseGame()
-    {
-        Time.timeScale = 0;
-    }
-
-    public void ResumeGame()
-    {
-        Time.timeScale = 1;
-    }
-
-    public void MuteOnPause()
-    {
-        AudioListener.pause = true;
-    }
-
-    public void UnmuteOnPause()
-    {
-        AudioListener.pause = false;
-    }
+    
 }

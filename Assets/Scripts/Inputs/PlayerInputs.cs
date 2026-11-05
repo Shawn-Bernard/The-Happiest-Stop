@@ -10,14 +10,11 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
 
 
     #region Move Input
-    private bool canMove;
     public UnityAction<Vector2> onMove;
     public UnityAction onMoveStarted;
     public UnityAction onMoveCanceled;
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (!canMove) return;
-
         onMove?.Invoke(context.ReadValue<Vector2>());
 
         if (context.started)
@@ -31,43 +28,38 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     }
     public void EnableMove()
     {
-        canMove = true;
+        inputActions.Player.Move.Enable();
     }
 
     public void DisableMove()
     {
-        canMove = false;
+        inputActions.Player.Move.Disable();
     }
     #endregion
 
     #region Look Input
-    private bool canLook;
     public UnityAction<Vector2> onLook;
     public void OnLook(InputAction.CallbackContext context)
     {
-        if (!canLook) return;
         onLook?.Invoke(context.ReadValue<Vector2>());
     }
 
     public void EnableLook()
     {
-        canLook = true;
+        inputActions.Player.Look.Enable();
     }
 
     public void DisableLook()
     {
-        canLook = false;
+        inputActions.Player.Look.Disable();
     }
     #endregion
 
     #region Interact Input
-    private bool canInteract;
     public UnityAction onInteractStarted;
     public UnityAction onInteractCanceled;
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (!canInteract) return;
-
         if (context.started) 
         {
             onInteractStarted?.Invoke();
@@ -79,21 +71,19 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     }
     public void EnableInteract()
     {
-        canInteract = true;
+        inputActions.Player.Interact.Enable();
     }
 
     public void DisableInteract()
     {
-        canInteract = false;
+        inputActions.Player.Interact.Disable();
     }
     #endregion
 
     #region Pick up Input
-    private bool canPickUp;
     public UnityAction onPickUpStarted;
     public void OnPickup(InputAction.CallbackContext context)
     {
-        if (!canPickUp) return;
         if (context.started)
         {
             onPickUpStarted?.Invoke();
@@ -101,22 +91,21 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     }
     public void EnablePickUp()
     {
-        canPickUp = true;
+        inputActions.Player.Pickup.Enable();
+        inputActions.Player.Pickup.Disable();
     }
 
     public void DisablePickUp()
     {
-        canPickUp = false;
+        inputActions.Player.Pickup.Disable();
     }
     #endregion
 
     #region Sprint Input
-    private bool canSprint;
     public UnityAction onSprintStarted;
     public UnityAction onSprintCanceled;
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (!canSprint) return;
         if (context.started)
         {
             onSprintStarted?.Invoke();
@@ -128,23 +117,20 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     }
     public void EnableSprint()
     {
-        canSprint = true;
+        inputActions.Player.Sprint.Enable();
     }
 
     public void DisableSprint()
     {
-        canSprint = false;
+        inputActions.Player.Sprint.Disable();
     }
     #endregion
 
     #region Jump Input
-    private bool canJump;
     public UnityAction onJumpStarted;
     public UnityAction onJumpCanceled;
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (!canJump) return;
-
         if (context.started)
         {
             onJumpStarted?.Invoke();
@@ -156,32 +142,60 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     }
     public void EnableJump()
     {
-        canJump = true;
+        inputActions.Player.Jump.Enable();
     }
 
     public void DisableJump()
     {
-        canJump = false;
+        inputActions.Player.Jump.Disable();
     }
     #endregion
+    #region Pause Input
+    public UnityAction onPauseStarted;
 
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            onPauseStarted?.Invoke();
+        }
+    }
+    public void EnablePause()
+    {
+        inputActions.Player.Pause.Enable();
+    }
+
+    public void DisablePause()
+    {
+        inputActions.Player.Pause.Disable();
+    }
+    #endregion
+    #region Task List Input
+    public UnityAction onTaskStarted;
+    public void OnTaskList(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            onTaskStarted?.Invoke();
+        }
+    }
+    public void EnableTaskList()
+    {
+        inputActions.Player.TaskList.Enable();
+    }
+
+    public void DisableTaskList()
+    {
+        inputActions.Player.TaskList.Disable();
+    }
+    #endregion
     public void EnableAllInputs()
     {
-        EnableMove();
-        EnableLook();
-        EnableInteract();
-        EnablePickUp();
-        EnableSprint();
-        EnableJump();
+        inputActions.Player.Enable();
     }
     public void DisableAllInputs()
     {
-        DisableMove();
-        DisableLook();
-        DisableInteract();
-        DisablePickUp();
-        DisableSprint();
-        DisableJump();
+        inputActions.Player.Disable();
     }
 
     private void OnEnable()
@@ -194,4 +208,6 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     {
         inputActions.Player.Disable();
     }
+
+    
 }
