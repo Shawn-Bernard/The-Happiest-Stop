@@ -8,23 +8,27 @@ public class Task : MonoBehaviour, ITask
 
     [SerializeField] private Interactable[] interactablesInvolved;
     [SerializeField] private string[] steps;
-    [SerializeField] private UnityEvent onTaskCompleted;
+    [SerializeField] private UnityEvent<Task> onTaskCompleted;
+    public UnityEvent<Task> OnTaskCompleted => onTaskCompleted; // For auto adding to task manager
     [SerializeField] private UnityEvent onTaskReset;
+    [SerializeField] private UnityEvent<Task> onStepChange;
+    public UnityEvent<Task> OnStepChange => onStepChange; // For auto adding to task manager
 
     private int currentStepIndex;
     [SerializeField] private string currentStep;
     [SerializeField] private bool isCompleted;
-    [SerializeField] private bool isActive;
-    [SerializeField] private bool hasStarted;
+    private bool isTouched;
 
     public void Start()
     {
         currentStep = steps[currentStepIndex];
     }
 
+    #region Steps
     public void NextStep()
     {
-        if (isCompleted || !isActive) return;
+        if (isCompleted) return;
+        if (!isTouched) isTouched = true;
         Debug.Log("Next step asked");
 
         currentStepIndex++;
@@ -36,16 +40,16 @@ public class Task : MonoBehaviour, ITask
         }
 
         currentStep = steps[currentStepIndex];
-        Debug.Log($"Current step {steps[currentStepIndex]}");
+        onStepChange?.Invoke(this);
     }
 
     public void LastStep()
     {
         if (currentStepIndex == 0) return;
-        Debug.Log("last step asked");
+        if (!isTouched) isTouched = true;
         currentStepIndex--;
         currentStep = steps[currentStepIndex];
-        Debug.Log($"Current step {steps[currentStepIndex]}");
+        onStepChange?.Invoke(this);
     }
 
     public void UpdateStep(string stepToAdd, int stepIndex)
@@ -53,13 +57,17 @@ public class Task : MonoBehaviour, ITask
         if (stepIndex < 0 || stepIndex >= steps.Length) return;
 
         steps[stepIndex] = stepToAdd;
-
-        Debug.Log($"Step changed {steps[stepIndex]}");
+        if (currentStepIndex == stepIndex) currentStep = steps[stepIndex];
+        onStepChange?.Invoke(this);
     }
+    public string GetCurrentStep() => currentStep;
 
+    #endregion
+
+    #region Task 
     public void CancelTask()
     {
-        isActive = false;
+        isTouched = false;
         foreach (var interactable in interactablesInvolved)
         {
             interactable.SetActive(false);
@@ -72,13 +80,10 @@ public class Task : MonoBehaviour, ITask
 
         Debug.Log($"{taskName} completed");
         isCompleted = true;
-        onTaskCompleted?.Invoke();
+        onTaskCompleted?.Invoke(this);
     }
 
-    public bool GetTaskStatus()
-    {
-        return isActive;
-    }
+    public bool IsTouched() => isTouched;
 
     public void ResetTask()
     {
@@ -88,9 +93,10 @@ public class Task : MonoBehaviour, ITask
 
     public void SetActive()
     {
-        isActive = true;
+        isCompleted = false;
+        isTouched = false;
         StartedTask();
-        Debug.Log($"Current step {steps[currentStepIndex]}");
+        ResetTask();
     }
 
     public void StartedTask()
@@ -100,4 +106,9 @@ public class Task : MonoBehaviour, ITask
             interactable.SetActive(true);
         }
     }
+
+    public string GetTaskName() => taskName;
+    #endregion
+
+
 }

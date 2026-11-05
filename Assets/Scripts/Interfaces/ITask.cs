@@ -8,7 +8,7 @@ public interface ITask
 
     public void CancelTask();
 
-    public bool GetTaskStatus();
+    public bool IsTouched();
 
     public void ResetTask();
 }

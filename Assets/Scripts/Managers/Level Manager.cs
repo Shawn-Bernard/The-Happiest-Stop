@@ -8,19 +8,6 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private UnityEvent onGameplay;
     private static LevelManager instance;
     public static LevelManager Instance => instance;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);

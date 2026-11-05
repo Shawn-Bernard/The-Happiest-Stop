@@ -19,8 +19,6 @@ public class ItemRequirement : HoldInteractable
     [SerializeField] private int highestItemCount;
     private int totalItems;
 
-    private bool isCompleted;
-
     [Header("Events")]
     [SerializeField] private UnityEvent onRequirementsMet;
     [SerializeField] private UnityEvent onMissingItem;
@@ -44,6 +42,7 @@ public class ItemRequirement : HoldInteractable
         {
             totalItems = 1;
         }
+        onItemObtained?.Invoke($"{taskStep} {itemCount}/{totalItems}", taskStepIndex);
     }
 
     public void CheckForItem()
@@ -74,8 +73,8 @@ public class ItemRequirement : HoldInteractable
         {
             foreach (Interactable item in requiredItems)
             {
-                if (inventoryEvent.HasItem(item))
-                    itemCount++;
+                if (!inventoryEvent.HasItem(item)) break;
+                else itemCount++;
             }
         }
         else if (inventoryEvent.HasItem(requiredItem))
