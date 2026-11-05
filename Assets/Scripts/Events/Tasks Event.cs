@@ -8,7 +8,7 @@ public class TasksEvent : ScriptableObject
     public Func<int, string> onGetTaskName;
     public Func<int, string> onGetTaskStep;
     public UnityEvent<int> onUpdateTaskStep;
-    public UnityEvent onTaskChanged = new UnityEvent();
+    public UnityEvent onTaskChanged;
 
     public string GetTaskName(int taskIndex) => onGetTaskName?.Invoke(taskIndex);
 

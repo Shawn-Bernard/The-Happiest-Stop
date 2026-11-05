@@ -10,17 +10,18 @@ public class GameplayUI : MonoBehaviour
     [SerializeField] private TasksEvent tasksEvent;
     [SerializeField] GameObject taskPanel;
     [SerializeField] GameObject taskList;
-    
+    [SerializeField] TextMeshProUGUI interactableTypeText;
+    [SerializeField] TextMeshProUGUI actionText;
 
     //[SerializeField] private List<TextMeshProUGUI> tasksInfo;
     private Dictionary<TextMeshProUGUI, TextMeshProUGUI> tasksInfo; // For tasks names and steps
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
         tasksInfo = new Dictionary<TextMeshProUGUI, TextMeshProUGUI>();
         taskList ??= taskPanel.GetComponentInChildren<Canvas>().gameObject;
         GetTasksListInfo();
-        SetTaskUIInfo();
+        //SetTaskUIInfo();
     }
 
     // Update is called once per frame
@@ -78,6 +79,27 @@ public class GameplayUI : MonoBehaviour
 
         var task = tasksInfo.ElementAt(taskIndex);
         task.Value.text = tasksEvent.GetTaskStep(taskIndex);
+    }
+
+    public void HandleInteractable(IInteractable interactable)
+    {
+        if (interactable == null)
+        {
+            interactableTypeText.gameObject.SetActive(false);
+            return;
+        }
+        interactableTypeText.gameObject.SetActive(true);
+
+        if (interactable is HoldInteractable)
+        {
+            interactableTypeText.text = $"Hold E";
+        }
+        else
+        {
+            interactableTypeText.text = $"Tap E";
+        }
+
+        actionText.text = interactable.GetInteractableName();
     }
 
     private void OnEnable()

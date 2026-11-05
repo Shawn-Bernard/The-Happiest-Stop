@@ -14,6 +14,7 @@ public class PlayerInteraction : MonoBehaviour
 
     [SerializeField] private UnityEvent<PickUp> onPickedItem; // To pass the pickup to inventory
     [SerializeField] private UnityEvent<PickUp> onDropPickedItem; // To call drop pickup on invenotry 
+    [SerializeField] private UnityEvent<IInteractable> onInteractionFound;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,6 +41,7 @@ public class PlayerInteraction : MonoBehaviour
             && interactable.GetInteractableStatus())
             {
                 currentInteractable = interactable;
+                onInteractionFound?.Invoke(interactable);
                 return;
             }
         }
@@ -49,6 +51,8 @@ public class PlayerInteraction : MonoBehaviour
         CancelInteractable();
 
         currentInteractable = null;
+
+        onInteractionFound?.Invoke(null);
     }
 
     private void OnDrawGizmos()

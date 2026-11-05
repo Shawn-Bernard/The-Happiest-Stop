@@ -33,12 +33,7 @@ public class Task : MonoBehaviour, ITask
 
         currentStepIndex++;
 
-        if (currentStepIndex >= steps.Length)
-        {
-            CompleteTask();
-            return;
-        }
-
+        if (currentStepIndex < 0 || currentStepIndex >= steps.Length) return;
         currentStep = steps[currentStepIndex];
         onStepChange?.Invoke(this);
     }
@@ -48,6 +43,7 @@ public class Task : MonoBehaviour, ITask
         if (currentStepIndex == 0) return;
         if (!isTouched) isTouched = true;
         currentStepIndex--;
+        if (currentStepIndex < 0 || currentStepIndex >= steps.Length) return;
         currentStep = steps[currentStepIndex];
         onStepChange?.Invoke(this);
     }

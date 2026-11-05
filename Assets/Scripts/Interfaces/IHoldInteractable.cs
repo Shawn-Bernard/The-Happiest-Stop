@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IHoldInteractable : IInteractable
+public interface IHoldInteractable 
 {
     void HoldInteractCompleted();
 

@@ -10,7 +10,7 @@ public class TaskManager : MonoBehaviour
 
     [SerializeField] private TasksEvent tasksEvent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
+    void Start()
     {
         foreach (var task in startingTasks)
         {

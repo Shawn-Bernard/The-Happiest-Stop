@@ -16,10 +16,10 @@ public class ItemRequirement : HoldInteractable
 
     private Interactable[] requiredItems;
     [SerializeField] private int itemCount;
-    [SerializeField] private int highestItemCount;
     private int totalItems;
 
     [Header("Events")]
+    [SerializeField] private UnityEvent onCompletion;
     [SerializeField] private UnityEvent onRequirementsMet;
     [SerializeField] private UnityEvent onMissingItem;
 
@@ -47,17 +47,9 @@ public class ItemRequirement : HoldInteractable
 
     public void CheckForItem()
     {
-        // For mutiple items
-        if (highestItemCount == totalItems && groupedItem)
+        if (itemCount == totalItems)
         {
-            onRequirementsMet?.Invoke();
-            return;
-        }
-
-        // For single item
-        if (itemCount == totalItems && !groupedItem)
-        {
-            onRequirementsMet?.Invoke();
+            onCompletion?.Invoke();
             return;
         }
 
@@ -73,22 +65,36 @@ public class ItemRequirement : HoldInteractable
         {
             foreach (Interactable item in requiredItems)
             {
-                if (!inventoryEvent.HasItem(item)) break;
-                else itemCount++;
+                if (inventoryEvent.HasItem(item))
+                {
+                    itemCount++;
+                }
+                else
+                {
+                    onMissingItem?.Invoke();
+                }
             }
         }
-        else if (inventoryEvent.HasItem(requiredItem))
+        else
         {
-            itemCount++;
+            if (inventoryEvent.HasItem(requiredItem))
+            {
+                itemCount++;
+            }
+            else
+            {
+                onMissingItem?.Invoke();
+            }
         }
 
-        if (itemCount >= highestItemCount)
+        if (itemCount == totalItems)
         {
-            highestItemCount = itemCount;
+            onRequirementsMet?.Invoke();
+            return;
         }
 
         onItemObtained?.Invoke($"{taskStep} {itemCount}/{totalItems}", taskStepIndex);
-        CheckForItem();
+        //CheckForItem();
     }
 
     public void RemoveItems()
@@ -115,6 +121,7 @@ public class ItemRequirement : HoldInteractable
         }
     }
 
+    
 
 
     public override void OnEnable()

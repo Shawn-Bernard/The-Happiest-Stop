@@ -172,6 +172,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   canInteract: 0
+  interactableName: Clean trash
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
 --- !u!54 &112606538
 Rigidbody:
@@ -420,11 +421,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7fbd8a54be850d4bbdc62b630be552c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Task
-  taskName: Restock Sheves
+  taskName: Restock Shelf
   interactablesInvolved: []
   steps:
   - Pick up restock box 0/1
-  - Interact to restock
+  - now restock shelf with the box
   onTaskCompleted:
     m_PersistentCalls:
       m_Calls: []
@@ -497,11 +498,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34976ac4be005e4298209859ff61803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashCan
-  activeOnStart: 1
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  canInteract: 0
   holdTime: 1.5
   onHoldCompleted:
     m_PersistentCalls:
@@ -518,12 +514,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  activeOnStart: 1
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  canInteract: 0
+  interactableName: Dump trash
   requiredItem: {fileID: 0}
   groupedItem: 1
   groupedItems: {fileID: 1818469874}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
   itemCount: 0
-  highestItemCount: 0
+  onCompletion:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 879099202}
+        m_TargetAssemblyTypeName: Task, Assembly-CSharp
+        m_MethodName: CompleteTask
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onRequirementsMet:
     m_PersistentCalls:
       m_Calls:
@@ -747,22 +763,10 @@ MonoBehaviour:
   interactablesInvolved: []
   steps:
   - Pick up trash 0/1
-  - Throw away the trash
+  - Throw the trash away
   onTaskCompleted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 585891335}
-        m_TargetAssemblyTypeName: ItemRequirement, Assembly-CSharp
-        m_MethodName: RemoveItems
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   onTaskReset:
     m_PersistentCalls:
       m_Calls: []
@@ -1052,11 +1056,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e34976ac4be005e4298209859ff61803, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrashCan
-  activeOnStart: 1
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  canInteract: 0
   holdTime: 2
   onHoldCompleted:
     m_PersistentCalls:
@@ -1073,12 +1072,32 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  activeOnStart: 1
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  canInteract: 0
+  interactableName: Restock Shelves
   requiredItem: {fileID: 1999899622}
   groupedItem: 0
   groupedItems: {fileID: 0}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
   itemCount: 0
-  highestItemCount: 0
+  onCompletion:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 501182887}
+        m_TargetAssemblyTypeName: Task, Assembly-CSharp
+        m_MethodName: CompleteTask
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onRequirementsMet:
     m_PersistentCalls:
       m_Calls:
@@ -1284,6 +1303,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   canInteract: 0
+  interactableName: Clean trash
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
 --- !u!1 &1818469873
 GameObject:
@@ -1356,6 +1376,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   canInteract: 0
+  interactableName: Pick up restock box
   offsetPosition: {x: 0, y: 0, z: 0}
   offsetRotation: {x: 0, y: 0, z: 0}
   onPickUp:
@@ -1556,70 +1577,12 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1001 &6345216062172314053
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1502625403631874318, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_Name
-      value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5239063469401690293, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1114477063}
   - {fileID: 407368924}
-  - {fileID: 6345216062172314053}
   - {fileID: 828050216}
   - {fileID: 501182888}
   - {fileID: 879099203}

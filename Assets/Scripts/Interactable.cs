@@ -7,6 +7,7 @@ public class Interactable : MonoBehaviour, IInteractable
     [SerializeField] protected UnityEvent onInteract;
     
     [SerializeField] private bool canInteract;
+    [SerializeField] protected string interactableName;
 
     public virtual void Start()
     {
@@ -14,7 +15,7 @@ public class Interactable : MonoBehaviour, IInteractable
     }
     public void Interact()
     {
-        Debug.Log($"Interact has happend on {gameObject.name}");
+        //Debug.Log($"Interact has happend on {gameObject.name}");
         onInteract?.Invoke();
     }
 
@@ -27,4 +28,6 @@ public class Interactable : MonoBehaviour, IInteractable
     {
         return canInteract;
     }
+
+    public string GetInteractableName() => interactableName;
 }
