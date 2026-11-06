@@ -1,14 +1,13 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ItemRequirement : HoldInteractable
+public class RequiredItem : MonoBehaviour
 {
     [Header("Single Item")]
     [SerializeField] private Interactable requiredItem;// Checks if this item is picked up or in inventory
 
     [Header("Grouped Items")]
-    [SerializeField] private bool groupedItem;// Mark this as true when using mutiple items
+    [SerializeField] private bool usingGroup; // Mark this as true when using mutiple items
     [SerializeField] private Transform groupedItems;// Should be a empty gameobject with required items as child of this
 
     [Header("Player Inventory Event")]
@@ -20,10 +19,10 @@ public class ItemRequirement : HoldInteractable
 
     [Header("Events")]
     [SerializeField] private UnityEvent onCompletion;
-    [SerializeField] private UnityEvent onRequirementsMet;
-    [SerializeField] private UnityEvent onMissingItem;
+    [SerializeField] private UnityEvent<int> onHasItem;
+    [SerializeField] private UnityEvent<int> onMissingItem;
 
-    
+
 
     [Header("Task Settings")]
     [SerializeField] string taskStep;
@@ -32,9 +31,9 @@ public class ItemRequirement : HoldInteractable
 
     private void Awake()
     {
-        if (groupedItem && groupedItems != null) requiredItems = groupedItems.GetComponentsInChildren<Interactable>();
+        if (usingGroup && groupedItems != null) requiredItems = groupedItems.GetComponentsInChildren<Interactable>();
 
-        if (groupedItem)
+        if (usingGroup)
         {
             totalItems = requiredItems.Length;
         }
@@ -54,14 +53,14 @@ public class ItemRequirement : HoldInteractable
         }
 
         Debug.Log("Player missing items");
-        onMissingItem?.Invoke();
+        onMissingItem?.Invoke(taskStepIndex);
     }
 
     public void UpdateCount()
     {
         itemCount = 0;
 
-        if (groupedItem)
+        if (usingGroup)
         {
             foreach (Interactable item in requiredItems)
             {
@@ -71,7 +70,7 @@ public class ItemRequirement : HoldInteractable
                 }
                 else
                 {
-                    onMissingItem?.Invoke();
+                    onMissingItem?.Invoke(taskStepIndex);
                 }
             }
         }
@@ -80,21 +79,20 @@ public class ItemRequirement : HoldInteractable
             if (inventoryEvent.HasItem(requiredItem))
             {
                 itemCount++;
+                onHasItem?.Invoke(taskStepIndex);
             }
             else
             {
-                onMissingItem?.Invoke();
+                onMissingItem?.Invoke(taskStepIndex);
             }
         }
 
         if (itemCount == totalItems)
         {
-            onRequirementsMet?.Invoke();
-            return;
+            onHasItem?.Invoke(taskStepIndex);
         }
 
         onItemObtained?.Invoke($"{taskStep} {itemCount}/{totalItems}", taskStepIndex);
-        //CheckForItem();
     }
 
     public void RemoveItems()
@@ -110,7 +108,7 @@ public class ItemRequirement : HoldInteractable
 
     public void SetInteractables(bool state)
     {
-        if (groupedItem)
+        if (usingGroup)
         {
             Debug.Log($"Items were set {state}");
             foreach (Interactable item in requiredItems)
@@ -121,18 +119,16 @@ public class ItemRequirement : HoldInteractable
         }
     }
 
-    
 
 
-    public override void OnEnable()
+
+    private void OnEnable()
     {
-        base.OnEnable();
         inventoryEvent.onInventoryChanged += UpdateCount;
     }
 
-    public override void OnDisable()
+    private void OnDisable()
     {
-        base.OnDisable();
         inventoryEvent.onInventoryChanged -= UpdateCount;
     }
 }
