@@ -7,6 +7,12 @@ using UnityEngine.Events;
 public class GameplayUI : MonoBehaviour
 {
     [SerializeField] PlayerInputs playerInputs;
+
+    [Header("Shift Time Related")]
+    [SerializeField] TextMeshProUGUI shiftTimeText;
+    [SerializeField] private IntEvent shiftTimeEvent;
+
+    [Header("Tasks Related")]
     [SerializeField] private TasksEvent tasksEvent;
     [SerializeField] GameObject taskPanel;
     [SerializeField] GameObject taskList;
@@ -21,7 +27,6 @@ public class GameplayUI : MonoBehaviour
         tasksInfo = new Dictionary<TextMeshProUGUI, TextMeshProUGUI>();
         taskList ??= taskPanel.GetComponentInChildren<Canvas>().gameObject;
         GetTasksListInfo();
-        //SetTaskUIInfo();
     }
 
     // Update is called once per frame
@@ -29,6 +34,29 @@ public class GameplayUI : MonoBehaviour
     {
         
     }
+    private void SetTime(int currentTime)
+    {
+        Debug.Log("Time change in ui");
+        int displayedTime = currentTime % 12;
+
+        if (displayedTime == 0) displayedTime = 12;
+
+        /*
+        string period;
+
+        if (currentTime < 12)
+        {
+            period = "AM";
+        }
+        else
+        {
+            period = "PM";
+        }
+        */
+        shiftTimeText.text = $"{displayedTime} AM";
+    }
+
+    #region Tasks Logic
 
     /// <summary>
     /// Toggle for task list menu
@@ -101,10 +129,14 @@ public class GameplayUI : MonoBehaviour
 
         actionText.text = interactable.GetInteractableName();
     }
+    #endregion
 
     private void OnEnable()
     {
         playerInputs.onTaskStarted += HandleTaskUI;
+
+        shiftTimeEvent.onRaiseInt += SetTime;
+
         tasksEvent.onUpdateTaskStep.AddListener(UpdateTaskUIStep);
         tasksEvent.onTaskChanged.AddListener(SetTaskUIInfo);
     }
@@ -112,6 +144,9 @@ public class GameplayUI : MonoBehaviour
     private void OnDisable()
     {
         playerInputs.onTaskStarted -= HandleTaskUI;
+
+        shiftTimeEvent.onRaiseInt -= SetTime;
+
         tasksEvent.onUpdateTaskStep.RemoveListener(UpdateTaskUIStep);
         tasksEvent.onTaskChanged.RemoveListener(SetTaskUIInfo);
     }
