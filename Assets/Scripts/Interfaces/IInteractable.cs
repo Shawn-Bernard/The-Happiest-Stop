@@ -2,7 +2,11 @@ using UnityEngine;
 
 public interface IInteractable 
 {
-    public void Interact();
+    /// <summary>
+    /// interactor used to get things like inventory
+    /// </summary>
+    /// <param name="interactor"></param>
+    public void Interact(GameObject interactor);
 
     public bool GetInteractableStatus();
 

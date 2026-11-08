@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +16,9 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
 
     [SerializeField] private bool canInteract;
     [SerializeField] protected string interactableName;
+
+    public float HoldTime => holdTime;
+
     public virtual void Start()
     {
         canInteract = activeOnStart;
@@ -47,7 +51,7 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
         yield return new WaitForSeconds(holdTime);
         HoldInteractCompleted();
     }
-    public void Interact()
+    public virtual void Interact(GameObject interactor)
     {
         //Debug.Log($"Interact has happend on {gameObject.name}");
         onInteract?.Invoke();

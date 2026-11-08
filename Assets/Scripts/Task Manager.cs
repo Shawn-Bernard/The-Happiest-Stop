@@ -27,7 +27,7 @@ public class TaskManager : MonoBehaviour
 
     public void AddTask(Task task)
     {
-        task.SetActive();
+        task.SetActive(true);
         task.OnStepChange.AddListener(UpdateTaskStep);
         task.OnTaskCompleted.AddListener(RemoveTask);
         activeTasks.Add(task);
@@ -37,6 +37,7 @@ public class TaskManager : MonoBehaviour
     public void RemoveTask(Task task)
     {
         if (!activeTasks.Contains(task)) return;
+        task.SetActive(false);
         task.OnStepChange.RemoveListener(UpdateTaskStep);
         task.OnTaskCompleted.RemoveListener(RemoveTask);
         activeTasks.Remove(task);

@@ -6,19 +6,20 @@ using UnityEngine.Events;
 public class RequiredItem : MonoBehaviour
 {
     [Header("Single Item")]
-    [SerializeField] private Interactable requiredItem;// Checks if this item is picked up or in inventory
+    [SerializeField] private Item requiredItem;// Checks if this item is picked up or in inventory
 
     [Header("Grouped Items")]
     [SerializeField] private bool usingGroup; // Mark this as true when using mutiple items
     [SerializeField] private Transform groupedItems;// Should be a empty gameobject with required items as child of this
+    [SerializeField] private bool useSpawnChance;
     [Range(1, 100)]
     [SerializeField] private int itemSpawnChance = 50;
 
     [Header("Player Inventory Event")]
     [SerializeField] private InventoryEvent inventoryEvent; // Used to check inventory
 
-    private List<Interactable> requiredItems;
-    [SerializeField] private List<Interactable> activeRequiredItems;
+    private List<Item> requiredItems;
+    [SerializeField] private List<Item> activeRequiredItems;
     [SerializeField] private int itemCount;
     private int totalItems;
 
@@ -42,7 +43,7 @@ public class RequiredItem : MonoBehaviour
 
     private void GetGroupedItems()
     {
-        if (usingGroup && groupedItems != null) requiredItems = groupedItems.GetComponentsInChildren<Interactable>(true).ToList();
+        if (usingGroup && groupedItems != null) requiredItems = groupedItems.GetComponentsInChildren<Item>(true).ToList();
     }
 
     private bool RollSpawnChance()
@@ -52,7 +53,7 @@ public class RequiredItem : MonoBehaviour
 
     private void RandomizeRequiredItems()
     {
-        activeRequiredItems = new List<Interactable>();
+        activeRequiredItems = new List<Item>();
 
         foreach (Interactable item in requiredItems)
         {
@@ -60,7 +61,7 @@ public class RequiredItem : MonoBehaviour
             item.gameObject.SetActive(shouldActivate);
             item.SetActive(shouldActivate);
 
-            if (shouldActivate) activeRequiredItems.Add(item);
+            if (shouldActivate) activeRequiredItems.Add((Item)item);
         }
     }
 
@@ -82,7 +83,7 @@ public class RequiredItem : MonoBehaviour
 
         if (usingGroup)
         {
-            foreach (Interactable item in activeRequiredItems)
+            foreach (var item in activeRequiredItems)
             {
 
                 if (inventoryEvent.HasItem(item))
@@ -118,7 +119,7 @@ public class RequiredItem : MonoBehaviour
 
     public void RemoveItems()
     {
-        foreach (Interactable item in activeRequiredItems)
+        foreach (var item in activeRequiredItems)
         {
             inventoryEvent.RemoveItem(item);
         }
@@ -132,7 +133,21 @@ public class RequiredItem : MonoBehaviour
         RemoveItems();
         if (usingGroup)
         {
-            RandomizeRequiredItems();
+            if (useSpawnChance)
+            {
+                RandomizeRequiredItems();
+            }
+            else
+            {
+                activeRequiredItems = new List<Item>(requiredItems);
+
+                foreach (var item in activeRequiredItems)
+                {
+                    item.gameObject.SetActive(true);
+                    item.SetActive(true);
+                }
+            }
+
             totalItems = activeRequiredItems.Count;
         }
         else

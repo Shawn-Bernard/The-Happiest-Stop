@@ -1,8 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class GameplayUI : MonoBehaviour
 {
@@ -16,24 +18,25 @@ public class GameplayUI : MonoBehaviour
     [SerializeField] private TasksEvent tasksEvent;
     [SerializeField] GameObject taskPanel;
     [SerializeField] GameObject taskList;
+
+    [Header("Interactables")]
     [SerializeField] TextMeshProUGUI interactableTypeText;
     [SerializeField] TextMeshProUGUI actionText;
+    [SerializeField] Slider interactableSlider;
+    private Coroutine holdCoroutine;
 
     //[SerializeField] private List<TextMeshProUGUI> tasksInfo;
     private Dictionary<TextMeshProUGUI, TextMeshProUGUI> tasksInfo; // For tasks names and steps
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
+        interactableSlider.value = 0;
         tasksInfo = new Dictionary<TextMeshProUGUI, TextMeshProUGUI>();
         taskList ??= taskPanel.GetComponentInChildren<Canvas>().gameObject;
         GetTasksListInfo();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void SetTime(int currentTime)
     {
         Debug.Log("Time change in ui");
@@ -108,6 +111,7 @@ public class GameplayUI : MonoBehaviour
         var task = tasksInfo.ElementAt(taskIndex);
         task.Value.text = tasksEvent.GetTaskStep(taskIndex);
     }
+    #endregion
 
     public void HandleInteractable(IInteractable interactable)
     {
@@ -121,19 +125,59 @@ public class GameplayUI : MonoBehaviour
         if (interactable is HoldInteractable)
         {
             interactableTypeText.text = $"Hold E";
+            interactableSlider.gameObject.SetActive(true);
         }
         else
         {
             interactableTypeText.text = $"Tap E";
+            interactableSlider.gameObject.SetActive(false);
         }
 
         actionText.text = interactable.GetInteractableName();
     }
-    #endregion
+    public void HandleHoldInteractable(IHoldInteractable interactable)
+    {
+        if (interactable == null) return;
+
+        if (holdCoroutine != null) StopCoroutine(holdCoroutine);
+
+        holdCoroutine = StartCoroutine(UpdateHoldSlider(interactable.HoldTime));
+    }
+
+    private IEnumerator UpdateHoldSlider(float holdTime)
+    {
+        float elapsedTime = 0f;
+        interactableSlider.value = 0f;
+
+        while (elapsedTime < holdTime)
+        {
+            elapsedTime += Time.deltaTime;
+
+            interactableSlider.value = elapsedTime / holdTime;
+
+            yield return null;
+        }
+
+        interactableSlider.value = 1f;
+
+        holdCoroutine = null;
+    }
+    public void StopHoldInteractable()
+    {
+        if (holdCoroutine == null) return;
+        if (holdCoroutine != null)
+        {
+            StopCoroutine(holdCoroutine);
+            holdCoroutine = null;
+        }
+
+        interactableSlider.value = 0f;
+    }
 
     private void OnEnable()
     {
         playerInputs.onTaskStarted += HandleTaskUI;
+        playerInputs.onInteractCanceled += StopHoldInteractable;
 
         shiftTimeEvent.onRaiseInt += SetTime;
 
@@ -144,6 +188,7 @@ public class GameplayUI : MonoBehaviour
     private void OnDisable()
     {
         playerInputs.onTaskStarted -= HandleTaskUI;
+        playerInputs.onInteractCanceled -= StopHoldInteractable;
 
         shiftTimeEvent.onRaiseInt -= SetTime;
 

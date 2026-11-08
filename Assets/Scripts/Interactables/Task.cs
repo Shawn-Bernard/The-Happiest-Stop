@@ -23,8 +23,9 @@ public class Task : MonoBehaviour, ITask
     [Header("Debug things")]
     private int currentStepIndex;
     [SerializeField] private string currentStep;
-    [SerializeField] private bool isCompleted;
-    private bool isTouched;
+    private bool isCompleted;
+    private bool isTouched; // For whenever player moves a step
+    private bool isActive;
 
     public void Start()
     {
@@ -44,7 +45,7 @@ public class Task : MonoBehaviour, ITask
     {
         if (isCompleted) return;
         if (!isTouched) isTouched = true;
-        Debug.Log("Next step asked");
+        //Debug.Log("Next step asked");
 
         currentStepIndex++;
 
@@ -96,7 +97,9 @@ public class Task : MonoBehaviour, ITask
 
     public void UpdateStep(string stepToAdd, int stepIndex)
     {
+        if (isCompleted) return;
         if (stepIndex < 0 || stepIndex >= steps.Length) return;
+        if (!isTouched) isTouched = true;
 
         steps[stepIndex] = stepToAdd;
         if (currentStepIndex == stepIndex) currentStep = steps[stepIndex];
@@ -119,10 +122,13 @@ public class Task : MonoBehaviour, ITask
     public void CompleteTask()
     {
         if (isCompleted) return;
-
-        Debug.Log($"{taskName} completed");
+        //Debug.Log($"{taskName} completed");
         isCompleted = true;
         onTaskCompleted?.Invoke(this);
+        foreach (var interactable in interactablesInvolved)
+        {
+            interactable.SetActive(false);
+        }
     }
 
     public bool IsTouched() => isTouched;
@@ -133,11 +139,23 @@ public class Task : MonoBehaviour, ITask
         onTaskReset?.Invoke();
     }
 
-    public void SetActive()
+    public void SetActive(bool state)
     {
-        isCompleted = false;
-        StartedTask();
-        ResetTask();
+        isActive = state;
+        if (isActive)
+        {
+            isCompleted = false;
+            StartedTask();
+            ResetTask();
+        }
+        else
+        {
+            foreach (var interactable in interactablesInvolved)
+            {
+                interactable.SetActive(false);
+            }
+        }
+        
     }
 
     public void StartedTask()

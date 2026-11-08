@@ -13,7 +13,8 @@ public class Interactable : MonoBehaviour, IInteractable
     {
         canInteract = activeOnStart;
     }
-    public void Interact()
+
+    public virtual void Interact(GameObject interactor)
     {
         //Debug.Log($"Interact has happend on {gameObject.name}");
         onInteract?.Invoke();

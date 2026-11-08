@@ -10,16 +10,17 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private LayerMask interactableLayer;
 
     private IInteractable currentInteractable;
-    private PickUp currentPickUp;
+    private IPickUp currentPickUp;
 
-    [SerializeField] private UnityEvent<PickUp> onPickedItem; // To pass the pickup to inventory
-    [SerializeField] private UnityEvent<PickUp> onDropPickedItem; // To call drop pickup on invenotry 
-    [SerializeField] private UnityEvent<IInteractable> onInteractionFound;
+    [SerializeField] private UnityEvent<IInteractable> onInteractionFound; // Used for ui interactable type and string action
+    [SerializeField] private UnityEvent<IHoldInteractable> onHoldStarted; // Used for ui feedback when holding interactable
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerCamera ??= Camera.main;
+
+        onInteractionFound?.Invoke(null); // So interactable ui disables on start
     }
 
     // Update is called once per frame
@@ -70,8 +71,9 @@ public class PlayerInteraction : MonoBehaviour
     private void Interact()
     {
         // Looking at a pickup
-        if (currentInteractable is PickUp pickUp)
+        if (currentInteractable is IPickUp pickUp)
         {
+            currentInteractable.Interact(gameObject);
             HandlePickUp(pickUp);
             return;
         }
@@ -79,14 +81,20 @@ public class PlayerInteraction : MonoBehaviour
         // Looking at another interactable
         if (currentInteractable != null)
         {
-            currentInteractable.Interact();
+            currentInteractable.Interact(gameObject);
+            if (currentInteractable is IHoldInteractable holdInteractable)
+            {
+                onHoldStarted?.Invoke(holdInteractable);
+            }
             return; // Returns so it doesnt drop item
         }
 
         // Interacting with nothing while holding something
         if (currentPickUp != null)
         {
-            HandleDrop();
+            currentPickUp.DropPickUp();
+            currentPickUp = null;
+            return;
         }
     }
 
@@ -102,40 +110,32 @@ public class PlayerInteraction : MonoBehaviour
     private void HandlePickUp()
     {
         if (currentInteractable == null) return;
-        if (currentInteractable is PickUp pickUp)
+        if (currentInteractable is IPickUp pickUp)
         {
             currentPickUp = pickUp;
-            onPickedItem?.Invoke(currentPickUp);
         }
     }
 
-    private void HandlePickUp(PickUp pickUp)
+    private void HandlePickUp(IPickUp pickUp)
     {
         // Drop the current pickup
         if (currentPickUp == pickUp)
         {
-            HandleDrop();
+            currentPickUp.DropPickUp();
+            currentPickUp = null;
+            return;
         }
 
         // Drop previous pickup
         if (currentPickUp != null)
         {
-            HandleDrop();
+            currentPickUp.DropPickUp();
+            currentPickUp = null;
         }
 
         // Pick up new pickup
         currentPickUp = pickUp;
-
-        onPickedItem?.Invoke(currentPickUp);
-    }
-
-    private void HandleDrop()
-    {
-        Debug.Log("Dropping Pickup");
-        currentPickUp.OnDropPickUp();
-
-        onDropPickedItem?.Invoke(currentPickUp);
-        currentPickUp = null;
+        currentPickUp.PickUp();
     }
 
     private void OnEnable()
