@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4794492396335288595}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,6 +83,7 @@ MonoBehaviour:
   playerInputs: {fileID: 11400000, guid: f6de444ac57a253458939618b37ece44, type: 2}
   walkSpeed: 5
   sprintSpeed: 8
+  characterController: {fileID: 5845268182017056415}
   cameraRoot: {fileID: 6120508867589862448}
   sensitivity: 1
   useRotationSmoothing: 1

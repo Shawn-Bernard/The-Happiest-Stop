@@ -37,7 +37,7 @@ public class Task : MonoBehaviour, ITask
     private void GetInteractables()
     {
         interactablesInvolved = GetComponentsInChildren<IInteractable>();
-        Debug.Log($"{taskName} has {interactablesInvolved.Length} interactables");
+        //Debug.Log($"{taskName} has {interactablesInvolved.Length} interactables");
     }
 
     #region Steps

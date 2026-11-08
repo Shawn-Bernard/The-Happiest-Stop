@@ -3114,6 +3114,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5e3bb285132644bbbed3531ba97e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
+--- !u!114 &754240789 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9104851908562410646, guid: 0b5fb10e02047ed4780504a7ab3d6cdd, type: 3}
+  m_PrefabInstance: {fileID: 1554402245}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754240782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e8a5beabd802154fb6e433788f71af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FirstPersonController
 --- !u!1 &761550448
 GameObject:
   m_ObjectHideFlags: 0
@@ -6389,6 +6400,33 @@ MonoBehaviour:
       - m_Target: {fileID: 189341293}
         m_TargetAssemblyTypeName: GameStateManager, Assembly-CSharp
         m_MethodName: SwitchToGameplay
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onSpawnPointFound:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 754240789}
+        m_TargetAssemblyTypeName: FirstPersonController, Assembly-CSharp
+        m_MethodName: SetSpawnPosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 754240789}
+        m_TargetAssemblyTypeName: FirstPersonController, Assembly-CSharp
+        m_MethodName: ResetToSpawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

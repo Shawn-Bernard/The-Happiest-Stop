@@ -14,12 +14,6 @@ public class Inventory : MonoBehaviour, IInventory
         inventory = new List<IItem>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void AddItem(IItem item)
     {
         //Debug.Log("Item Added");
@@ -82,8 +76,17 @@ public class Inventory : MonoBehaviour, IInventory
         currentPickUp = null;
     }
 
+    public void ClearInventory()
+    {
+        if (inventory == null || inventory.Count == 0) return;
+        DropItem();
+        inventory.Clear();
+        inventoryEvent.InventoryChanged();
+    }
+
     private void OnEnable()
     {
+        ClearInventory();
         inventoryEvent.onAddItem += AddItem;
         inventoryEvent.onRemoveItem += RemoveItem;
         inventoryEvent.onHasItem += HasItem;

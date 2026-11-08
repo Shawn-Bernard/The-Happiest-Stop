@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -6,8 +7,41 @@ public class LevelManager : MonoBehaviour
 {
     [SerializeField] private UnityEvent onMainMenu;
     [SerializeField] private UnityEvent onGameplay;
-    private static LevelManager instance;
-    public static LevelManager Instance => instance;
+    [SerializeField] private UnityEvent<Vector3,Vector3> onSpawnPointFound;
+    private string currentSpawn;
+
+    public void LoadSceneWithSpawn(string sceneName, string spawnLocation)
+    {
+        currentSpawn = spawnLocation;
+
+        SceneManager.LoadScene(sceneName);
+    }
+
+    /// <summary>
+    /// Looks for a spawn point on scene loaded
+    /// </summary>
+    public void HandleSpawn()
+    {
+        SpawnPoint[] spawnPoints = FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
+
+        if (spawnPoints.Length == 0) return;
+
+        foreach (SpawnPoint point in spawnPoints)
+        {
+            // If current spawn is null or is the location then spawn
+            if (string.IsNullOrEmpty(currentSpawn) || point.SpawnLocation == currentSpawn)
+            {
+                Debug.Log("a spawn was found");
+                onSpawnPointFound?.Invoke(point.Position, point.Rotation);
+                return;
+            }
+            else
+            {
+                Debug.Log("no spawn was found");
+            }
+        }
+    }
+
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
@@ -17,8 +51,8 @@ public class LevelManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        string activeScene = SceneManager.GetActiveScene().name;
+        int sceneIndex = scene.buildIndex;
+        string activeScene = scene.name;
 
         if (activeScene == "Boot Loader") // Will probably remove once i get game states going and call it in boot loader
         {
@@ -30,6 +64,7 @@ public class LevelManager : MonoBehaviour
         }
         else if (sceneIndex > 1)// This would be gameplay levels index
         {
+            HandleSpawn();
             onGameplay?.Invoke();
         }
 
@@ -45,7 +80,7 @@ public class LevelManager : MonoBehaviour
     public void LoadGameplay()
     {
         onGameplay?.Invoke();
-        LoadScene("Gameplay");
+        LoadSceneWithSpawn("Gameplay", "Default");
     }
 
     public void LoadNextLevel()
