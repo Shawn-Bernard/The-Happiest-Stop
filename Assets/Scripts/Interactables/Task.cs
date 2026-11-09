@@ -27,7 +27,7 @@ public class Task : MonoBehaviour, ITask
     private bool isTouched; // For whenever player moves a step
     private bool isActive;
 
-    public void Start()
+    public void Awake()
     {
         currentStepIndex = 0;
         currentStep = steps[currentStepIndex];
