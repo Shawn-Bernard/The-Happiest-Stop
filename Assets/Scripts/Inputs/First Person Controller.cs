@@ -149,6 +149,7 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
 
     private void OnEnable()
     {
+        ResetToSpawn();
         playerInputs.onMove += SetMoveInput;
         playerInputs.onLook += SetLookInput;
         playerInputs.onSprintStarted += SwitchToSprint;

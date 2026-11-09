@@ -135,6 +135,8 @@ public class Task : MonoBehaviour, ITask
 
     public void ResetTask()
     {
+        currentStepIndex = 0;
+        currentStep = steps[currentStepIndex];
         isTouched = false;
         onTaskReset?.Invoke();
     }
