@@ -16,6 +16,7 @@ public class CustomerAI : MonoBehaviour
     private UnityAction turnToMonster;
     private UnityAction returnToNormal;
     public bool fallowing;
+    public GameObject killArea;
     public state currentState { get; private set; }
     public state previousState {  get; private set; }
     public enum state
@@ -33,6 +34,7 @@ public class CustomerAI : MonoBehaviour
     {
         turnToMonster += TurnIntoMonster;
         returnToNormal += ReturnToNormal;
+        killArea.SetActive(false);
         player = GameObject.FindGameObjectWithTag("Player");
         sanityManager = player.GetComponent<SanityManager>();
         sanityManager.lowestSanity.AddListener(turnToMonster);
@@ -80,7 +82,8 @@ public class CustomerAI : MonoBehaviour
                 }
             case state.fallowPlayer:
                 {
-                    fallowing = true; break;
+                    fallowing = true;
+                    killArea.SetActive(true);break;
                 }
         }
     }
@@ -94,6 +97,7 @@ public class CustomerAI : MonoBehaviour
         {
             Setstate(previousState);
             fallowing = false;
+            killArea.SetActive(false);
         }
     }
 
