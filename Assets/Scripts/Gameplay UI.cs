@@ -19,12 +19,14 @@ public class GameplayUI : MonoBehaviour
     [SerializeField] GameObject taskPanel;
     [SerializeField] GameObject taskList;
 
-    [Header("Interactables")]
+    [Header("Interactables Related")]
     [SerializeField] TextMeshProUGUI interactableTypeText;
     [SerializeField] TextMeshProUGUI actionText;
     [SerializeField] Slider interactableSlider;
     private Coroutine holdCoroutine;
 
+    [Header("Sanity Related")]
+    [SerializeField] Slider SanitySlider;
     //[SerializeField] private List<TextMeshProUGUI> tasksInfo;
     private Dictionary<TextMeshProUGUI, TextMeshProUGUI> tasksInfo; // For tasks names and steps
 
@@ -164,14 +166,18 @@ public class GameplayUI : MonoBehaviour
     }
     public void StopHoldInteractable()
     {
+        interactableSlider.value = 0f;
         if (holdCoroutine == null) return;
         if (holdCoroutine != null)
         {
             StopCoroutine(holdCoroutine);
             holdCoroutine = null;
         }
+    }
 
-        interactableSlider.value = 0f;
+    public void SetSanity(float sanity)
+    {
+        SanitySlider.value = Mathf.Clamp01(sanity / 100);
     }
 
     private void OnEnable()

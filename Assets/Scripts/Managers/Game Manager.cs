@@ -3,6 +3,9 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
+    public GameObject Player => instance.player;
+
     [SerializeField] GameStateManager gameStateManager;
 
     [SerializeField] LevelManager levelManager;

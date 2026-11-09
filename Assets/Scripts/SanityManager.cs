@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 public class SanityManager : MonoBehaviour
 {
+    [SerializeField] SanityEvent sanityEvent;
     public float currentSanity;
     public float maxSanity;
     public float sanityDrainMultiplier;
@@ -12,16 +13,17 @@ public class SanityManager : MonoBehaviour
     public UnityEvent lowSanity;
     public UnityEvent lowerSanity;
     public UnityEvent lowestSanity;
+    [SerializeField] UnityEvent<float> onSanityChange;
+    [SerializeField] UnityEvent onSanityStarted;
     public float timeBetweenBlinks;
     public Animation blinkAnim;
     public bool playerAlive;
+    [SerializeField] bool isActive;
+    [SerializeField] private Coroutine sanityCheck;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerAlive = true;
-        currentSanity = maxSanity;  
         sanityDrainMultiplier = defaultSanityDrainMultiplier;
-        StartCoroutine(CheckSanity());
     }
 
     public void AddSanity(float sanity)
@@ -37,6 +39,13 @@ public class SanityManager : MonoBehaviour
         sanityDrainMultiplier = defaultSanityDrainMultiplier;
     }
 
+    public void Restart()
+    {
+        playerAlive = true;
+        currentSanity = maxSanity;
+        StopAllCoroutines();
+    }
+
     public void ChangeSanityDrain(float sanityDrain)
     {
         sanityDrainMultiplier += sanityDrain;
@@ -45,7 +54,28 @@ public class SanityManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleSanityDrain();
+    }
+
+    public void HandleSanityDrain()
+    {
+        if (!isActive) return;
         currentSanity -= sanityDrainMultiplier * Time.deltaTime;
+        onSanityChange?.Invoke(currentSanity);
+    }
+
+    public void StartSanity()
+    {
+        SetActive(true);
+        playerAlive = true;
+        currentSanity = maxSanity;
+        StartCoroutine(CheckSanity());
+        onSanityStarted?.Invoke();
+    }
+
+    public void SetActive(bool state)
+    {
+        isActive = state;
     }
 
     public IEnumerator CheckSanity()
@@ -78,5 +108,15 @@ public class SanityManager : MonoBehaviour
             }
 
         }
+    }
+
+    private void OnEnable()
+    {
+        sanityEvent.onStartSanity.AddListener(StartSanity);
+    }
+
+    private void OnDisable()
+    {
+        sanityEvent.onStartSanity.RemoveListener(StartSanity);
     }
 }

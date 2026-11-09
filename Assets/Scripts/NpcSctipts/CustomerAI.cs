@@ -28,12 +28,15 @@ public class CustomerAI : MonoBehaviour
         fallowPlayer,
         exitStore
     }
+
+    [SerializeField] private UnityEvent onWaiting;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         turnToMonster += TurnIntoMonster;
         returnToNormal += ReturnToNormal;
-        player = GameObject.FindGameObjectWithTag("Player");
+
+        player = GameManager.Instance.Player;
         sanityManager = player.GetComponent<SanityManager>();
         sanityManager.lowestSanity.AddListener(turnToMonster);
         sanityManager.lowerSanity.AddListener(returnToNormal);
@@ -68,6 +71,7 @@ public class CustomerAI : MonoBehaviour
             case state.waitAtCounter:
                 {
                     sanityDrainAnnoyingAura.SetActive(true);
+                    onWaiting?.Invoke();
                     agent.SetDestination(master.counterNode.transform.position); break;
                 }
             case state.exitStore:
@@ -120,6 +124,12 @@ public class CustomerAI : MonoBehaviour
         yield return new WaitForSeconds(7);
         Setstate(state.waitAtCounter);
     }
+
+    public void ServedCustomer()
+    {
+        Setstate(state.exitStore);
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -51,8 +51,8 @@ public class LevelManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        int sceneIndex = scene.buildIndex;
-        string activeScene = scene.name;
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        string activeScene = SceneManager.GetActiveScene().name;
 
         if (activeScene == "Boot Loader") // Will probably remove once i get game states going and call it in boot loader
         {
