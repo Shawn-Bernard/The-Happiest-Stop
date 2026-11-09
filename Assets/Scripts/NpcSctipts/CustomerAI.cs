@@ -35,6 +35,7 @@ public class CustomerAI : MonoBehaviour
         turnToMonster += TurnIntoMonster;
         returnToNormal += ReturnToNormal;
         killArea.SetActive(false);
+        master = GameObject.FindGameObjectWithTag("NodeMaster").GetComponent<MasterNode>();
         player = GameObject.FindGameObjectWithTag("Player");
         sanityManager = player.GetComponent<SanityManager>();
         sanityManager.lowestSanity.AddListener(turnToMonster);
