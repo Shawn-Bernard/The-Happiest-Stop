@@ -116,7 +116,7 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
                     ""id"": ""852140f2-7766-474d-8707-702459ba45f3"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Hold"",
+                    ""interactions"": """",
                     ""initialStateCheck"": false
                 },
                 {
@@ -141,6 +141,24 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""Pick up"",
                     ""type"": ""Button"",
                     ""id"": ""2f313fbc-0e79-4584-a41c-1e50acc85c3b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""ff1648cf-5067-4a33-964a-8564d033adf9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Task List"",
+                    ""type"": ""Button"",
+                    ""id"": ""caeb43ed-f624-4b32-9d51-83010da6c303"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -411,6 +429,28 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Pick up"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b38c9782-c4fb-4d11-b751-6108623c9f1e"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f628490b-9583-4fa4-8946-80f54627df28"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Task List"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -486,6 +526,8 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_Pickup = m_Player.FindAction("Pick up", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_TaskList = m_Player.FindAction("Task List", throwIfNotFound: true);
     }
 
     ~@PlayerInput_Actions()
@@ -572,6 +614,8 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_Pickup;
+    private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_TaskList;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -607,6 +651,14 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Pickup".
         /// </summary>
         public InputAction @Pickup => m_Wrapper.m_Player_Pickup;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/TaskList".
+        /// </summary>
+        public InputAction @TaskList => m_Wrapper.m_Player_TaskList;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -651,6 +703,12 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
             @Pickup.started += instance.OnPickup;
             @Pickup.performed += instance.OnPickup;
             @Pickup.canceled += instance.OnPickup;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+            @TaskList.started += instance.OnTaskList;
+            @TaskList.performed += instance.OnTaskList;
+            @TaskList.canceled += instance.OnTaskList;
         }
 
         /// <summary>
@@ -680,6 +738,12 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
             @Pickup.started -= instance.OnPickup;
             @Pickup.performed -= instance.OnPickup;
             @Pickup.canceled -= instance.OnPickup;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+            @TaskList.started -= instance.OnTaskList;
+            @TaskList.performed -= instance.OnTaskList;
+            @TaskList.canceled -= instance.OnTaskList;
         }
 
         /// <summary>
@@ -827,5 +891,19 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPickup(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Task List" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTaskList(InputAction.CallbackContext context);
     }
 }
