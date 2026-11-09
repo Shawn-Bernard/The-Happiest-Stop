@@ -1,9 +1,14 @@
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
-public class FirstPersonController : MonoBehaviour
+public class FirstPersonController : MonoBehaviour,ISpawnable
 {
     [SerializeField] PlayerInputs playerInputs;
+    private Vector3 startPosition;
+    private Vector3 startRotation;
+
+    private Vector3 spawnPosition;
+    private Vector3 spawnRotation;
 
     [Header("Movement Settings")]
     private float moveSpeed;
@@ -11,7 +16,7 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private float sprintSpeed = 8f;
     private Vector3 moveInput;
     private Vector2 moveDirection;
-    private CharacterController characterController;
+    [SerializeField] private CharacterController characterController;
 
     [Header("Head Settings")]
     [SerializeField] Transform cameraRoot;
@@ -36,9 +41,10 @@ public class FirstPersonController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        SetStartPosition();
         SwitchToWalk();
         playerInputs.EnableAllInputs();
-        characterController = GetComponent<CharacterController>();
+        characterController ??= GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -143,6 +149,7 @@ public class FirstPersonController : MonoBehaviour
 
     private void OnEnable()
     {
+        ResetToSpawn();
         playerInputs.onMove += SetMoveInput;
         playerInputs.onLook += SetLookInput;
         playerInputs.onSprintStarted += SwitchToSprint;
@@ -155,5 +162,36 @@ public class FirstPersonController : MonoBehaviour
         playerInputs.onSprintStarted -= SwitchToSprint;
         playerInputs.onSprintCanceled -= SwitchToWalk;
 
+    }
+
+    public void SetSpawnPosition(Vector3 position, Vector3 rotation)
+    {
+        Debug.Log("Player has spawn");
+        spawnPosition = position;
+        spawnRotation = rotation;
+    }
+
+    public void SetStartPosition()
+    {
+        startPosition = transform.position;
+        startRotation = transform.rotation.eulerAngles;
+        SetSpawnPosition(startPosition, startRotation);
+    }
+
+    public void ResetToSpawn()
+    {
+        Debug.Log("Player has been reset to spawn");
+        characterController.enabled = false;
+        transform.position = spawnPosition;
+        transform.rotation = Quaternion.Euler(spawnRotation);
+        characterController.enabled = true;
+    }
+
+    public void ResetToStart()
+    {
+        characterController.enabled = false;
+        transform.position = startPosition;
+        transform.rotation = Quaternion.Euler(startRotation);
+        characterController.enabled = true;
     }
 }
