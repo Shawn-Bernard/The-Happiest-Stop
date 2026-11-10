@@ -3342,6 +3342,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Customer
       objectReference: {fileID: 0}
+    - target: {fileID: 8655372087225421368, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
       propertyPath: master
       value: 
