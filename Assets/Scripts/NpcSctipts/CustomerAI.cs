@@ -88,6 +88,10 @@ public class CustomerAI : MonoBehaviour
                 }
         }
     }
+    public void Leave()
+    {
+        Setstate(state.exitStore);
+    }
     public void TurnIntoMonster()
     {
         Setstate(state.fallowPlayer);
