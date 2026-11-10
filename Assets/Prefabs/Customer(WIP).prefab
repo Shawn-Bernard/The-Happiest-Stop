@@ -265,7 +265,7 @@ GameObject:
   - component: {fileID: 885534982737640666}
   - component: {fileID: 3981559212240965211}
   - component: {fileID: 9021737065909645727}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Customer(WIP)
   m_TagString: Customer
   m_Icon: {fileID: 0}

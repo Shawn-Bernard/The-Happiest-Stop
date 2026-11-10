@@ -54,7 +54,7 @@ public class SanityManager : MonoBehaviour
         {
             yield return new WaitForSeconds(timeBetweenBlinks);
             blinkAnim.Play();
-            yield return new WaitForSeconds(0.21f);
+            yield return new WaitForSeconds(0.22f);
             if (currentSanity < maxSanity * 0.75 && currentSanity > maxSanity * 0.5)
             {
                 lowSanity.Invoke();
