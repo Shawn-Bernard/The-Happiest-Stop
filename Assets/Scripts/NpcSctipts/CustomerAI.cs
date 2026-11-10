@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class CustomerAI : MonoBehaviour
 {
+    [SerializeField] private UnityEvent onMonsterState;
     public NavMeshAgent agent;
     public GameObject sanityDrainAura;
     public GameObject sanityDrainAnnoyingAura;
@@ -94,6 +95,7 @@ public class CustomerAI : MonoBehaviour
     }
     public void TurnIntoMonster()
     {
+        onMonsterState?.Invoke();
         Setstate(state.fallowPlayer);
     }
     public void ReturnToNormal()

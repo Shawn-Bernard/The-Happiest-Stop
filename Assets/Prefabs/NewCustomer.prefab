@@ -25,11 +25,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 249948915254925110}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.34, y: -1.08, z: -17.94}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.9999999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4161021335252315141}
   m_Father: {fileID: 7167209202674769840}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1867208035879811580
@@ -49,19 +50,7 @@ MonoBehaviour:
   - serve current customer
   onTaskStarted:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1721239703678452263}
-        m_TargetAssemblyTypeName: HoldInteractable, Assembly-CSharp
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
   onTaskCompleted:
     m_PersistentCalls:
       m_Calls: []
@@ -72,6 +61,118 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   currentStep: 
+--- !u!1 &3711519783474752782
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4161021335252315141}
+  - component: {fileID: 6851819448359481340}
+  - component: {fileID: 4217587535224889272}
+  m_Layer: 6
+  m_Name: Interactable Task
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4161021335252315141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3711519783474752782}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6826559114833523218}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6851819448359481340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3711519783474752782}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f2b4ef339a7fc40870d01693241c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoldInteractable
+  holdTime: 1.5
+  onHoldCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9116944784110428208}
+        m_TargetAssemblyTypeName: CustomerAI, Assembly-CSharp
+        m_MethodName: Leave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6851819448359481340}
+        m_TargetAssemblyTypeName: HoldInteractable, Assembly-CSharp
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1867208035879811580}
+        m_TargetAssemblyTypeName: Task, Assembly-CSharp
+        m_MethodName: NextStep
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  activeOnStart: 0
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  canInteract: 0
+  interactableName: Serve Customer
+--- !u!65 &4217587535224889272
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3711519783474752782}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.5, y: 1.5, z: 1.5}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &267474851454013871
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -133,9 +234,25 @@ PrefabInstance:
       value: NewCustomer
       objectReference: {fileID: 0}
     - target: {fileID: 8655372087225421368, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8655372087225421368, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
+      propertyPath: onMonsterState.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 6851819448359481340}
+    - target: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
+      propertyPath: onMonsterState.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
+      propertyPath: onMonsterState.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 1867208035879811580}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -145,85 +262,19 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6971933129524334111, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5736066659715087922}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8655372087225421368, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1721239703678452263}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
 --- !u!4 &7167209202674769840 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6971933129524334111, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
   m_PrefabInstance: {fileID: 267474851454013871}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8910457607255449495 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8655372087225421368, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
-  m_PrefabInstance: {fileID: 267474851454013871}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1721239703678452263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8910457607255449495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20f2b4ef339a7fc40870d01693241c70, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HoldInteractable
-  holdTime: 1.5
-  onHoldCompleted:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9116944784110428208}
-        m_TargetAssemblyTypeName: CustomerAI, Assembly-CSharp
-        m_MethodName: Leave
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1721239703678452263}
-        m_TargetAssemblyTypeName: HoldInteractable, Assembly-CSharp
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1867208035879811580}
-        m_TargetAssemblyTypeName: Task, Assembly-CSharp
-        m_MethodName: NextStep
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  activeOnStart: 0
-  onInteract:
-    m_PersistentCalls:
-      m_Calls: []
-  canInteract: 0
-  interactableName: Serve Customer
 --- !u!114 &9116944784110428208 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
   m_PrefabInstance: {fileID: 267474851454013871}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8910457607255449495}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 59d85bbe592a3b04cb2c3afd4232f3ad, type: 3}

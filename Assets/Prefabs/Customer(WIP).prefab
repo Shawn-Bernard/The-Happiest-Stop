@@ -403,6 +403,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d85bbe592a3b04cb2c3afd4232f3ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  onMonsterState:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 731749f9b44fb134b9094e23e1751a98, type: 2}
+        m_TargetAssemblyTypeName: TasksEvent, Assembly-CSharp
+        m_MethodName: RemoveTask
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: Task, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: HoldInteractable, Assembly-CSharp
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   agent: {fileID: 3981559212240965211}
   sanityDrainAura: {fileID: 0}
   sanityDrainAnnoyingAura: {fileID: 5998884908819915375}

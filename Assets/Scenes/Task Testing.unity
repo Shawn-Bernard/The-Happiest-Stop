@@ -1744,7 +1744,7 @@ GameObject:
   - component: {fileID: 1893123949}
   - component: {fileID: 1893123948}
   m_Layer: 6
-  m_Name: Restock Box (1)
+  m_Name: Restock Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
