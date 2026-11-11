@@ -164,14 +164,13 @@ public class GameplayUI : MonoBehaviour
     }
     public void StopHoldInteractable()
     {
+        interactableSlider.value = 0f;
         if (holdCoroutine == null) return;
         if (holdCoroutine != null)
         {
             StopCoroutine(holdCoroutine);
             holdCoroutine = null;
         }
-
-        interactableSlider.value = 0f;
     }
 
     private void OnEnable()

@@ -19,12 +19,6 @@ public class TaskManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void AddTask(Task task)
     {
         task.SetActive(true);
@@ -133,11 +127,17 @@ public class TaskManager : MonoBehaviour
     {
         tasksEvent.onGetTaskName += GetTaskName;
         tasksEvent.onGetTaskStep += GetTaskStep;
+
+        tasksEvent.onAddTask += AddTask;
+        tasksEvent.onRemoveTask += RemoveTask;
     }
 
     private void OnDisable()
     {
         tasksEvent.onGetTaskName -= GetTaskName;
         tasksEvent.onGetTaskStep -= GetTaskStep;
+
+        tasksEvent.onAddTask -= AddTask;
+        tasksEvent.onRemoveTask -= RemoveTask;
     }
 }

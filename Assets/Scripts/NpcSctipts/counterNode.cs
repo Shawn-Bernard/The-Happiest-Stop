@@ -6,6 +6,7 @@ public class counterNode : MonoBehaviour
     public UnityEvent onCounterState;
     private UnityAction addCustomerTask;
     public TaskManager taskManager;
+    [SerializeField] private TasksEvent tasksEvent;
     private GameObject customer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +24,8 @@ public class counterNode : MonoBehaviour
                 if (other.gameObject.GetComponentInChildren<Task>())
                 {
                     Task task = other.gameObject.GetComponentInChildren<Task>();
-                    taskManager.AddTask(task);
+                    tasksEvent.AddTask(task);
+                    //taskManager.AddTask(task);
                 }
                 /*
                 customer = other.gameObject;
