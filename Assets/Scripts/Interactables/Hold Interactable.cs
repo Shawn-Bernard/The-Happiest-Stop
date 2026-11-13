@@ -12,7 +12,7 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
     private Coroutine holdCoroutine;
 
     [SerializeField] protected bool activeOnStart;
-    [SerializeField] protected UnityEvent onInteract;
+    [SerializeField] protected UnityEvent<GameObject> onInteract;
 
     [SerializeField] private bool canInteract;
     [SerializeField] protected string interactableName;
@@ -33,7 +33,7 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
     /// </summary>
     public void HoldInteractCompleted()
     {
-        //Debug.Log("Hold Completed");
+        Debug.Log("Hold Completed");
         onHoldCompleted?.Invoke();
         holdCoroutine = null;
     }
@@ -41,7 +41,7 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
     public void HoldInteractFailed()
     {
         if (holdCoroutine == null) return;
-        //Debug.Log("Hold Stopped");
+        Debug.Log("Hold Stopped");
         StopCoroutine(holdCoroutine);
         holdCoroutine = null;
     }
@@ -54,7 +54,8 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
     public virtual void Interact(GameObject interactor)
     {
         //Debug.Log($"Interact has happend on {gameObject.name}");
-        onInteract?.Invoke();
+        onInteract?.Invoke(interactor);
+        StartHold();
     }
 
     public void SetActive(bool state)
@@ -68,15 +69,8 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
     }
 
     public string GetInteractableName() => interactableName;
-
-    public virtual void OnEnable()
+    public void SetInteractableName(string newName)
     {
-        onInteract.AddListener(StartHold);
+        interactableName = newName;
     }
-
-    public virtual void OnDisable()
-    {
-        onInteract.RemoveListener(StartHold);
-    }
-
 }

@@ -12,6 +12,9 @@ public class TasksEvent : ScriptableObject
     public UnityAction<Task> onAddTask;
     public UnityAction<Task> onRemoveTask;
 
+    public UnityAction<Task> onAddRandomTask;
+    public UnityAction<Task> onRemoveRandomTask;
+
     public string GetTaskName(int taskIndex) => onGetTaskName?.Invoke(taskIndex);
 
     public string GetTaskStep(int taskIndex) => onGetTaskStep?.Invoke(taskIndex);
@@ -23,4 +26,8 @@ public class TasksEvent : ScriptableObject
     public void AddTask(Task task) => onAddTask?.Invoke(task);
 
     public void RemoveTask(Task task) => onRemoveTask?.Invoke(task);
+
+    public void AddRandomTask(Task task) => onAddRandomTask?.Invoke(task);
+
+    public void RemoveRandomTask(Task task) => onRemoveRandomTask?.Invoke(task);
 }

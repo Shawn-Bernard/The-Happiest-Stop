@@ -37,6 +37,18 @@ public class TaskManager : MonoBehaviour
         activeTasks.Remove(task);
         tasksEvent.TaskChanged();
     }
+
+    public void AddRandomTask(Task task)
+    {
+        if (randomTasks.Contains(task)) return;
+        randomTasks.Add(task);
+    }
+
+    public void RemoveRandomTask(Task task)
+    {
+        if (!randomTasks.Contains(task)) return;
+        randomTasks.Remove(task);
+    }
     /// <summary>
     /// Picks a random task that not already in active task and add to active tasks
     /// </summary>
@@ -79,7 +91,7 @@ public class TaskManager : MonoBehaviour
     {
         foreach (Task task in activeTasks)
         {
-            if (!task.IsTouched())
+            if (!task.IsTouched() && randomTasks.Contains(task))
             {
                 task.CancelTask();
                 RemoveTask(task);

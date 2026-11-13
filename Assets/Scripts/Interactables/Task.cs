@@ -67,7 +67,7 @@ public class Task : MonoBehaviour, ITask
     public void NextStep(int stepIndex)
     {
         if (isCompleted) return;
-        if (currentStepIndex == stepIndex + 1) return;
+        if (currentStepIndex != stepIndex) return;
 
         NextStep();
     }
@@ -162,11 +162,11 @@ public class Task : MonoBehaviour, ITask
 
     public void StartedTask()
     {
-        onTaskStarted?.Invoke();
         foreach (var interactable in interactablesInvolved)
         {
             interactable.SetActive(true);
         }
+        onTaskStarted?.Invoke();
     }
 
     public string GetTaskName() => taskName;

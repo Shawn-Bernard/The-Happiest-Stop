@@ -31,7 +31,7 @@ public class Holdable : Item, IPickUp
         {
             if (inventory != newInventory) inventory = newInventory;
         }
-        onInteract?.Invoke();
+        onInteract?.Invoke(interactor);
     }
 
     /// <summary>
@@ -51,8 +51,8 @@ public class Holdable : Item, IPickUp
 
     public void DropPickUp()
     {
-        RemoveItem();
         inventory.DropItem();
+        RemoveItem();
     }
     public void AttachTo(Transform parent)
     {
@@ -73,7 +73,8 @@ public class Holdable : Item, IPickUp
             rb.useGravity = true;
         }
         transform.SetParent(originalParent, true);
-        SceneManager.MoveGameObjectToScene(gameObject, originalScene);
+
+        SceneManager.MoveGameObjectToScene(transform.root.gameObject, originalScene);
         transform.position = dropPosition;
         onDropPickUp?.Invoke();
         if (itemCollider != null) itemCollider.enabled = true;
