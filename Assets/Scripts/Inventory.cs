@@ -35,12 +35,11 @@ public class Inventory : MonoBehaviour, IInventory
 
     public void HoldItem(IPickUp pickUp)
     {
-        if (currentPickUp != null)
-        {
-            DropItem();
-        }
+        // Drop the last held item if there is one and if its not the same  
+        if (currentPickUp != null && currentPickUp != pickUp) DropItem();
 
         currentPickUp = pickUp;
+
         currentPickUp.AttachTo(pickUpTransform);
     }
     /// <summary>
@@ -74,6 +73,32 @@ public class Inventory : MonoBehaviour, IInventory
 
         currentPickUp.Detach(dropPosition);
         currentPickUp = null;
+    }
+    public void HandlePickUp(IPickUp pickUp)
+    {
+        // If looking at nothing and interacting drop current held item
+        if (pickUp == null && currentPickUp != null)
+        {
+            DropItem();
+            return;
+        }
+
+        // If looking at the same pick up then drop
+        if (currentPickUp == pickUp)
+        {
+            DropItem();
+            return;
+        }
+
+        // If holding something already drop current item
+        if (currentPickUp != null)
+        {
+            DropItem();
+        }
+
+        // Then pickup new holdable
+        currentPickUp = pickUp;
+        currentPickUp.PickUp();
     }
 
     public void ClearInventory()

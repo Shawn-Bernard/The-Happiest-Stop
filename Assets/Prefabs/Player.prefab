@@ -166,6 +166,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onPick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4794492396335288595}
+        m_TargetAssemblyTypeName: Inventory, Assembly-CSharp
+        m_MethodName: HandlePickUp
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4794492396335288595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5e3bb285132644bbbed3531ba97e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  playerInputs: {fileID: 0}
   pickUpTransform: {fileID: 7323436566725291528}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
   dropDistance: 1.5
