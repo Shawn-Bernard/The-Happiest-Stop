@@ -194,6 +194,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
   playerInputs: {fileID: 0}
+  maxCharges: 5
+  smokeCooldown: 1
+  SmokesEquipped: 0
+  onEquip:
+    m_PersistentCalls:
+      m_Calls: []
+  onUnequip:
+    m_PersistentCalls:
+      m_Calls: []
+  onSmokeUsed:
+    m_PersistentCalls:
+      m_Calls: []
   pickUpTransform: {fileID: 7323436566725291528}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
   dropDistance: 1.5
@@ -212,7 +224,7 @@ MonoBehaviour:
   currentSanity: 0
   maxSanity: 100
   sanityDrainMultiplier: 0
-  defaultSanityDrainMultiplier: 0.1
+  defaultSanityDrainMultiplier: 0.5
   highSanity:
     m_PersistentCalls:
       m_Calls: []
@@ -228,6 +240,7 @@ MonoBehaviour:
   timeBetweenBlinks: 5
   blinkAnim: {fileID: 0}
   playerAlive: 0
+  sanityEvent: {fileID: 11400000, guid: d16f777e823d1f148aac6e6c7caff491, type: 2}
 --- !u!1 &1870381360200202558
 GameObject:
   m_ObjectHideFlags: 0

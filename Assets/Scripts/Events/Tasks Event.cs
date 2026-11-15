@@ -7,6 +7,7 @@ public class TasksEvent : ScriptableObject
 {
     public Func<int, string> onGetTaskName;
     public Func<int, string> onGetTaskStep;
+    public Func<int, string> onGetTaskReward;
     public UnityEvent<int> onUpdateTaskStep;
     public UnityEvent onTaskChanged;
     public UnityAction<Task> onAddTask;
@@ -18,6 +19,8 @@ public class TasksEvent : ScriptableObject
     public string GetTaskName(int taskIndex) => onGetTaskName?.Invoke(taskIndex);
 
     public string GetTaskStep(int taskIndex) => onGetTaskStep?.Invoke(taskIndex);
+
+    public string GetTaskReward(int taskIndex) => onGetTaskReward?.Invoke(taskIndex);
 
     public void UpdateTaskStep(int taskIndex) => onUpdateTaskStep?.Invoke(taskIndex);
 

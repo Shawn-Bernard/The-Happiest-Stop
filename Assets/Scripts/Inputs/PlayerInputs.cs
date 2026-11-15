@@ -194,6 +194,50 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
         inputActions.Player.TaskList.Disable();
     }
     #endregion
+
+    #region Cigarettes Input
+
+    public UnityAction onCigarettesStarted;
+    public void OnCigarettes(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            onCigarettesStarted?.Invoke();
+        }
+    }
+    public void EnableCigarettes()
+    {
+        inputActions.Player.Cigarettes.Enable();
+    }
+
+    public void DisableCigarettes()
+    {
+        inputActions.Player.Cigarettes.Disable();
+    }
+    #endregion
+
+    #region Use Input
+
+    public UnityAction onUseStarted;
+
+    public void OnUse(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            onUseStarted?.Invoke();
+        }
+    }
+
+    public void EnableUse()
+    {
+        inputActions.Player.Use.Enable();
+    }
+
+    public void DisableUse()
+    {
+        inputActions.Player.Use.Disable();
+    }
+    #endregion
     public void EnableAllInputs()
     {
         inputActions.Player.Enable();

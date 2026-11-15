@@ -10,6 +10,7 @@ public class TaskManager : MonoBehaviour
 
 
     [SerializeField] private TasksEvent tasksEvent;
+    [SerializeField] private SanityEvent sanityEvent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -24,6 +25,7 @@ public class TaskManager : MonoBehaviour
         task.SetActive(true);
         task.OnStepChange.AddListener(UpdateTaskStep);
         task.OnTaskCompleted.AddListener(RemoveTask);
+        task.OnTaskCompleted.AddListener(RewardForCompletion);
         activeTasks.Add(task);
         tasksEvent.TaskChanged();
     }
@@ -34,6 +36,7 @@ public class TaskManager : MonoBehaviour
         task.SetActive(false);
         task.OnStepChange.RemoveListener(UpdateTaskStep);
         task.OnTaskCompleted.RemoveListener(RemoveTask);
+        task.OnTaskCompleted.RemoveListener(RewardForCompletion);
         activeTasks.Remove(task);
         tasksEvent.TaskChanged();
     }
@@ -48,6 +51,11 @@ public class TaskManager : MonoBehaviour
     {
         if (!randomTasks.Contains(task)) return;
         randomTasks.Remove(task);
+    }
+
+    private void RewardForCompletion(Task task)
+    {
+        sanityEvent.AddSanity(task.SanityGiven);
     }
     /// <summary>
     /// Picks a random task that not already in active task and add to active tasks
@@ -117,12 +125,16 @@ public class TaskManager : MonoBehaviour
         return activeTasks[taskIndex].GetCurrentStep();
     }
 
-    public string GetTaskInfo(int taskIndex)
+    private string GetTaskReward(int taskIndex)
     {
-        if (taskIndex < 0 || taskIndex >= activeTasks.Count) return "";
-        string taskInfo;
-        return taskInfo = $"{GetTaskName(taskIndex)}: {GetTaskStep(taskIndex)}";
+        if (taskIndex < 0 || taskIndex >= activeTasks.Count)
+            return "";
+        if (activeTasks[taskIndex].SanityGiven == 0)
+            return "";
+
+        return $"+{activeTasks[taskIndex].SanityGiven} Sanity";
     }
+
     public void UpdateTaskStep(Task task)
     {
         if (!activeTasks.Contains(task)) return;
@@ -139,6 +151,7 @@ public class TaskManager : MonoBehaviour
     {
         tasksEvent.onGetTaskName += GetTaskName;
         tasksEvent.onGetTaskStep += GetTaskStep;
+        tasksEvent.onGetTaskReward += GetTaskReward;
 
         tasksEvent.onAddTask += AddTask;
         tasksEvent.onRemoveTask += RemoveTask;
@@ -150,6 +163,7 @@ public class TaskManager : MonoBehaviour
     {
         tasksEvent.onGetTaskName -= GetTaskName;
         tasksEvent.onGetTaskStep -= GetTaskStep;
+        tasksEvent.onGetTaskReward -= GetTaskReward;
 
         tasksEvent.onAddTask -= AddTask;
         tasksEvent.onRemoveTask -= RemoveTask;

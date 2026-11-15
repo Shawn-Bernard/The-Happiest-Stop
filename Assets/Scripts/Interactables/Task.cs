@@ -22,6 +22,7 @@ public class Task : MonoBehaviour, ITask
 
     [Header("Sanity reward")]
     [SerializeField] private float sanityGiven;
+    public float SanityGiven => sanityGiven;
 
     [Header("Debug things")]
     private int currentStepIndex;
