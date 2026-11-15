@@ -46,12 +46,12 @@ public class Holdable : Item, IPickUp
             rb.useGravity = false;
         }
         TakeItem();
-        inventory.HoldItem(this);
+        if (inventory != null) inventory.HoldItem(this);
     }
 
     public void DropPickUp()
     {
-        inventory.DropItem();
+        if (inventory != null) inventory.DropItem();
         RemoveItem();
     }
     public void AttachTo(Transform parent)

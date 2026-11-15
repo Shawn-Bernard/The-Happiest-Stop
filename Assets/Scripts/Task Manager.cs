@@ -142,6 +142,8 @@ public class TaskManager : MonoBehaviour
 
         tasksEvent.onAddTask += AddTask;
         tasksEvent.onRemoveTask += RemoveTask;
+        tasksEvent.onAddRandomTask += AddRandomTask;
+        tasksEvent.onRemoveRandomTask += RemoveRandomTask;
     }
 
     private void OnDisable()
@@ -151,5 +153,7 @@ public class TaskManager : MonoBehaviour
 
         tasksEvent.onAddTask -= AddTask;
         tasksEvent.onRemoveTask -= RemoveTask;
+        tasksEvent.onAddRandomTask -= AddRandomTask;
+        tasksEvent.onRemoveRandomTask -= RemoveRandomTask;
     }
 }

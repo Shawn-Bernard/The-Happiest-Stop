@@ -24,7 +24,8 @@ public class Inventory : MonoBehaviour, IInventory
     public void RemoveItem(IItem item)
     {
         //Debug.Log("Item Removed");
-        inventory.Remove(item);
+        if (inventory.Contains(item)) inventory.Remove(item);
+
         inventoryEvent.InventoryChanged();
     }
 
@@ -36,7 +37,7 @@ public class Inventory : MonoBehaviour, IInventory
     public void HoldItem(IPickUp pickUp)
     {
         // Drop the last held item if there is one and if its not the same  
-        if (currentPickUp != null && currentPickUp != pickUp) DropItem();
+        if (currentPickUp != null && currentPickUp != pickUp) currentPickUp.DropPickUp();
 
         currentPickUp = pickUp;
 
@@ -49,6 +50,7 @@ public class Inventory : MonoBehaviour, IInventory
     {
         if (currentPickUp == null) return;
 
+        if (currentPickUp is IItem item) RemoveItem(item);
         Vector3 direction = Camera.main.transform.forward;
         direction.y = 0f;
         direction.Normalize();
@@ -79,23 +81,24 @@ public class Inventory : MonoBehaviour, IInventory
         // If looking at nothing and interacting drop current held item
         if (pickUp == null && currentPickUp != null)
         {
-            DropItem();
+            currentPickUp.DropPickUp();
             return;
         }
 
         // If looking at the same pick up then drop
-        if (currentPickUp == pickUp)
+        if (currentPickUp == pickUp && currentPickUp != null)
         {
-            DropItem();
+            currentPickUp.DropPickUp();
             return;
         }
 
         // If holding something already drop current item
         if (currentPickUp != null)
         {
-            DropItem();
+            currentPickUp.DropPickUp();
         }
 
+        if (pickUp == null) return;
         // Then pickup new holdable
         currentPickUp = pickUp;
         currentPickUp.PickUp();

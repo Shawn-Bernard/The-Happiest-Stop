@@ -73,4 +73,9 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
     {
         interactableName = newName;
     }
+
+    public void OnEnable()
+    {
+        canInteract = activeOnStart;
+    }
 }

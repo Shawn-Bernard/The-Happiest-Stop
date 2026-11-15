@@ -20,6 +20,9 @@ public class Task : MonoBehaviour, ITask
     [SerializeField] private UnityEvent<Task> onStepChange;
     public UnityEvent<Task> OnStepChange => onStepChange; // for updaing in ui. task already auto assigned
 
+    [Header("Sanity reward")]
+    [SerializeField] private float sanityGiven;
+
     [Header("Debug things")]
     private int currentStepIndex;
     [SerializeField] private string currentStep;
@@ -124,11 +127,11 @@ public class Task : MonoBehaviour, ITask
         if (isCompleted) return;
         //Debug.Log($"{taskName} completed");
         isCompleted = true;
-        onTaskCompleted?.Invoke(this);
         foreach (var interactable in interactablesInvolved)
         {
             interactable.SetActive(false);
         }
+        onTaskCompleted?.Invoke(this);
     }
 
     public bool IsTouched() => isTouched;
