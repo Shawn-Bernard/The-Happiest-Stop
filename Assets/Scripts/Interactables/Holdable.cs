@@ -15,6 +15,9 @@ public class Holdable : Item, IPickUp
     private Transform originalParent; // So it doesn't be parent less if it has a one
     private Scene originalScene; // just so it doesn't carry along with the player when changing scenes
 
+    private bool pickedUp;
+    public bool PickedUp => pickedUp;
+
     public override void Awake()
     {
         itemCollider = GetComponent<Collider>();
@@ -34,11 +37,24 @@ public class Holdable : Item, IPickUp
         onInteract?.Invoke(interactor);
     }
 
+    public void TogglePickUp()
+    {
+        if (pickedUp)
+        {
+            DropPickUp();
+        }
+        else
+        {
+            PickUp();
+        }
+    }
+
     /// <summary>
     /// Calls on pickup event for disabling hit box
     /// </summary>
     public void PickUp()
     {
+        pickedUp = true;
         if (itemCollider != null) itemCollider.enabled = false;
         if (rb != null)
         {
@@ -51,6 +67,7 @@ public class Holdable : Item, IPickUp
 
     public void DropPickUp()
     {
+        pickedUp = false;
         if (inventory != null) inventory.DropItem();
         RemoveItem();
     }
