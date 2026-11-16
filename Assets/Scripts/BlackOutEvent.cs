@@ -15,7 +15,7 @@ public class BlackOutEvent : MonoBehaviour
     void Start()
     {
         eventActivated = false;
-        StartCoroutine(EventStarter());
+        StartCoroutine(EventDelay());
     }
 
     // Update is called once per frame
@@ -54,5 +54,10 @@ public class BlackOutEvent : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
+    }
+    public IEnumerator EventDelay()
+    {
+        yield return new WaitForSeconds(120f);
+        StartCoroutine(EventStarter());
     }
 }
