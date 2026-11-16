@@ -22,9 +22,9 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     [SerializeField] Transform cameraRoot;
     [Range(0.1f, 5)]
     [SerializeField] private float sensitivity = 1;
-    [SerializeField] private bool useRotationSmoothing;
+    [SerializeField] private bool useCameraSmoothing;
     [Range(10f, 30f)]
-    [SerializeField] private float rotationSmoothing = 30;
+    [SerializeField] private float cameraSmoothing = 30;
     [Range(40, 90)]
     [SerializeField] private int upLookLimit = 90;
     [Range(40, 90)]
@@ -105,18 +105,18 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
         xRotation -= lookY;
         xRotation = Mathf.Clamp(xRotation, -upLookLimit, downLookLimit); // Setting the upper and lower look limits
 
-        if (useRotationSmoothing) // Will make the camera less snapy when looking
+        if (useCameraSmoothing) // Will make the camera less snapy when looking
         {
             cameraRoot.localRotation = Quaternion.Slerp(
             cameraRoot.localRotation,
             Quaternion.Euler(xRotation, 0f, 0f),
-            rotationSmoothing * Time.deltaTime
+            cameraSmoothing * Time.deltaTime
              );
 
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 Quaternion.Euler(0f, yRotation, 0f),
-                rotationSmoothing * Time.deltaTime
+                cameraSmoothing * Time.deltaTime
             );
         }
         else // Will make the camera more responsive

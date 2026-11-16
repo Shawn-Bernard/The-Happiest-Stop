@@ -28,30 +28,36 @@ public class GameStateManager : MonoBehaviour
 
     public void SwitchToGameplay()
     {
+        Debug.Log("Switch to gameplay");
         ChangeGameState(gameplayState);
     }
 
     public void SwitchToMenu()
     {
+        Debug.Log("Switch to main menu");
         ChangeGameState(mainMenuState);
     }
 
     public void SwitchToPause()
     {
+        Debug.Log("Switch to pause");
         ChangeGameState(pauseState);
     }
 
     public void SwitchToOptions()
     {
+        Debug.Log("Switch to options");
         ChangeGameState(optionsState);
     }
 
     public void SwitchToGameOver()
     {
+        Debug.Log("Switch to gameplay");
         ChangeGameState(gameOverState);
     }
     public void SwitchToWinner()
     {
+        Debug.Log("Switch to gameplay");
         ChangeGameState(winnerState);
     }
 
@@ -62,14 +68,16 @@ public class GameStateManager : MonoBehaviour
 
     public void HandlePause()
     {
-
+        Debug.Log("handle pause was called");
         if (currentState == gameplayState)
         {
             SwitchToPause();
+            return;
         }
         else if (currentState == pauseState)
         {
             SwitchToGameplay();
+            return;
         }
     }
 

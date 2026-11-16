@@ -240,11 +240,29 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     #endregion
     public void EnableAllInputs()
     {
-        inputActions.Player.Enable();
+        EnableMove();
+        EnableLook();
+        EnableInteract();
+        EnablePickUp();
+        EnableSprint();
+        EnableJump();
+        EnablePause();
+        EnableTaskList();
+        EnableCigarettes();
+        EnableUse();
     }
     public void DisableAllInputs()
     {
-        inputActions.Player.Disable();
+        DisableMove();
+        DisableLook();
+        DisableInteract();
+        DisablePickUp();
+        DisableSprint();
+        DisableJump();
+        DisablePause();
+        DisableTaskList();
+        DisableCigarettes();
+        DisableUse();
     }
 
     private void OnEnable()

@@ -4,9 +4,16 @@ using UnityEngine.Events;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] GameStateManager gameStateManager;
+    public GameStateManager GameStateManager => instance.gameStateManager;
 
     [SerializeField] LevelManager levelManager;
+    public LevelManager LevelManager => instance.levelManager;
+
+    [SerializeField] SoundManager soundManger;
+    public SoundManager SoundManger => instance.soundManger;
+
     [SerializeField] PlayerInputs playerInputs;
+    public PlayerInputs PlayerInputs => instance.playerInputs;
 
     [SerializeField] private UnityEvent onRequestPause;
     private static GameManager instance;
@@ -27,16 +34,20 @@ public class GameManager : MonoBehaviour
     }
     public void RequestPause()
     {
-        instance.onRequestPause?.Invoke();
+        Debug.Log("Pause was called");
+        gameStateManager.HandlePause();
+        //instance.onRequestPause?.Invoke();
     }
     public void PauseGame()
     {
         Time.timeScale = 0;
+        Debug.Log(Time.timeScale);
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
+        Debug.Log(Time.timeScale);
     }
 
     public void MuteOnPause()
@@ -51,11 +62,11 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        instance.playerInputs.onPauseStarted += RequestPause;
+        playerInputs.onPauseStarted += RequestPause;
     }
 
     private void OnDisable()
     {
-        instance.playerInputs.onPauseStarted -= RequestPause;
+        playerInputs.onPauseStarted -= RequestPause;
     }
 }
