@@ -85,10 +85,11 @@ MonoBehaviour:
   walkSpeed: 5
   sprintSpeed: 8
   characterController: {fileID: 5845268182017056415}
+  playerData: {fileID: 11400000, guid: f77926bfdec16cd45aec79291d20dc61, type: 2}
   cameraRoot: {fileID: 6120508867589862448}
   sensitivity: 1
-  useRotationSmoothing: 1
-  rotationSmoothing: 14
+  useCameraSmoothing: 0
+  cameraSmoothing: 30
   upLookLimit: 75
   downLookLimit: 70
   pushForce: 5
@@ -193,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5e3bb285132644bbbed3531ba97e08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Inventory
-  playerInputs: {fileID: 0}
+  playerInputs: {fileID: 11400000, guid: f6de444ac57a253458939618b37ece44, type: 2}
   maxCharges: 5
   smokeCooldown: 1
   SmokesEquipped: 0

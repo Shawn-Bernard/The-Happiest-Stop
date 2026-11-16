@@ -15,7 +15,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerInputs playerInputs;
     public PlayerInputs PlayerInputs => instance.playerInputs;
 
-    [SerializeField] private UnityEvent onRequestPause;
     private static GameManager instance;
 
     public static GameManager Instance => instance;
@@ -34,20 +33,16 @@ public class GameManager : MonoBehaviour
     }
     public void RequestPause()
     {
-        Debug.Log("Pause was called");
-        gameStateManager.HandlePause();
-        //instance.onRequestPause?.Invoke();
+        GameStateManager.HandlePause();
     }
     public void PauseGame()
     {
         Time.timeScale = 0;
-        Debug.Log(Time.timeScale);
     }
 
     public void ResumeGame()
     {
         Time.timeScale = 1;
-        Debug.Log(Time.timeScale);
     }
 
     public void MuteOnPause()

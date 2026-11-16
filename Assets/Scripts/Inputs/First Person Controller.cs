@@ -19,12 +19,13 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     [SerializeField] private CharacterController characterController;
 
     [Header("Head Settings")]
+    [SerializeField] PlayerData playerData;
     [SerializeField] Transform cameraRoot;
     [Range(0.1f, 5)]
     [SerializeField] private float sensitivity = 1;
     [SerializeField] private bool useCameraSmoothing;
-    [Range(10f, 30f)]
-    [SerializeField] private float cameraSmoothing = 30;
+    [Range(10f, 50f)]
+    [SerializeField] private float smoothingSensitivity = 30;
     [Range(40, 90)]
     [SerializeField] private int upLookLimit = 90;
     [Range(40, 90)]
@@ -110,13 +111,13 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
             cameraRoot.localRotation = Quaternion.Slerp(
             cameraRoot.localRotation,
             Quaternion.Euler(xRotation, 0f, 0f),
-            cameraSmoothing * Time.deltaTime
+            smoothingSensitivity * Time.deltaTime
              );
 
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 Quaternion.Euler(0f, yRotation, 0f),
-                cameraSmoothing * Time.deltaTime
+                smoothingSensitivity * Time.deltaTime
             );
         }
         else // Will make the camera more responsive

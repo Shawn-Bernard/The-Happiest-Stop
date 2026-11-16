@@ -6,12 +6,18 @@ public class PlayerData : ScriptableObject
     [SerializeField] private float sensitivity = 1;
     public float Sensitivity => sensitivity;
 
+    public void SetSensitivity(float newSensitivity) => sensitivity = newSensitivity;
+
 
     [SerializeField] private bool useCameraSmoothing;
     public bool UseCameraSmoothing => useCameraSmoothing;
 
+    public void SetCameraSmoothBool(bool newCameraSmoothBool) => useCameraSmoothing = newCameraSmoothBool;
+
 
     [Range(10f, 30f)]
-    [SerializeField] private float cameraSmoothing = 30;
-    public float CameraSmoothing => cameraSmoothing;
+    [SerializeField] private float smoothingSensitivity = 30;
+    public float SmoothingSensitivity => smoothingSensitivity;
+
+    public void SetCameraSmoothing(float newSmoothingSensitivity) => smoothingSensitivity = newSmoothingSensitivity;
 }
