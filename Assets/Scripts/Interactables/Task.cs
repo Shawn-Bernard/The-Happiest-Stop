@@ -20,6 +20,10 @@ public class Task : MonoBehaviour, ITask
     [SerializeField] private UnityEvent<Task> onStepChange;
     public UnityEvent<Task> OnStepChange => onStepChange; // for updaing in ui. task already auto assigned
 
+    [Header("Sanity reward")]
+    [SerializeField] private float sanityGiven;
+    public float SanityGiven => sanityGiven;
+
     [Header("Debug things")]
     private int currentStepIndex;
     [SerializeField] private string currentStep;
@@ -67,7 +71,7 @@ public class Task : MonoBehaviour, ITask
     public void NextStep(int stepIndex)
     {
         if (isCompleted) return;
-        if (currentStepIndex == stepIndex + 1) return;
+        if (currentStepIndex != stepIndex) return;
 
         NextStep();
     }
@@ -124,11 +128,11 @@ public class Task : MonoBehaviour, ITask
         if (isCompleted) return;
         //Debug.Log($"{taskName} completed");
         isCompleted = true;
-        onTaskCompleted?.Invoke(this);
         foreach (var interactable in interactablesInvolved)
         {
             interactable.SetActive(false);
         }
+        onTaskCompleted?.Invoke(this);
     }
 
     public bool IsTouched() => isTouched;
@@ -162,11 +166,11 @@ public class Task : MonoBehaviour, ITask
 
     public void StartedTask()
     {
-        onTaskStarted?.Invoke();
         foreach (var interactable in interactablesInvolved)
         {
             interactable.SetActive(true);
         }
+        onTaskStarted?.Invoke();
     }
 
     public string GetTaskName() => taskName;

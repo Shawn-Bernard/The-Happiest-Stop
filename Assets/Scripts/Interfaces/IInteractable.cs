@@ -13,4 +13,6 @@ public interface IInteractable
     public void SetActive(bool state);
 
     public string GetInteractableName();
+
+    public void SetInteractableName(string newName);
 }

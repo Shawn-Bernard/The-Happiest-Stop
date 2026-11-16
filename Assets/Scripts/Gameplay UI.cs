@@ -28,6 +28,10 @@ public class GameplayUI : MonoBehaviour
     //[SerializeField] private List<TextMeshProUGUI> tasksInfo;
     private Dictionary<TextMeshProUGUI, TextMeshProUGUI> tasksInfo; // For tasks names and steps
 
+    [Header("Sanity Related")]
+    [SerializeField] Slider SanitySlider;
+    [SerializeField] SanityEvent sanityEvent;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -78,7 +82,8 @@ public class GameplayUI : MonoBehaviour
 
         foreach (var task in tasksInfo)
         {
-            task.Key.text = tasksEvent.GetTaskName(index);
+            string taskInfo = $"{tasksEvent.GetTaskName(index)} {tasksEvent.GetTaskReward(index)}";
+            task.Key.text = taskInfo;
             task.Value.text = tasksEvent.GetTaskStep(index);
 
             index++;
@@ -172,6 +177,20 @@ public class GameplayUI : MonoBehaviour
             holdCoroutine = null;
         }
     }
+    public void SetSanity(float sanity)
+    {
+        SanitySlider.value = Mathf.Clamp01(sanity / 100);
+    }
+
+    public void HideSanity()
+    {
+        SanitySlider.gameObject.SetActive(false);
+    }
+
+    public void ShowSanity()
+    {
+        SanitySlider.gameObject.SetActive(true);
+    }
 
     private void OnEnable()
     {
@@ -182,6 +201,10 @@ public class GameplayUI : MonoBehaviour
 
         tasksEvent.onUpdateTaskStep.AddListener(UpdateTaskUIStep);
         tasksEvent.onTaskChanged.AddListener(SetTaskUIInfo);
+
+        sanityEvent.onSanityChange += SetSanity;
+        sanityEvent.onStartSanity += ShowSanity;
+        sanityEvent.onEndSanity += HideSanity;
     }
 
     private void OnDisable()
@@ -193,5 +216,9 @@ public class GameplayUI : MonoBehaviour
 
         tasksEvent.onUpdateTaskStep.RemoveListener(UpdateTaskUIStep);
         tasksEvent.onTaskChanged.RemoveListener(SetTaskUIInfo);
+
+        sanityEvent.onSanityChange -= SetSanity;
+        sanityEvent.onStartSanity -= ShowSanity;
+        sanityEvent.onEndSanity -= HideSanity;
     }
 }

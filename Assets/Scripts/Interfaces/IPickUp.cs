@@ -10,4 +10,7 @@ public interface IPickUp
     public void Detach(Vector3 dropPosition);
 
     public Vector3 GetHalfExtends();
+
+    public bool PickedUp { get; }
+    public void TogglePickUp();
 }

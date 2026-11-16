@@ -15,13 +15,38 @@ public class SanityManager : MonoBehaviour
     public float timeBetweenBlinks;
     public Animation blinkAnim;
     public bool playerAlive;
+    private bool isActive;
+    private Coroutine sanityCheck;
+
+    [SerializeField] private SanityEvent sanityEvent;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        ResetSanity();
+        //playerAlive = true;
+        //currentSanity = maxSanity;
+        //sanityDrainMultiplier = defaultSanityDrainMultiplier;
+        //StartCoroutine(CheckSanity());
+    }
+
+    private void StartSanity()
+    {
+        sanityCheck = StartCoroutine(CheckSanity());
+        isActive = true;
+    }
+
+    private void EndSanity()
+    {
+        if (sanityCheck != null) StopCoroutine(sanityCheck);
+        sanityCheck = null;
+        isActive = false;
+    }
+
+    private void ResetSanity()
+    {
         playerAlive = true;
-        currentSanity = maxSanity;  
+        currentSanity = maxSanity;
         sanityDrainMultiplier = defaultSanityDrainMultiplier;
-        StartCoroutine(CheckSanity());
     }
 
     public void AddSanity(float sanity)
@@ -45,7 +70,9 @@ public class SanityManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isActive) return;
         currentSanity -= sanityDrainMultiplier * Time.deltaTime;
+        sanityEvent.SanityChange(currentSanity);
     }
 
     public IEnumerator CheckSanity()
@@ -78,5 +105,29 @@ public class SanityManager : MonoBehaviour
             }
 
         }
+    }
+
+    private void OnEnable()
+    {
+        highSanity.AddListener(sanityEvent.HighSanity);
+        lowSanity.AddListener(sanityEvent.LowSanity);
+        lowerSanity.AddListener(sanityEvent.LowerSanity);
+        lowestSanity.AddListener(sanityEvent.LowestSanity);
+
+        sanityEvent.onAddSanity += AddSanity;
+        sanityEvent.onStartSanity += StartSanity;
+        sanityEvent.onEndSanity += EndSanity;
+    }
+
+    private void OnDisable()
+    {
+        highSanity.RemoveListener(sanityEvent.HighSanity);
+        lowSanity.RemoveListener(sanityEvent.LowSanity);
+        lowerSanity.RemoveListener(sanityEvent.LowerSanity);
+        lowestSanity.RemoveListener(sanityEvent.LowestSanity);
+
+        sanityEvent.onAddSanity -= AddSanity;
+        sanityEvent.onStartSanity -= StartSanity;
+        sanityEvent.onEndSanity -= EndSanity;
     }
 }

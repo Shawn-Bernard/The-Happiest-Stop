@@ -15,6 +15,9 @@ public class Holdable : Item, IPickUp
     private Transform originalParent; // So it doesn't be parent less if it has a one
     private Scene originalScene; // just so it doesn't carry along with the player when changing scenes
 
+    private bool pickedUp;
+    public bool PickedUp => pickedUp;
+
     public override void Awake()
     {
         itemCollider = GetComponent<Collider>();
@@ -31,7 +34,19 @@ public class Holdable : Item, IPickUp
         {
             if (inventory != newInventory) inventory = newInventory;
         }
-        onInteract?.Invoke();
+        onInteract?.Invoke(interactor);
+    }
+
+    public void TogglePickUp()
+    {
+        if (pickedUp)
+        {
+            DropPickUp();
+        }
+        else
+        {
+            PickUp();
+        }
     }
 
     /// <summary>
@@ -39,6 +54,7 @@ public class Holdable : Item, IPickUp
     /// </summary>
     public void PickUp()
     {
+        pickedUp = true;
         if (itemCollider != null) itemCollider.enabled = false;
         if (rb != null)
         {
@@ -46,13 +62,14 @@ public class Holdable : Item, IPickUp
             rb.useGravity = false;
         }
         TakeItem();
-        inventory.HoldItem(this);
+        if (inventory != null) inventory.HoldItem(this);
     }
 
     public void DropPickUp()
     {
+        pickedUp = false;
+        if (inventory != null) inventory.DropItem();
         RemoveItem();
-        inventory.DropItem();
     }
     public void AttachTo(Transform parent)
     {
@@ -73,7 +90,8 @@ public class Holdable : Item, IPickUp
             rb.useGravity = true;
         }
         transform.SetParent(originalParent, true);
-        SceneManager.MoveGameObjectToScene(gameObject, originalScene);
+
+        SceneManager.MoveGameObjectToScene(transform.root.gameObject, originalScene);
         transform.position = dropPosition;
         onDropPickUp?.Invoke();
         if (itemCollider != null) itemCollider.enabled = true;

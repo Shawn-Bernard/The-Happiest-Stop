@@ -4,7 +4,7 @@ using UnityEngine.Events;
 public class Interactable : MonoBehaviour, IInteractable
 {
     [SerializeField] protected bool activeOnStart;
-    [SerializeField] protected UnityEvent onInteract;
+    [SerializeField] protected UnityEvent<GameObject> onInteract;
     
     [SerializeField] private bool canInteract;
     [SerializeField] protected string interactableName;
@@ -17,7 +17,7 @@ public class Interactable : MonoBehaviour, IInteractable
     public virtual void Interact(GameObject interactor)
     {
         //Debug.Log($"Interact has happend on {gameObject.name}");
-        onInteract?.Invoke();
+        onInteract?.Invoke(interactor);
     }
 
     public void SetActive(bool state)
@@ -31,4 +31,9 @@ public class Interactable : MonoBehaviour, IInteractable
     }
 
     public string GetInteractableName() => interactableName;
+
+    public void SetInteractableName(string newName)
+    {
+        interactableName = newName;
+    }
 }

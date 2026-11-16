@@ -14,6 +14,7 @@ public class PlayerInteraction : MonoBehaviour
 
     [SerializeField] private UnityEvent<IInteractable> onInteractionFound; // Used for ui interactable type and string action
     [SerializeField] private UnityEvent<IHoldInteractable> onHoldStarted; // Used for ui feedback when holding interactable
+    [SerializeField] private UnityEvent<IPickUp> onPick;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,7 +75,7 @@ public class PlayerInteraction : MonoBehaviour
         if (currentInteractable is IPickUp pickUp)
         {
             currentInteractable.Interact(gameObject);
-            HandlePickUp(pickUp);
+            onPick?.Invoke(pickUp);
             return;
         }
 
@@ -89,13 +90,7 @@ public class PlayerInteraction : MonoBehaviour
             return; // Returns so it doesnt drop item
         }
 
-        // Interacting with nothing while holding something
-        if (currentPickUp != null)
-        {
-            currentPickUp.DropPickUp();
-            currentPickUp = null;
-            return;
-        }
+        onPick?.Invoke(null);
     }
 
     private void CancelInteractable()
@@ -105,37 +100,6 @@ public class PlayerInteraction : MonoBehaviour
         {
             interactable.HoldInteractFailed();
         }
-    }
-
-    private void HandlePickUp()
-    {
-        if (currentInteractable == null) return;
-        if (currentInteractable is IPickUp pickUp)
-        {
-            currentPickUp = pickUp;
-        }
-    }
-
-    private void HandlePickUp(IPickUp pickUp)
-    {
-        // Drop the current pickup
-        if (currentPickUp == pickUp)
-        {
-            currentPickUp.DropPickUp();
-            currentPickUp = null;
-            return;
-        }
-
-        // Drop previous pickup
-        if (currentPickUp != null)
-        {
-            currentPickUp.DropPickUp();
-            currentPickUp = null;
-        }
-
-        // Pick up new pickup
-        currentPickUp = pickUp;
-        currentPickUp.PickUp();
     }
 
     private void OnEnable()

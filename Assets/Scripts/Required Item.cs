@@ -37,8 +37,7 @@ public class RequiredItem : MonoBehaviour
 
     private void Awake()
     {
-        GetGroupedItems();
-        Restart();
+        
     }
 
     private void GetGroupedItems()
@@ -153,6 +152,7 @@ public class RequiredItem : MonoBehaviour
         else
         {
             totalItems = 1;
+            if (requiredItem is IPickUp pickUp) pickUp.DropPickUp();
         }
 
         onItemObtained?.Invoke($"{taskStep} {itemCount}/{totalItems}", taskStepIndex);
@@ -161,6 +161,8 @@ public class RequiredItem : MonoBehaviour
 
     private void OnEnable()
     {
+        GetGroupedItems();
+        Restart();
         inventoryEvent.onInventoryChanged += UpdateCount;
     }
 

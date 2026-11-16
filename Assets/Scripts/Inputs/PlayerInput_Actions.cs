@@ -163,6 +163,24 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Cigarettes"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef2acfae-6aff-4d33-acec-5599daa9acf4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""d37981fc-10ba-402c-a2e4-d3522ad4ff12"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -451,6 +469,28 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
                     ""action"": ""Task List"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c67225b-505d-4cce-9d2a-cfc6239c0106"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cigarettes"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3b6751c0-b8bf-441c-ad6f-17c434b3e402"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -528,6 +568,8 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         m_Player_Pickup = m_Player.FindAction("Pick up", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_TaskList = m_Player.FindAction("Task List", throwIfNotFound: true);
+        m_Player_Cigarettes = m_Player.FindAction("Cigarettes", throwIfNotFound: true);
+        m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
     }
 
     ~@PlayerInput_Actions()
@@ -616,6 +658,8 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pickup;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_TaskList;
+    private readonly InputAction m_Player_Cigarettes;
+    private readonly InputAction m_Player_Use;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -659,6 +703,14 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/TaskList".
         /// </summary>
         public InputAction @TaskList => m_Wrapper.m_Player_TaskList;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Cigarettes".
+        /// </summary>
+        public InputAction @Cigarettes => m_Wrapper.m_Player_Cigarettes;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Use".
+        /// </summary>
+        public InputAction @Use => m_Wrapper.m_Player_Use;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -709,6 +761,12 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
             @TaskList.started += instance.OnTaskList;
             @TaskList.performed += instance.OnTaskList;
             @TaskList.canceled += instance.OnTaskList;
+            @Cigarettes.started += instance.OnCigarettes;
+            @Cigarettes.performed += instance.OnCigarettes;
+            @Cigarettes.canceled += instance.OnCigarettes;
+            @Use.started += instance.OnUse;
+            @Use.performed += instance.OnUse;
+            @Use.canceled += instance.OnUse;
         }
 
         /// <summary>
@@ -744,6 +802,12 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
             @TaskList.started -= instance.OnTaskList;
             @TaskList.performed -= instance.OnTaskList;
             @TaskList.canceled -= instance.OnTaskList;
+            @Cigarettes.started -= instance.OnCigarettes;
+            @Cigarettes.performed -= instance.OnCigarettes;
+            @Cigarettes.canceled -= instance.OnCigarettes;
+            @Use.started -= instance.OnUse;
+            @Use.performed -= instance.OnUse;
+            @Use.canceled -= instance.OnUse;
         }
 
         /// <summary>
@@ -905,5 +969,19 @@ public partial class @PlayerInput_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTaskList(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Cigarettes" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCigarettes(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Use" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUse(InputAction.CallbackContext context);
     }
 }

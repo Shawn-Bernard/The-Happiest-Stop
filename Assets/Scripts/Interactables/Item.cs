@@ -3,6 +3,8 @@ using UnityEngine.Events;
 
 public class Item : Interactable,IItem, ISpawnable
 {
+    [SerializeField] protected bool resetOnRemove;
+
     private Vector3 startPosition;
     private Vector3 startRotation;
 
@@ -35,6 +37,7 @@ public class Item : Interactable,IItem, ISpawnable
     {
         if (inventory == null) return;
         inventory.RemoveItem(this);
+        if (resetOnRemove) ResetToSpawn();
     }
 
     public void SetSpawnPosition(Vector3 position, Vector3 rotation)
