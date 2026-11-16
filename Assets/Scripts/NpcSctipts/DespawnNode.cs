@@ -12,7 +12,10 @@ public class DespawnNode : MonoBehaviour
         if (other.gameObject.CompareTag("Customer"))
         {
             Debug.Log("kill");
-            Destroy(other.gameObject);
+            if (other.gameObject.GetComponent<CustomerAI>().currentState == CustomerAI.state.exitStore)
+            {
+                Destroy(other.gameObject);
+            }
         }
     }
 
