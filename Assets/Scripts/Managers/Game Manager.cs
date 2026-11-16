@@ -62,11 +62,11 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        playerInputs.onPauseStarted += RequestPause;
+        PlayerInputs.onPauseStarted += RequestPause;
     }
 
     private void OnDisable()
     {
-        playerInputs.onPauseStarted -= RequestPause;
+        PlayerInputs.onPauseStarted -= RequestPause;
     }
 }

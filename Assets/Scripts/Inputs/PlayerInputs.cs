@@ -21,16 +21,13 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
 
         onMove?.Invoke(context.ReadValue<Vector2>());
 
-        Debug.Log(context.ReadValue<Vector2>() + $" {canMove}");
         if (context.started)
         {
-            Debug.Log("Move started");
             onMoveStarted?.Invoke();
         }
 
         if (context.canceled)
         {
-            Debug.Log("Move canceled");
             onMoveCanceled?.Invoke();
         }
     }
