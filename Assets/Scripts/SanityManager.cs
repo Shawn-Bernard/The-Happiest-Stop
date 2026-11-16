@@ -23,6 +23,7 @@ public class SanityManager : MonoBehaviour
     void Start()
     {
         ResetSanity();
+        ChangeSanityDrain(defaultSanityDrainMultiplier);
         //playerAlive = true;
         //currentSanity = maxSanity;
         //sanityDrainMultiplier = defaultSanityDrainMultiplier;
@@ -46,7 +47,7 @@ public class SanityManager : MonoBehaviour
     {
         playerAlive = true;
         currentSanity = maxSanity;
-        sanityDrainMultiplier = defaultSanityDrainMultiplier;
+        //sanityDrainMultiplier = defaultSanityDrainMultiplier;
     }
 
     public void AddSanity(float sanity)
