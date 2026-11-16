@@ -147,6 +147,11 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
         lookDirection = lookInput;
     }
 
+    public void ResetHead()
+    {
+        lookDirection = Vector2.zero;
+        moveInput = Vector3.zero;
+    }
     private void OnEnable()
     {
         ResetToSpawn();

@@ -13,45 +13,58 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     public UnityAction<Vector2> onMove;
     public UnityAction onMoveStarted;
     public UnityAction onMoveCanceled;
+    private bool canMove;
+
     public void OnMove(InputAction.CallbackContext context)
     {
+        if (!canMove) return;
+
         onMove?.Invoke(context.ReadValue<Vector2>());
 
+        Debug.Log(context.ReadValue<Vector2>() + $" {canMove}");
         if (context.started)
         {
+            Debug.Log("Move started");
             onMoveStarted?.Invoke();
         }
+
         if (context.canceled)
         {
+            Debug.Log("Move canceled");
             onMoveCanceled?.Invoke();
         }
     }
+
     public void EnableMove()
     {
-        inputActions.Player.Move.Enable();
+        canMove = true;
     }
 
     public void DisableMove()
     {
-        inputActions.Player.Move.Disable();
+        canMove = false;
     }
     #endregion
 
     #region Look Input
     public UnityAction<Vector2> onLook;
+    private bool canLook;
+
     public void OnLook(InputAction.CallbackContext context)
     {
+        if (!canLook) return;
+
         onLook?.Invoke(context.ReadValue<Vector2>());
     }
 
     public void EnableLook()
     {
-        inputActions.Player.Look.Enable();
+        canLook = true;
     }
 
     public void DisableLook()
     {
-        inputActions.Player.Look.Disable();
+        canLook = false;
     }
     #endregion
 
@@ -59,126 +72,159 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     public UnityAction onInteractStarted;
     public UnityAction onInteractCanceled;
     public UnityAction onInteractPerformed;
+    private bool canInteract;
+
     public void OnInteract(InputAction.CallbackContext context)
     {
-        if (context.started) 
+        if (!canInteract) return;
+
+        if (context.started)
         {
             onInteractStarted?.Invoke();
         } 
+
         if (context.canceled)
         {
             onInteractCanceled?.Invoke();
         }
+
         if (context.performed)
         {
             onInteractPerformed?.Invoke();
         }
     }
+
     public void EnableInteract()
     {
-        inputActions.Player.Interact.Enable();
+        canInteract = true;
     }
 
     public void DisableInteract()
     {
-        inputActions.Player.Interact.Disable();
+        canInteract = false;
     }
     #endregion
 
     #region Pick up Input
     public UnityAction onPickUpStarted;
+    private bool canPickUp;
+
     public void OnPickup(InputAction.CallbackContext context)
     {
+        if (!canPickUp) return;
+
         if (context.started)
         {
             onPickUpStarted?.Invoke();
         }
     }
+
     public void EnablePickUp()
     {
-        inputActions.Player.Pickup.Enable();
-        inputActions.Player.Pickup.Disable();
+        canPickUp = true;
     }
 
     public void DisablePickUp()
     {
-        inputActions.Player.Pickup.Disable();
+        canPickUp = false;
     }
     #endregion
 
     #region Sprint Input
     public UnityAction onSprintStarted;
     public UnityAction onSprintCanceled;
+    private bool canSprint;
+
     public void OnSprint(InputAction.CallbackContext context)
     {
+        if (!canSprint) return;
+
         if (context.started)
         {
             onSprintStarted?.Invoke();
         }
+
         if (context.canceled)
         {
             onSprintCanceled?.Invoke();
         }
     }
+
     public void EnableSprint()
     {
-        inputActions.Player.Sprint.Enable();
+        canSprint = true;
     }
 
     public void DisableSprint()
     {
-        inputActions.Player.Sprint.Disable();
+        canSprint = false;
     }
     #endregion
 
     #region Jump Input
     public UnityAction onJumpStarted;
     public UnityAction onJumpCanceled;
+    private bool canJump;
+
     public void OnJump(InputAction.CallbackContext context)
     {
+        if (!canJump) return;
+
         if (context.started)
         {
             onJumpStarted?.Invoke();
         }
+
         if (context.canceled)
         {
             onJumpCanceled?.Invoke();
         }
     }
+
     public void EnableJump()
     {
-        inputActions.Player.Jump.Enable();
+        canJump = true;
     }
 
     public void DisableJump()
     {
-        inputActions.Player.Jump.Disable();
+        canJump = false;
     }
     #endregion
+
     #region Pause Input
     public UnityAction onPauseStarted;
+    private bool canPause;
 
     public void OnPause(InputAction.CallbackContext context)
     {
+        if (!canPause) return;
+
         if (context.started)
         {
             onPauseStarted?.Invoke();
         }
     }
+
     public void EnablePause()
     {
-        inputActions.Player.Pause.Enable();
+        canPause = true;
     }
 
     public void DisablePause()
     {
-        inputActions.Player.Pause.Disable();
+        canPause = false;
     }
     #endregion
+
     #region Task List Input
     public UnityAction onTaskStarted;
+    private bool canTaskList;
+
     public void OnTaskList(InputAction.CallbackContext context)
     {
+        if (!canTaskList) return;
+
         if (context.started)
         {
             onTaskStarted?.Invoke();
@@ -186,20 +232,24 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     }
     public void EnableTaskList()
     {
-        inputActions.Player.TaskList.Enable();
+        canTaskList = true;
     }
 
     public void DisableTaskList()
     {
-        inputActions.Player.TaskList.Disable();
+        canTaskList = false;
     }
     #endregion
 
     #region Cigarettes Input
 
     public UnityAction onCigarettesStarted;
+    private bool canCigarettes;
+
     public void OnCigarettes(InputAction.CallbackContext context)
     {
+        if (!canCigarettes) return;
+
         if (context.started)
         {
             onCigarettesStarted?.Invoke();
@@ -207,21 +257,23 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
     }
     public void EnableCigarettes()
     {
-        inputActions.Player.Cigarettes.Enable();
+        canCigarettes = true;
     }
 
     public void DisableCigarettes()
     {
-        inputActions.Player.Cigarettes.Disable();
+        canCigarettes = false;
     }
     #endregion
 
     #region Use Input
 
     public UnityAction onUseStarted;
-
+    private bool canUse;
     public void OnUse(InputAction.CallbackContext context)
     {
+        if (!canUse) return;
+
         if (context.started)
         {
             onUseStarted?.Invoke();
@@ -230,12 +282,12 @@ public class PlayerInputs : ScriptableObject,PlayerInput_Actions.IPlayerActions
 
     public void EnableUse()
     {
-        inputActions.Player.Use.Enable();
+        canUse = true;
     }
 
     public void DisableUse()
     {
-        inputActions.Player.Use.Disable();
+        canUse = false;
     }
     #endregion
     public void EnableAllInputs()
