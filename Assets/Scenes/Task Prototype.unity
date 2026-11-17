@@ -3693,7 +3693,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   taskManager: {fileID: 1708746225}
-  tasksEvent: {fileID: 0}
+  tasksEvent: {fileID: 11400000, guid: 731749f9b44fb134b9094e23e1751a98, type: 2}
 --- !u!54 &817979469
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -8384,7 +8384,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8910457607255449495, guid: 4d7c8fc211ddde8499909dcb133fa966, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116944784110428208, guid: 4d7c8fc211ddde8499909dcb133fa966, type: 3}
+      propertyPath: deathDistance
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

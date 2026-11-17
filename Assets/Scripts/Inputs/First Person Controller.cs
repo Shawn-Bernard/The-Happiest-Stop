@@ -21,11 +21,9 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     [Header("Head Settings")]
     [SerializeField] PlayerData playerData;
     [SerializeField] Transform cameraRoot;
-    [Range(0.1f, 5)]
-    [SerializeField] private float sensitivity = 1;
-    [SerializeField] private bool useCameraSmoothing;
-    [Range(10f, 50f)]
-    [SerializeField] private float smoothingSensitivity = 30;
+    private float sensitivity => playerData.Sensitivity;
+    private bool useCameraSmoothing => playerData.UseCameraSmoothing;
+    private float smoothingSensitivity => playerData.SmoothingSensitivity;
     [Range(40, 90)]
     [SerializeField] private int upLookLimit = 90;
     [Range(40, 90)]
@@ -42,6 +40,7 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (playerData == null) Debug.LogWarning("Player data is null!, go to player and assign player data");
         SetStartPosition();
         SwitchToWalk();
         playerInputs.EnableAllInputs();

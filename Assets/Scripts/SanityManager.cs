@@ -68,6 +68,12 @@ public class SanityManager : MonoBehaviour
         sanityDrainMultiplier += sanityDrain;
     }
 
+    public void Death()
+    {
+        playerAlive = false;
+        GameStateManager.Instance.SwitchToGameOver();
+    }
+
     // Update is called once per frame
     void Update()
     {

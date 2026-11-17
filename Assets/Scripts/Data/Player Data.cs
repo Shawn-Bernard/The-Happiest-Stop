@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Player Data", menuName = "Data/Player Data")]
 public class PlayerData : ScriptableObject
 {
+    [Range(0.1f,5)]
     [SerializeField] private float sensitivity = 1;
     public float Sensitivity => sensitivity;
 

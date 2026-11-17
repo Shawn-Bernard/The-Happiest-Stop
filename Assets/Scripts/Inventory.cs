@@ -7,6 +7,8 @@ public class Inventory : MonoBehaviour, IInventory
 {
     [SerializeField] private PlayerInputs playerInputs;
     [Header("Smoke related")]
+    [Range(1f, 20f)]
+    [SerializeField] private float sanityRestored = 10;
     [SerializeField] private int maxCharges = 5;
     [SerializeField] private float smokeCooldown = 1f;
     private int currentCharges;
@@ -14,7 +16,7 @@ public class Inventory : MonoBehaviour, IInventory
     [SerializeField] private bool SmokesEquipped;
     [SerializeField] private UnityEvent onEquip;
     [SerializeField] private UnityEvent onUnequip;
-    [SerializeField] private UnityEvent onSmokeUsed;
+    [SerializeField] private UnityEvent<float> onSmokeUsed;
 
     [Header("Holdables & Items related")]
     [SerializeField] private Transform pickUpTransform;
@@ -59,7 +61,7 @@ public class Inventory : MonoBehaviour, IInventory
     {
         if (currentCharges <= 0 || !canSmoke || !SmokesEquipped) return;
         currentCharges--;
-        onSmokeUsed?.Invoke();
+        onSmokeUsed?.Invoke(sanityRestored);
         StartCoroutine(SmokeCooldown());
 
     }
