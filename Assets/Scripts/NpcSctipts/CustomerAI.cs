@@ -59,6 +59,7 @@ public class CustomerAI : MonoBehaviour
     }
     public void OnStateChange(state newState)
     {
+        if (agent.isStopped) SetCanMove(true);
         switch(newState)
         {
             case state.init:
@@ -131,6 +132,12 @@ public class CustomerAI : MonoBehaviour
         yield return new WaitForSeconds(7);
         Setstate(state.waitAtCounter);
     }
+
+    public void SetCanMove(bool canMove)
+    {
+        agent.isStopped = !canMove;
+    }
+
     // Update is called once per frame
     void Update()
     {

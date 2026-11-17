@@ -30,23 +30,24 @@ public class SanityManager : MonoBehaviour
         //StartCoroutine(CheckSanity());
     }
 
-    private void StartSanity()
+    public void StartSanity()
     {
         sanityCheck = StartCoroutine(CheckSanity());
         isActive = true;
     }
 
-    private void EndSanity()
+    public void EndSanity()
     {
         if (sanityCheck != null) StopCoroutine(sanityCheck);
         sanityCheck = null;
         isActive = false;
     }
 
-    private void ResetSanity()
+    public void ResetSanity()
     {
         playerAlive = true;
         currentSanity = maxSanity;
+        sanityEvent.SanityChange(currentSanity);
         //sanityDrainMultiplier = defaultSanityDrainMultiplier;
     }
 
