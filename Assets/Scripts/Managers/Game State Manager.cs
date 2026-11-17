@@ -11,7 +11,12 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField] private GameState currentState;
     [SerializeField] private GameState lastState;
+    public static GameStateManager Instance { get; private set; }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     #region Game State logic
     public void ChangeGameState(GameState newState)
@@ -62,14 +67,15 @@ public class GameStateManager : MonoBehaviour
 
     public void HandlePause()
     {
-
         if (currentState == gameplayState)
         {
             SwitchToPause();
+            return;
         }
         else if (currentState == pauseState)
         {
             SwitchToGameplay();
+            return;
         }
     }
 

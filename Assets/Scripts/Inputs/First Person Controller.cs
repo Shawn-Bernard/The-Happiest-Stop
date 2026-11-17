@@ -19,12 +19,11 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     [SerializeField] private CharacterController characterController;
 
     [Header("Head Settings")]
+    [SerializeField] PlayerData playerData;
     [SerializeField] Transform cameraRoot;
-    [Range(0.1f, 5)]
-    [SerializeField] private float sensitivity = 1;
-    [SerializeField] private bool useRotationSmoothing;
-    [Range(10f, 30f)]
-    [SerializeField] private float rotationSmoothing = 30;
+    private float sensitivity => playerData.Sensitivity;
+    private bool useCameraSmoothing => playerData.UseCameraSmoothing;
+    private float smoothingSensitivity => playerData.SmoothingSensitivity;
     [Range(40, 90)]
     [SerializeField] private int upLookLimit = 90;
     [Range(40, 90)]
@@ -41,6 +40,7 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        if (playerData == null) Debug.LogWarning("Player data is null!, go to player and assign player data");
         SetStartPosition();
         SwitchToWalk();
         playerInputs.EnableAllInputs();
@@ -105,18 +105,18 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
         xRotation -= lookY;
         xRotation = Mathf.Clamp(xRotation, -upLookLimit, downLookLimit); // Setting the upper and lower look limits
 
-        if (useRotationSmoothing) // Will make the camera less snapy when looking
+        if (useCameraSmoothing) // Will make the camera less snapy when looking
         {
             cameraRoot.localRotation = Quaternion.Slerp(
             cameraRoot.localRotation,
             Quaternion.Euler(xRotation, 0f, 0f),
-            rotationSmoothing * Time.deltaTime
+            smoothingSensitivity * Time.deltaTime
              );
 
             transform.rotation = Quaternion.Slerp(
                 transform.rotation,
                 Quaternion.Euler(0f, yRotation, 0f),
-                rotationSmoothing * Time.deltaTime
+                smoothingSensitivity * Time.deltaTime
             );
         }
         else // Will make the camera more responsive
@@ -147,6 +147,11 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
         lookDirection = lookInput;
     }
 
+    public void ResetHead()
+    {
+        lookDirection = Vector2.zero;
+        moveInput = Vector3.zero;
+    }
     private void OnEnable()
     {
         ResetToSpawn();

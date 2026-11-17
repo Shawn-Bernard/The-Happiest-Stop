@@ -6,8 +6,8 @@ public class ShiftSystem : MonoBehaviour
 {
     private int currentTime;
     [Range(0f, 24)]
-    [SerializeField] private int endTime;
-    [SerializeField] private int hourTime;
+    [SerializeField] private int endTime = 6;
+    [SerializeField] private int hourTime = 160;
 
     [SerializeField] private UnityEvent onShiftStarted;
     [SerializeField] private UnityEvent onShiftFinished;
