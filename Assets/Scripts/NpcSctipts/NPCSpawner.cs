@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 public class NPCSpawner : MonoBehaviour
 {
     public GameObject customerPrefab;
     public GameObject currentNPC;
+    [SerializeField] private UnityEvent onNewCustomer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -25,6 +27,7 @@ public class NPCSpawner : MonoBehaviour
         if (currentNPC == null)
         {
             currentNPC = Instantiate(customerPrefab, gameObject.transform);
+            onNewCustomer?.Invoke();
             Debug.Log("new customer");
         }
         else

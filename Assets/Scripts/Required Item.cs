@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class RequiredItem : MonoBehaviour
 {
+    private IInteractable connectedInteractable;
     [Header("Single Item")]
     [SerializeField] private Item requiredItem;// Checks if this item is picked up or in inventory
 
@@ -37,30 +38,48 @@ public class RequiredItem : MonoBehaviour
 
     private void Awake()
     {
-        
+        connectedInteractable = GetComponent<IInteractable>();
+        GetGroupedItems();
+
+        if (usingGroup)
+        {
+            totalItems = requiredItems.Count;
+        }
+        else
+        {
+            totalItems = 1;
+        }
     }
 
     private void GetGroupedItems()
     {
-        if (usingGroup && groupedItems != null) requiredItems = groupedItems.GetComponentsInChildren<Item>(true).ToList();
-    }
-
-    private bool RollSpawnChance()
-    {
-        return Random.Range(0, 100) < itemSpawnChance;
+        if (usingGroup && groupedItems != null)
+        {
+            requiredItems = new List<Item>();
+            foreach (Transform child in groupedItems)
+            {
+                if (child.TryGetComponent<Item>(out var item))
+                {
+                    requiredItems.Add(item);
+                    item.gameObject.SetActive(false);
+                }
+            }
+        }
     }
 
     private void RandomizeRequiredItems()
     {
         activeRequiredItems = new List<Item>();
 
-        foreach (Interactable item in requiredItems)
-        {
-            bool shouldActivate = Random.Range(0, 100) < itemSpawnChance;
-            item.gameObject.SetActive(shouldActivate);
-            item.SetActive(shouldActivate);
+        int targetCount = Mathf.RoundToInt(requiredItems.Count * (itemSpawnChance / 100f));
+        targetCount = Mathf.Clamp(targetCount, 1, requiredItems.Count);
 
-            if (shouldActivate) activeRequiredItems.Add((Item)item);
+
+        while (activeRequiredItems.Count < targetCount)
+        {
+            Item randomItem = requiredItems[Random.Range(0, requiredItems.Count)];
+
+            if (!activeRequiredItems.Contains(randomItem)) activeRequiredItems.Add(randomItem);
         }
     }
 
@@ -68,11 +87,12 @@ public class RequiredItem : MonoBehaviour
     {
         if (itemCount == totalItems)
         {
+            //Debug.Log("Has items");
             onCompletion?.Invoke();
             return;
         }
 
-        Debug.Log("Player missing items");
+        //Debug.Log("Player missing items");
         onMissingItem?.Invoke(taskStepIndex);
     }
 
@@ -84,14 +104,9 @@ public class RequiredItem : MonoBehaviour
         {
             foreach (var item in activeRequiredItems)
             {
-
                 if (inventoryEvent.HasItem(item))
                 {
                     itemCount++;
-                }
-                else
-                {
-                    onMissingItem?.Invoke(taskStepIndex);
                 }
             }
         }
@@ -100,18 +115,21 @@ public class RequiredItem : MonoBehaviour
             if (inventoryEvent.HasItem(requiredItem))
             {
                 itemCount++;
-                onHasItem?.Invoke(taskStepIndex);
-            }
-            else
-            {
-                onMissingItem?.Invoke(taskStepIndex);
             }
         }
 
         if (itemCount == totalItems)
         {
             onHasItem?.Invoke(taskStepIndex);
+            connectedInteractable?.SetActive(true);
+            Debug.Log($"{name} has item {itemCount}");
         }
+        else
+        {
+            onMissingItem?.Invoke(taskStepIndex);
+            connectedInteractable?.SetActive(false);
+        }
+        //Debug.Log($"{name} | Using Group {usingGroup}| Item Count {itemCount} / {totalItems} | Interactable status {connectedInteractable.GetInteractableStatus()}");
 
         onItemObtained?.Invoke($"{taskStep} {itemCount}/{totalItems}", taskStepIndex);
     }
@@ -127,11 +145,17 @@ public class RequiredItem : MonoBehaviour
 
     public void Restart()
     {
+        //Debug.Log($"Restart was called on {name}");
         itemCount = 0;
 
         RemoveItems();
         if (usingGroup)
         {
+            foreach (Item item in requiredItems)
+            {
+                item.gameObject.SetActive(false);
+            }
+
             if (useSpawnChance)
             {
                 RandomizeRequiredItems();
@@ -139,15 +163,16 @@ public class RequiredItem : MonoBehaviour
             else
             {
                 activeRequiredItems = new List<Item>(requiredItems);
-
-                foreach (var item in activeRequiredItems)
-                {
-                    item.gameObject.SetActive(true);
-                    item.SetActive(true);
-                }
             }
 
+            foreach (Item item in activeRequiredItems)
+            {
+                item.gameObject.SetActive(true);
+                item.SetActive(true);
+                Debug.Log($"{item} has been set true : {item.gameObject.activeInHierarchy}, interactable set to true : {item.GetInteractableStatus()}");
+            }
             totalItems = activeRequiredItems.Count;
+            //Debug.Log(totalItems);
         }
         else
         {
@@ -158,11 +183,8 @@ public class RequiredItem : MonoBehaviour
         onItemObtained?.Invoke($"{taskStep} {itemCount}/{totalItems}", taskStepIndex);
     }
 
-
     private void OnEnable()
     {
-        GetGroupedItems();
-        Restart();
         inventoryEvent.onInventoryChanged += UpdateCount;
     }
 

@@ -25,6 +25,7 @@ public class counterNode : MonoBehaviour
                 {
                     Task task = other.gameObject.GetComponentInChildren<Task>();
                     tasksEvent.AddTask(task);
+                    customerAi.SetCanMove(false);
                     //taskManager.AddTask(task);
                 }
                 /*

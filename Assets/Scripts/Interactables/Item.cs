@@ -12,9 +12,10 @@ public class Item : Interactable,IItem, ISpawnable
     private Vector3 spawnRotation;
     protected IInventory inventory;
 
-    public virtual void Awake()
+    public override void Awake()
     {
         SetStartPosition();
+        base.Awake();
     }
 
     public override void Interact(GameObject interactor)

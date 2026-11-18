@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerInputs playerInputs;
     public PlayerInputs PlayerInputs => instance.playerInputs;
 
+    [SerializeField] GameObject playerPrefab;
+    public GameObject Player => playerPrefab;
+
     private static GameManager instance;
 
     public static GameManager Instance => instance;

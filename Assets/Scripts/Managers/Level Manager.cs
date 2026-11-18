@@ -31,13 +31,9 @@ public class LevelManager : MonoBehaviour
             // If current spawn is null or is the location then spawn
             if (string.IsNullOrEmpty(currentSpawn) || point.SpawnLocation == currentSpawn)
             {
-                Debug.Log("a spawn was found");
+                //Debug.Log("a spawn was found");
                 onSpawnPointFound?.Invoke(point.Position, point.Rotation);
                 return;
-            }
-            else
-            {
-                Debug.Log("no spawn was found");
             }
         }
     }

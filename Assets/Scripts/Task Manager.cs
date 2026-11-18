@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TaskManager : MonoBehaviour
 {
-    private int maxTasks = 5;
+    [SerializeField] private int maxRandomTasks = 5;
     [SerializeField] private List<Task> randomTasks; // Put in all tasks so it can be picked at random
     [SerializeField] private List<Task> startingTasks; // Tasks that will auto be added when starting
     [SerializeField] private List<Task> activeTasks; // Tasks that are active and can be completed
@@ -62,7 +62,7 @@ public class TaskManager : MonoBehaviour
     /// </summary>
     public void PickRandomTask()
     {
-        if (activeTasks.Count >= maxTasks) return;
+        if (GetActiveRandomTaskCount() >= maxRandomTasks) return;
 
         List<Task> availableTasks = new List<Task>();
 
@@ -85,9 +85,11 @@ public class TaskManager : MonoBehaviour
     /// </summary>
     public void FillActiveTask()
     {
-        for (int i = activeTasks.Count; i < maxTasks; i++)
+        int currentRandomTasks = GetActiveRandomTaskCount();
+
+        for (int i = currentRandomTasks; i < maxRandomTasks; i++)
         {
-            if (activeTasks.Count >= maxTasks) return;
+            if (GetActiveRandomTaskCount() >= maxRandomTasks) return;
             PickRandomTask();
         }
     }
@@ -97,8 +99,9 @@ public class TaskManager : MonoBehaviour
     /// </summary>
     public void SoftReset()
     {
-        foreach (Task task in activeTasks)
+        for (int i = activeTasks.Count - 1; i >= 0; i--)
         {
+            Task task = activeTasks[i];
             if (!task.IsTouched() && randomTasks.Contains(task))
             {
                 task.CancelTask();
@@ -106,6 +109,18 @@ public class TaskManager : MonoBehaviour
             }
         }
         FillActiveTask();
+    }
+    private int GetActiveRandomTaskCount()
+    {
+        int activeCount = 0;
+        foreach (Task task in activeTasks)
+        {
+            if (randomTasks.Contains(task))
+            {
+                activeCount++;
+            }
+        }
+        return activeCount;
     }
 
     #region UI Related logic
