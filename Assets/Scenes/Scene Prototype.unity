@@ -3389,7 +3389,7 @@ MonoBehaviour:
   onStepChange:
     m_PersistentCalls:
       m_Calls: []
-  sanityGiven: 5
+  sanityGiven: 25
   currentStep: 
 --- !u!4 &1139957838
 Transform:
@@ -5569,7 +5569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b70fa8b5ea04404d91b6088698314a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  blackoutSanityDrain: 10
+  blackoutSanityDrain: 7
 --- !u!65 &2121219462
 BoxCollider:
   m_ObjectHideFlags: 0
