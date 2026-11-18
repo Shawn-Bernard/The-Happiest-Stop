@@ -52,6 +52,7 @@ public class ShiftSystem : MonoBehaviour
         }
 
         onShiftFinished?.Invoke();
+        GameStateManager.Instance.SwitchToWinner();
         shiftTime = null;
     }
 }
