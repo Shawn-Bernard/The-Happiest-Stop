@@ -65,6 +65,14 @@ public class GameStateManager : MonoBehaviour
         ChangeGameState(lastState);
     }
 
+    public void RecallState()
+    {
+        if (currentState != null)
+        {
+            currentState.EnterState();
+        }
+    }
+
     public void HandlePause()
     {
         if (currentState == gameplayState)

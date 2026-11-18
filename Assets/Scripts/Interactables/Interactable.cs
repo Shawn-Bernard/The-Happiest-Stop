@@ -3,15 +3,15 @@ using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour, IInteractable
 {
-    [SerializeField] protected bool activeOnStart;
+    [SerializeField] protected bool activeOnAwake;
     [SerializeField] protected UnityEvent<GameObject> onInteract;
     
     [SerializeField] private bool canInteract;
     [SerializeField] protected string interactableName;
 
-    public virtual void Start()
+    public virtual void Awake()
     {
-        canInteract = activeOnStart;
+        canInteract = activeOnAwake;
     }
 
     public virtual void Interact(GameObject interactor)
@@ -22,6 +22,7 @@ public class Interactable : MonoBehaviour, IInteractable
 
     public void SetActive(bool state)
     {
+        //Debug.Log($"{name} has been set to {state}");
         canInteract = state;
     }
 

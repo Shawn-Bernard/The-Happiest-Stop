@@ -16,6 +16,7 @@ public class Inventory : MonoBehaviour, IInventory
     [SerializeField] private bool SmokesEquipped;
     [SerializeField] private UnityEvent onEquip;
     [SerializeField] private UnityEvent onUnequip;
+    [SerializeField] private UnityEvent<string> onSmokeCount;
     [SerializeField] private UnityEvent<float> onSmokeUsed;
 
     [Header("Holdables & Items related")]
@@ -54,6 +55,7 @@ public class Inventory : MonoBehaviour, IInventory
     private void EquipSmokes()
     {
         SmokesEquipped = true;
+        onSmokeCount?.Invoke($"{currentCharges}/{maxCharges}");
         onEquip?.Invoke();
     }
 
@@ -61,6 +63,7 @@ public class Inventory : MonoBehaviour, IInventory
     {
         if (currentCharges <= 0 || !canSmoke || !SmokesEquipped) return;
         currentCharges--;
+        onSmokeCount?.Invoke($"{currentCharges}/{maxCharges}");
         onSmokeUsed?.Invoke(sanityRestored);
         StartCoroutine(SmokeCooldown());
 
@@ -79,6 +82,7 @@ public class Inventory : MonoBehaviour, IInventory
         //Debug.Log("Item Added");
         if (!inventory.Contains(item)) inventory.Add(item);
         inventoryEvent.InventoryChanged();
+        //Debug.Log($"Item added {item.ToString()}");
     }
 
     public void RemoveItem(IItem item)
@@ -87,6 +91,7 @@ public class Inventory : MonoBehaviour, IInventory
         if (inventory.Contains(item)) inventory.Remove(item);
 
         inventoryEvent.InventoryChanged();
+        //Debug.Log($"Item removed {item.ToString()}");
     }
 
     public bool HasItem(IItem item)

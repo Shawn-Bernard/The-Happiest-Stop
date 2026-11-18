@@ -50,7 +50,7 @@ public class BlackOutEvent : MonoBehaviour
         while (true)
         {
             int eventCheck = Random.Range(0, 1000);
-            Debug.Log(eventCheck);
+            //Debug.Log(eventCheck);
             if (eventCheck == 1)
             {
                 StartEvent();

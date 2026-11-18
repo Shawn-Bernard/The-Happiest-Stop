@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
 {
-    [Range(.5f, 4f)]
+    [Range(.5f, 8f)]
     [SerializeField] protected float holdTime;
 
     [SerializeField] protected UnityEvent onHoldCompleted;
@@ -33,7 +33,7 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
     /// </summary>
     public void HoldInteractCompleted()
     {
-        Debug.Log("Hold Completed");
+        //Debug.Log("Hold Completed");
         onHoldCompleted?.Invoke();
         holdCoroutine = null;
     }
@@ -60,6 +60,7 @@ public class HoldInteractable : MonoBehaviour, IHoldInteractable, IInteractable
 
     public void SetActive(bool state)
     {
+        //Debug.Log($"{name} has been set to {state}");
         canInteract = state;
     }
 
