@@ -9,7 +9,16 @@ public class NPCSpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
+    }
+
+    public void StartSpawner()
+    {
         StartCoroutine(SpawnNpc());
+    }
+    public void StopSpawner()
+    {
+        StopCoroutine(SpawnNpc());
     }
     public void SpawnNewNPC()
     {

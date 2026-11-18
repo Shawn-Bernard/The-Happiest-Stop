@@ -15,13 +15,16 @@ public class BlackOutEvent : MonoBehaviour
     void Start()
     {
         eventActivated = false;
-        StartCoroutine(EventDelay());
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+    public void BeginEventCountdown()
+    {
+        StartCoroutine(EventDelay());
     }
 
     public void StartEvent()
@@ -31,6 +34,7 @@ public class BlackOutEvent : MonoBehaviour
             eventActivated = true;
             blackoutArea.SetActive(true);
             onBlackout?.Invoke();
+            StopAllCoroutines();
         }
 
     }
@@ -57,7 +61,7 @@ public class BlackOutEvent : MonoBehaviour
     }
     public IEnumerator EventDelay()
     {
-        yield return new WaitForSeconds(120f);
+        yield return new WaitForSeconds(10f);
         StartCoroutine(EventStarter());
     }
 }
