@@ -8029,7 +8029,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Task
   taskName: Blackout
   steps:
-  - Go to the power box
+  - Go to the power box behind the store and fix it
   onTaskStarted:
     m_PersistentCalls:
       m_Calls:

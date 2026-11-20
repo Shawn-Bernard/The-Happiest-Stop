@@ -10,6 +10,8 @@ public class KillArea : MonoBehaviour
             other.GetComponent<SanityManager>().Death();
             SceneManager.LoadScene(1);
             customerAI.SetCanMove(false);
+            other.GetComponent<SanityManager>().ResetSanity();
+            
         }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created

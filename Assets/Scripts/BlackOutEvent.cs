@@ -61,7 +61,7 @@ public class BlackOutEvent : MonoBehaviour
     }
     public IEnumerator EventDelay()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(120f);
         StartCoroutine(EventStarter());
     }
 }

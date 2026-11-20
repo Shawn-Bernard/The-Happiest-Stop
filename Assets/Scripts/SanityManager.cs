@@ -24,6 +24,7 @@ public class SanityManager : MonoBehaviour
     {
         ResetSanity();
         ChangeSanityDrain(defaultSanityDrainMultiplier);
+
         //playerAlive = true;
         //currentSanity = maxSanity;
         //sanityDrainMultiplier = defaultSanityDrainMultiplier;
@@ -32,6 +33,7 @@ public class SanityManager : MonoBehaviour
 
     public void StartSanity()
     {
+        RespawnPlayer();
         sanityCheck = StartCoroutine(CheckSanity());
         isActive = true;
     }
@@ -74,7 +76,10 @@ public class SanityManager : MonoBehaviour
         playerAlive = false;
         GameStateManager.Instance.SwitchToGameOver();
     }
-
+    public void RespawnPlayer()
+    {
+        playerAlive = true;
+    }
     // Update is called once per frame
     void Update()
     {
