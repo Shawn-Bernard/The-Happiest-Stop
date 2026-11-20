@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class KillArea : MonoBehaviour
 {
     private CustomerAI customerAI;
@@ -8,6 +8,7 @@ public class KillArea : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<SanityManager>().Death();
+            SceneManager.LoadScene(1);
             customerAI.SetCanMove(false);
         }
     }
