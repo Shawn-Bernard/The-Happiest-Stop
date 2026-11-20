@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
+    [SerializeField] private string gameplayScene;
     [SerializeField] private UnityEvent onMainMenu;
     [SerializeField] private UnityEvent onGameplay;
     [SerializeField] private UnityEvent<Vector3,Vector3> onSpawnPointFound;
@@ -76,7 +77,7 @@ public class LevelManager : MonoBehaviour
     public void LoadGameplay()
     {
         onGameplay?.Invoke();
-        LoadSceneWithSpawn("Gameplay", "Default");
+        LoadSceneWithSpawn(gameplayScene, "Default");
     }
 
     public void LoadNextLevel()

@@ -58,6 +58,18 @@ public class GameManager : MonoBehaviour
         AudioListener.pause = false;
     }
 
+    public void GameplayCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void NormalCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
     private void OnEnable()
     {
         PlayerInputs.onPauseStarted += RequestPause;
