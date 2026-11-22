@@ -34,6 +34,7 @@ public class SanityManager : MonoBehaviour
     public void StartSanity()
     {
         RespawnPlayer();
+        ResetSanityDrain();
         sanityCheck = StartCoroutine(CheckSanity());
         isActive = true;
     }
