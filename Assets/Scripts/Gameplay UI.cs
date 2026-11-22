@@ -25,7 +25,8 @@ public class GameplayUI : MonoBehaviour
     [SerializeField] Slider interactableSlider;
     private Coroutine holdCoroutine;
 
-    [SerializeField] private List<TaskSlot> taskSlots;
+    //[SerializeField] private List<TextMeshProUGUI> tasksInfo;
+    private Dictionary<TextMeshProUGUI, TextMeshProUGUI> tasksInfo; // For tasks names and steps
 
     [Header("Sanity Related")]
     [SerializeField] Slider SanitySlider;
@@ -35,7 +36,7 @@ public class GameplayUI : MonoBehaviour
     void Awake()
     {
         interactableSlider.value = 0;
-        taskSlots = new List<TaskSlot>();
+        tasksInfo = new Dictionary<TextMeshProUGUI, TextMeshProUGUI>();
         taskList ??= taskPanel.GetComponentInChildren<Canvas>().gameObject;
         GetTasksListInfo();
     }
@@ -79,11 +80,12 @@ public class GameplayUI : MonoBehaviour
     {
         int index = 0;
 
-        foreach (var taskSlot in taskSlots)
+        foreach (var task in tasksInfo)
         {
-            taskSlot.SetTaskName(tasksEvent.GetTaskName(index));
-            taskSlot.SetRewardText(tasksEvent.GetTaskReward(index));
-            taskSlot.SetStepText(tasksEvent.GetTaskStep(index));
+            string taskInfo = $"{tasksEvent.GetTaskName(index)} {tasksEvent.GetTaskReward(index)}";
+            task.Key.text = taskInfo;
+            task.Value.text = tasksEvent.GetTaskStep(index);
+
             index++;
         }
     }
@@ -93,7 +95,14 @@ public class GameplayUI : MonoBehaviour
     /// </summary>
     public void GetTasksListInfo()
     {
-        taskSlots = taskList.GetComponentsInChildren<TaskSlot>().ToList();
+        for (int i = 0; i < taskList.transform.childCount; i++)
+        {
+            Transform task = taskList.transform.GetChild(i);
+
+            TextMeshProUGUI[] texts = task.GetComponentsInChildren<TextMeshProUGUI>(true);
+
+            tasksInfo.Add(texts[0], texts[1]);
+        }
     }
 
     /// <summary>
@@ -102,8 +111,10 @@ public class GameplayUI : MonoBehaviour
     /// <param name="taskIndex"></param>
     public void UpdateTaskUIStep(int taskIndex)
     {
-        if (taskIndex < 0 || taskIndex > taskSlots.Count) return;
-        taskSlots[taskIndex].SetStepText(tasksEvent.GetTaskStep(taskIndex));
+        if (taskIndex < 0 || taskIndex >= tasksInfo.Count) return;
+
+        var task = tasksInfo.ElementAt(taskIndex);
+        task.Value.text = tasksEvent.GetTaskStep(taskIndex);
     }
     #endregion
 

@@ -8,7 +8,7 @@ public class KillArea : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             other.GetComponent<SanityManager>().Death();
-            //;SceneManager.LoadScene(1);
+            SceneManager.LoadScene(1);
             customerAI.SetCanMove(false);
             other.GetComponent<SanityManager>().ResetSanity();
             

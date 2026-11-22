@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b552176b0c3caba45882041a8bbdebee, type: 3}
   m_Name: Player Data
   m_EditorClassIdentifier: Assembly-CSharp::PlayerData
-  sensitivity: 0.1
+  sensitivity: 1
   useCameraSmoothing: 1
-  smoothingSensitivity: 20
+  cameraSmoothing: 30
