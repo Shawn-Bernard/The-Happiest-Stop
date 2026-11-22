@@ -19,6 +19,9 @@ public class SanityManager : MonoBehaviour
     private Coroutine sanityCheck;
 
     [SerializeField] private SanityEvent sanityEvent;
+    // Made these because sanity sider wasn't always hiding
+    [SerializeField] private UnityEvent onStartSanity;
+    [SerializeField] private UnityEvent onEndSanity;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,6 +36,7 @@ public class SanityManager : MonoBehaviour
 
     public void StartSanity()
     {
+        onStartSanity?.Invoke();
         RespawnPlayer();
         ResetSanityDrain();
         sanityCheck = StartCoroutine(CheckSanity());
@@ -41,6 +45,7 @@ public class SanityManager : MonoBehaviour
 
     public void EndSanity()
     {
+        onEndSanity?.Invoke();
         if (sanityCheck != null) StopCoroutine(sanityCheck);
         sanityCheck = null;
         isActive = false;
@@ -75,6 +80,8 @@ public class SanityManager : MonoBehaviour
     public void Death()
     {
         playerAlive = false;
+        blinkAnim[blinkAnim.clip.name].time = 0f;
+        blinkAnim.Sample();
         GameStateManager.Instance.SwitchToGameOver();
     }
     public void RespawnPlayer()
