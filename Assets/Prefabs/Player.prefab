@@ -284,7 +284,7 @@ MonoBehaviour:
   playerInputs: {fileID: 11400000, guid: f6de444ac57a253458939618b37ece44, type: 2}
   sanityRestored: 1
   maxCharges: 5
-  smokeCooldown: 1
+  smokeCooldown: 1.5
   SmokesEquipped: 0
   onEquip:
     m_PersistentCalls:
@@ -372,7 +372,7 @@ MonoBehaviour:
         m_CallState: 2
   pickUpTransform: {fileID: 7323436566725291528}
   inventoryEvent: {fileID: 11400000, guid: 96511ec8268fd904899f26702dce4dcf, type: 2}
-  dropDistance: 1.5
+  dropDistance: 1
 --- !u!114 &561350823128506854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +405,36 @@ MonoBehaviour:
   blinkAnim: {fileID: 0}
   playerAlive: 0
   sanityEvent: {fileID: 11400000, guid: d16f777e823d1f148aac6e6c7caff491, type: 2}
+  onStartSanity:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  onEndSanity:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1870381360200202558
 GameObject:
   m_ObjectHideFlags: 0
