@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject playerPrefab;
     public GameObject Player => playerPrefab;
 
+    [SerializeField] private PlayerData playerData;
+
     private static GameManager instance;
 
     public static GameManager Instance => instance;
@@ -33,6 +35,11 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        instance.playerData.LoadSettings();
     }
     public void RequestPause()
     {
