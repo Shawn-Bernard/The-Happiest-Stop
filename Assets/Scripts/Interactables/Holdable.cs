@@ -89,7 +89,7 @@ public class Holdable : Item, IPickUp
             rb.isKinematic = false;
             rb.useGravity = true;
         }
-        transform.SetParent(originalParent, false);
+        transform.SetParent(originalParent, true);
 
         SceneManager.MoveGameObjectToScene(transform.root.gameObject, originalScene);
         transform.position = dropPosition;
