@@ -32,6 +32,8 @@ public class RequiredItem : MonoBehaviour
 
 
     [Header("Task Settings")]
+
+    [SerializeField] private Task relatedTask;
     [SerializeField] string taskStep;
     [SerializeField] int taskStepIndex;
     [SerializeField] private UnityEvent<string, int> onItemObtained;
@@ -98,6 +100,14 @@ public class RequiredItem : MonoBehaviour
 
     public void UpdateCount()
     {
+        if (relatedTask != null)
+        {
+            if (!relatedTask.IsActive)
+            {
+                connectedInteractable?.SetActive(false);
+                return;
+            }
+        }
         itemCount = 0;
 
         if (usingGroup)
@@ -126,6 +136,7 @@ public class RequiredItem : MonoBehaviour
         }
         else
         {
+            Debug.Log($"{name} doesn't have item {itemCount}");
             onMissingItem?.Invoke(taskStepIndex);
             connectedInteractable?.SetActive(false);
         }
@@ -138,6 +149,7 @@ public class RequiredItem : MonoBehaviour
     {
         foreach (var item in activeRequiredItems)
         {
+            if (item is IPickUp) continue;
             inventoryEvent.RemoveItem(item);
         }
     }
@@ -146,7 +158,6 @@ public class RequiredItem : MonoBehaviour
     public void Restart()
     {
         //Debug.Log($"Restart was called on {name}");
-        itemCount = 0;
 
         RemoveItems();
         if (usingGroup)
@@ -169,7 +180,7 @@ public class RequiredItem : MonoBehaviour
             {
                 item.gameObject.SetActive(true);
                 item.SetActive(true);
-                Debug.Log($"{item} has been set true : {item.gameObject.activeInHierarchy}, interactable set to true : {item.GetInteractableStatus()}");
+                //Debug.Log($"{item} has been set true : {item.gameObject.activeInHierarchy}, interactable set to true : {item.GetInteractableStatus()}");
             }
             totalItems = activeRequiredItems.Count;
             //Debug.Log(totalItems);
@@ -177,10 +188,9 @@ public class RequiredItem : MonoBehaviour
         else
         {
             totalItems = 1;
-            if (requiredItem is IPickUp pickUp) pickUp.DropPickUp();
+            //if (requiredItem is IPickUp pickUp) pickUp.DropPickUp();
         }
-
-        onItemObtained?.Invoke($"{taskStep} {itemCount}/{totalItems}", taskStepIndex);
+        UpdateCount();
     }
 
     private void OnEnable()

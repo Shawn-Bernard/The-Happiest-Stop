@@ -70,6 +70,7 @@ public class TaskManager : MonoBehaviour
         {
             if (!activeTasks.Contains(task))
             {
+                //Debug.Log($"{task.GetTaskName()} was picked for random task pool");
                 availableTasks.Add(task);
             }
         }

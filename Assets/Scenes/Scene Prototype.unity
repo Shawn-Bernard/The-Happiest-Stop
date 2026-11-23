@@ -1002,6 +1002,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  relatedTask: {fileID: 1737128690}
   taskStep: pick up candy restock box
   taskStepIndex: 0
   onItemObtained:
@@ -1556,7 +1557,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &256918878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2013,18 +2014,6 @@ MonoBehaviour:
   onTaskStarted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1765654964}
-        m_TargetAssemblyTypeName: HoldInteractable, Assembly-CSharp
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1765654965}
         m_TargetAssemblyTypeName: RequiredItem, Assembly-CSharp
         m_MethodName: Restart
@@ -2232,6 +2221,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  relatedTask: {fileID: 1875172258}
   taskStep: pick up trash inside the station
   taskStepIndex: 0
   onItemObtained:
@@ -4491,6 +4481,7 @@ MonoBehaviour:
           m_StringArgument: 'Pick up '
           m_BoolArgument: 0
         m_CallState: 2
+  relatedTask: {fileID: 0}
   taskStep: Pick up gas pump handle
   taskStepIndex: 0
   onItemObtained:
@@ -4752,6 +4743,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  relatedTask: {fileID: 2137421968}
   taskStep: pick up drinks restock box
   taskStepIndex: 0
   onItemObtained:
@@ -8061,6 +8053,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  relatedTask: {fileID: 1057055371}
   taskStep: pick up snack restock box
   taskStepIndex: 0
   onItemObtained:
@@ -10747,7 +10740,6 @@ MonoBehaviour:
   - {fileID: 1737128690}
   - {fileID: 1057055371}
   - {fileID: 2137421968}
-  - {fileID: 2137421968}
   startingTasks:
   - {fileID: 838433622}
   activeTasks: []
@@ -11575,7 +11567,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 306236888}
         m_TargetAssemblyTypeName: Task, Assembly-CSharp
-        m_MethodName: NextStep
+        m_MethodName: CompleteTask
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11600,18 +11592,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1765654964}
-        m_TargetAssemblyTypeName: HoldInteractable, Assembly-CSharp
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
   onMissingItem:
     m_PersistentCalls:
       m_Calls:
@@ -11627,18 +11607,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1765654964}
-        m_TargetAssemblyTypeName: HoldInteractable, Assembly-CSharp
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  relatedTask: {fileID: 306236888}
   taskStep: Pick up cleaning products
   taskStepIndex: 0
   onItemObtained:
@@ -11986,6 +11955,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  relatedTask: {fileID: 0}
   taskStep: Take out trash bag from trash can
   taskStepIndex: 0
   onItemObtained:

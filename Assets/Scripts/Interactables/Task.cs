@@ -30,6 +30,7 @@ public class Task : MonoBehaviour, ITask
     private bool isCompleted;
     private bool isTouched; // For whenever player moves a step
     private bool isActive;
+    public bool IsActive => isActive;
 
     public void Awake()
     {
@@ -161,7 +162,7 @@ public class Task : MonoBehaviour, ITask
                 interactable.SetActive(false);
             }
         }
-        
+
     }
 
     public void StartedTask()
