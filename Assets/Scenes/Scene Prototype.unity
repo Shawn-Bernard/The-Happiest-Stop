@@ -2863,12 +2863,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 429929167}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.96, y: 0.19, z: -0.062}
-  m_LocalScale: {x: 0.93750006, y: 0.32608694, z: 0.48387098}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 2.3905509, y: 1.5022, z: -0.15655875}
+  m_LocalScale: {x: 0.4499999, y: 0.45, z: 0.4499999}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1543461144}
+  m_Father: {fileID: 1141480658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &429929169
 MonoBehaviour:
@@ -8497,13 +8497,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: generator
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d7f2b357c83623745a49f0fb1b8b5896, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d7f2b357c83623745a49f0fb1b8b5896, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 429929168}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: d7f2b357c83623745a49f0fb1b8b5896, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1969758484}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d7f2b357c83623745a49f0fb1b8b5896, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1141480660}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d7f2b357c83623745a49f0fb1b8b5896, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1141480663}
   m_SourcePrefab: {fileID: 100100000, guid: d7f2b357c83623745a49f0fb1b8b5896, type: 3}
 --- !u!4 &1141480658 stripped
 Transform:
@@ -8536,6 +8549,52 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.4853444, y: 1.3360357, z: 1.2424624}
   m_Center: {x: 0.037830777, y: 0.015623152, z: -0.064864144}
+--- !u!114 &1141480663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141480659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f2b4ef339a7fc40870d01693241c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoldInteractable
+  holdTime: 3
+  onHoldCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1757807111}
+        m_TargetAssemblyTypeName: BlackOutEvent, Assembly-CSharp
+        m_MethodName: EndEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1139957837}
+        m_TargetAssemblyTypeName: Task, Assembly-CSharp
+        m_MethodName: CompleteTask
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  activeOnStart: 0
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  canInteract: 0
+  interactableName: Restart Power
 --- !u!1 &1153451836
 GameObject:
   m_ObjectHideFlags: 0
@@ -9833,6 +9892,7 @@ GameObject:
   - component: {fileID: 1543461142}
   - component: {fileID: 1543461141}
   - component: {fileID: 1543461140}
+  - component: {fileID: 1543461145}
   m_Layer: 6
   m_Name: powerbox
   m_TagString: Untagged
@@ -9976,11 +10036,55 @@ Transform:
   m_LocalPosition: {x: 19.02, y: 1.89, z: -1.62}
   m_LocalScale: {x: 0.48, y: 1.38, z: 0.93}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 429929168}
-  - {fileID: 1969758484}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1543461145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543461139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20f2b4ef339a7fc40870d01693241c70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HoldInteractable
+  holdTime: 3
+  onHoldCompleted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1757807111}
+        m_TargetAssemblyTypeName: BlackOutEvent, Assembly-CSharp
+        m_MethodName: EndEvent
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1139957837}
+        m_TargetAssemblyTypeName: Task, Assembly-CSharp
+        m_MethodName: CompleteTask
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  activeOnStart: 0
+  onInteract:
+    m_PersistentCalls:
+      m_Calls: []
+  canInteract: 0
+  interactableName: Restart Power
 --- !u!1 &1571386529
 GameObject:
   m_ObjectHideFlags: 0
@@ -13493,12 +13597,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969758481}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.96, y: 0.19, z: -0.062}
-  m_LocalScale: {x: 0.93750006, y: 0.32608694, z: 0.48387098}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 2.3905509, y: 1.5022, z: -0.15655875}
+  m_LocalScale: {x: 0.4499999, y: 0.45, z: 0.4499999}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1543461144}
+  m_Father: {fileID: 1141480658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1976610368
 GameObject:
@@ -14170,13 +14274,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6724559961566034987, guid: 6d6b802c7a1505d4a91f5ba07cf6a00e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6d6b802c7a1505d4a91f5ba07cf6a00e, type: 3}
       propertyPath: m_Name
       value: cardboardboxes
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 6d6b802c7a1505d4a91f5ba07cf6a00e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14662,6 +14770,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3211890147695263500, guid: 4f917453dacccbf46933980bca990b9d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4914008914177407690, guid: 4f917453dacccbf46933980bca990b9d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.32
