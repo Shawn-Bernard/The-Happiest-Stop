@@ -4,6 +4,11 @@ using UnityEngine;
 public class FirstPersonController : MonoBehaviour,ISpawnable
 {
     [SerializeField] PlayerInputs playerInputs;
+    [Header("Sound Related")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip walkSound;
+    [SerializeField] AudioClip sprintSound;
+
     private Vector3 startPosition;
     private Vector3 startRotation;
 
@@ -84,11 +89,13 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     public void SwitchToWalk()
     {
         moveSpeed = walkSpeed;
+        //audioSource.clip = walkSound;
     }
 
     public void SwitchToSprint()
     {
         moveSpeed = sprintSpeed;
+        //audioSource.clip = sprintSound;
     }
 
 
@@ -152,6 +159,17 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
         lookDirection = Vector2.zero;
         moveInput = Vector3.zero;
     }
+
+    public void PlaySound()
+    {
+        Debug.Log("play footstep sounds");
+    }
+
+    public void StopSound()
+    {
+        Debug.Log("stop footstep sounds");
+    }
+
     private void OnEnable()
     {
         ResetToSpawn();
@@ -159,6 +177,9 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
         playerInputs.onLook += SetLookInput;
         playerInputs.onSprintStarted += SwitchToSprint;
         playerInputs.onSprintCanceled += SwitchToWalk;
+
+        playerInputs.onMoveStarted += PlaySound;
+        playerInputs.onMoveCanceled += StopSound;
     }
     private void OnDisable()
     {
@@ -167,11 +188,13 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
         playerInputs.onSprintStarted -= SwitchToSprint;
         playerInputs.onSprintCanceled -= SwitchToWalk;
 
+        playerInputs.onMoveStarted -= PlaySound;
+        playerInputs.onMoveCanceled -= StopSound;
     }
 
     public void SetSpawnPosition(Vector3 position, Vector3 rotation)
     {
-        Debug.Log("Player has spawn");
+        //Debug.Log("Player has spawn");
         spawnPosition = position;
         spawnRotation = rotation;
     }
@@ -185,7 +208,7 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
 
     public void ResetToSpawn()
     {
-        Debug.Log("Player has been reset to spawn");
+        //Debug.Log("Player has been reset to spawn");
         characterController.enabled = false;
         transform.position = spawnPosition;
         transform.rotation = Quaternion.Euler(spawnRotation);

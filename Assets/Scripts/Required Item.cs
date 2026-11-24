@@ -132,11 +132,11 @@ public class RequiredItem : MonoBehaviour
         {
             onHasItem?.Invoke(taskStepIndex);
             connectedInteractable?.SetActive(true);
-            Debug.Log($"{name} has item {itemCount}");
+            //Debug.Log($"{name} has item {itemCount}");
         }
         else
         {
-            Debug.Log($"{name} doesn't have item {itemCount}");
+            //Debug.Log($"{name} doesn't have item {itemCount}");
             onMissingItem?.Invoke(taskStepIndex);
             connectedInteractable?.SetActive(false);
         }
@@ -188,7 +188,6 @@ public class RequiredItem : MonoBehaviour
         else
         {
             totalItems = 1;
-            //if (requiredItem is IPickUp pickUp) pickUp.DropPickUp();
         }
         UpdateCount();
     }

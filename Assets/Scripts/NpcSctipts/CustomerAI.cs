@@ -7,6 +7,8 @@ using UnityEngine.Events;
 
 public class CustomerAI : MonoBehaviour
 {
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip walkSound;
     [SerializeField] private UnityEvent onMonsterState;
     public NavMeshAgent agent;
     public GameObject sanityDrainAura;
@@ -60,6 +62,7 @@ public class CustomerAI : MonoBehaviour
     public void OnStateChange(state newState)
     {
         if (agent.isStopped) SetCanMove(true);
+        Debug.Log(currentState);
         switch(newState)
         {
             case state.init:
@@ -136,6 +139,10 @@ public class CustomerAI : MonoBehaviour
     public void SetCanMove(bool canMove)
     {
         agent.isStopped = !canMove;
+        if (!canMove)
+        {
+            audioSource.Stop();
+        }
     }
 
     // Update is called once per frame
