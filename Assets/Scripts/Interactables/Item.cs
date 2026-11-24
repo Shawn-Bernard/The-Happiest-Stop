@@ -1,8 +1,14 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(AudioSource))]
 public class Item : Interactable,IItem, ISpawnable
 {
+    [Header("Sound Related")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip pickUpSound;
+    [SerializeField] AudioClip dropSound;
+    [Header("Removed from inventory Related")]
     [SerializeField] protected bool resetOnRemove;
 
     private Vector3 startPosition;
@@ -14,6 +20,7 @@ public class Item : Interactable,IItem, ISpawnable
 
     public override void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         SetStartPosition();
         base.Awake();
     }
@@ -31,12 +38,14 @@ public class Item : Interactable,IItem, ISpawnable
     public virtual void TakeItem()
     {
         if (inventory == null) return;
+        audioSource?.PlayOneShot(pickUpSound);
         inventory.AddItem(this);
     }
 
     public virtual void RemoveItem()
     {
         if (inventory == null) return;
+        audioSource?.PlayOneShot(dropSound);
         inventory.RemoveItem(this);
         if (resetOnRemove) ResetToSpawn();
     }

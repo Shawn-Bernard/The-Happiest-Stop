@@ -4,8 +4,11 @@ using UnityEngine.SceneManagement;
 
 public class Holdable : Item, IPickUp
 {
+    [Header("Held position Related")]
     [SerializeField] private Vector3 offsetPosition;
     [SerializeField] private Vector3 offsetRotation;
+
+    [Header("Events Related")]
     [SerializeField] private UnityEvent onPickUp;
     [SerializeField] private UnityEvent onDropPickUp;
 

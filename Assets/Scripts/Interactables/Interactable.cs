@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 public class Interactable : MonoBehaviour, IInteractable
 {
+    [Header("Interactable Related")]
     [SerializeField] protected bool activeOnAwake;
     [SerializeField] protected UnityEvent<GameObject> onInteract;
     
