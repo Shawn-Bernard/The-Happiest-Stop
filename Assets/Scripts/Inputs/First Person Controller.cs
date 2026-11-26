@@ -89,13 +89,29 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     public void SwitchToWalk()
     {
         moveSpeed = walkSpeed;
-        //audioSource.clip = walkSound;
+        audioSource.clip = walkSound;
+        if (moveInput != Vector3.zero && !audioSource.isPlaying)
+        {
+            PlaySound();
+        }
+        else if (moveInput == Vector3.zero && audioSource.isPlaying)
+        {
+            StopSound();
+        }
     }
 
     public void SwitchToSprint()
     {
         moveSpeed = sprintSpeed;
-        //audioSource.clip = sprintSound;
+        audioSource.clip = sprintSound;
+        if (moveInput != Vector3.zero && !audioSource.isPlaying)
+        {
+            PlaySound();
+        }
+        else if (moveInput == Vector3.zero && audioSource.isPlaying)
+        {
+            StopSound();
+        }
     }
 
 
@@ -147,6 +163,15 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     private void SetMoveInput(Vector2 input)
     {
         moveInput = input;
+
+        if (moveInput != Vector3.zero && !audioSource.isPlaying)
+        {
+            PlaySound();
+        }
+        else if (moveInput == Vector3.zero && audioSource.isPlaying)
+        {
+            StopSound();
+        }
     }
 
     private void SetLookInput(Vector2 lookInput)
@@ -162,12 +187,13 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
 
     public void PlaySound()
     {
-        Debug.Log("play footstep sounds");
+        audioSource.time = Random.Range(0f, audioSource.clip.length);
+        audioSource.Play();
     }
 
     public void StopSound()
     {
-        Debug.Log("stop footstep sounds");
+        audioSource.Stop();
     }
 
     private void OnEnable()

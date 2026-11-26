@@ -602,9 +602,17 @@ PrefabInstance:
       value: 4278190080
       objectReference: {fileID: 0}
     - target: {fileID: 759891240922277271, guid: ded35db0bb54ec340a4c1cdd6badb099, type: 3}
+      propertyPath: walkSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 567cdad81508a9f478fa9ee31494be6e, type: 3}
+    - target: {fileID: 759891240922277271, guid: ded35db0bb54ec340a4c1cdd6badb099, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 414333794}
+    - target: {fileID: 759891240922277271, guid: ded35db0bb54ec340a4c1cdd6badb099, type: 3}
+      propertyPath: sprintSound
+      value: 
+      objectReference: {fileID: 8300000, guid: a8bff216d3c893c4980c504b8e513251, type: 3}
     - target: {fileID: 890659324936456641, guid: ded35db0bb54ec340a4c1cdd6badb099, type: 3}
       propertyPath: m_IsActive
       value: 0

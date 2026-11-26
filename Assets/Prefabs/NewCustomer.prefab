@@ -263,7 +263,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -384,9 +384,17 @@ PrefabInstance:
       value: Customer
       objectReference: {fileID: 0}
     - target: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
+      propertyPath: walkSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 567cdad81508a9f478fa9ee31494be6e, type: 3}
+    - target: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1861030342395794970}
+    - target: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
+      propertyPath: monsterWalkingSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 7a771543734ba404e8c1d6a08afcc978, type: 3}
     - target: {fileID: 9021737065909645727, guid: a78746483d3057b4cbdd9e2786671d91, type: 3}
       propertyPath: onMonsterState.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 

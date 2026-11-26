@@ -7,17 +7,29 @@ using UnityEngine.Events;
 
 public class CustomerAI : MonoBehaviour
 {
+    [Header("Audio Related")]
+
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip walkSound;
-    [SerializeField] private UnityEvent onMonsterState;
+    [SerializeField] AudioClip monsterWalkingSound;
+
+    [Header("Customer Related")]
     public NavMeshAgent agent;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float normalSpeed;
+    [SerializeField] private float monsterSpeed;
+
+    [Header("Sanity Related")]
     public GameObject sanityDrainAura;
     public GameObject sanityDrainAnnoyingAura;
     public GameObject player; 
     public SanityManager sanityManager;
     public MasterNode master;
+
+    [Header("Event Related")]
     private UnityAction turnToMonster;
     private UnityAction returnToNormal;
+    [SerializeField] private UnityEvent onMonsterState;
     public bool fallowing;
     public GameObject killArea;
     public state currentState { get; private set; }
@@ -48,6 +60,8 @@ public class CustomerAI : MonoBehaviour
         sanityDrainAnnoyingAura.SetActive(false);
         fallowing = false;
         Setstate(state.init);
+
+        audioSource.clip = walkSound;
     }
     public void Setstate(state newstate)
     {
@@ -99,6 +113,7 @@ public class CustomerAI : MonoBehaviour
     }
     public void TurnIntoMonster()
     {
+        audioSource.clip = monsterWalkingSound;
         onMonsterState?.Invoke();
         Setstate(state.fallowPlayer);
     }
@@ -106,9 +121,11 @@ public class CustomerAI : MonoBehaviour
     {
         if(currentState == state.fallowPlayer)
         {
+            audioSource.clip = walkSound;
             Setstate(previousState);
             fallowing = false;
             killArea.SetActive(false);
+            audioSource.clip = walkSound;
         }
     }
 
@@ -151,6 +168,19 @@ public class CustomerAI : MonoBehaviour
         if (fallowing == true)
         {
             agent.SetDestination(player.transform.position);
+        }
+
+        HandleAudio();
+    }
+    private void HandleAudio()
+    {
+        if (agent.velocity.sqrMagnitude > 0.1f && !audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+        else if (agent.velocity.sqrMagnitude < 0.1f && audioSource.isPlaying)
+        {
+            audioSource.Stop();
         }
     }
 }
