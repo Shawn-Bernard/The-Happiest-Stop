@@ -183,6 +183,7 @@ public class FirstPersonController : MonoBehaviour,ISpawnable
     {
         lookDirection = Vector2.zero;
         moveInput = Vector3.zero;
+        StopSound();
     }
 
     public void PlaySound()
